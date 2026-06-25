@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
+/* ============================================================
+   PHARMA DREAM — Sistema de diseño
+   Paleta: verdes botánicos + dorado/latón + crema cálida
+   ============================================================ */
+
+@theme {
+  /* Marca */
+  --color-cream: #f7f2e9;
+  --color-cream-deep: #efe6d6;
+  --color-sand: #e4d8c3;
+  --color-forest: #2f3a23;
+  --color-forest-soft: #3e4a2e;
+  --color-olive: #5a6b3b;
+  --color-sage: #8a9a6b;
+  --color-sage-soft: #b3bf9c;
+  --color-gold: #c2a14e;
+  --color-gold-soft: #d6bd7c;
+  --color-gold-deep: #a9883a;
+  --color-ink: #25271d;
+  --color-ink-soft: #5b5d4f;
+
+  /* Tipografía */
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+
+  /* Sombras suaves */
+  --shadow-soft: 0 10px 40px -12px rgba(47, 58, 35, 0.25);
+  --shadow-card: 0 18px 50px -20px rgba(47, 58, 35, 0.35);
+
+  /* Easing premium */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f2e9;
+  --foreground: #25271d;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tracking elegante para títulos display */
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+/* Etiqueta tipo "eyebrow" */
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* Marquesina del announcement bar (lenta y legible) */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+/* Brillo dorado sutil que recorre un elemento */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Float suave para badges/objetos */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-floaty {
+  animation: floaty 6s var(--ease-smooth) infinite;
+}
+
+/* Scrollbar discreto */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-olive);
+}
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-forest);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-floaty {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
