@@ -27,6 +27,7 @@ export type Product = {
   sub: string; // subtítulo del empaque
   rating: number;
   reviews: number;
+  description?: string; // descripción larga (ficha de producto)
   /* Campos gestionables desde el panel admin */
   published?: boolean; // visible en la tienda
   image?: string; // imagen subida (dataURL o URL); si no hay, se usa el "studio card"
@@ -36,136 +37,237 @@ export type Product = {
 export const CATEGORY_NAMES = ["Cremas", "Sérums", "Kits"] as const;
 export const TONE_NAMES = ["forest", "olive", "sage", "gold", "sand"] as const;
 
+const CDN = "https://cdn.shopify.com/s/files/1/0691/9399/0198/files/";
+
 export const PRODUCTS: Product[] = [
   {
     id: "crema-hidratante-facial",
     name: "Crema Hidratante Facial",
     tagline:
-      "Nutre, calma y revitaliza. Enriquecida con aceite de HEMP para todo tipo de piel.",
+      "Hidratación profunda y equilibrio con extractos naturales y aceite de HEMP. 50 ml.",
+    description:
+      "Crema Hidratante Facial con Extractos Naturales y Aceite de HEMP (50 ml), para una piel equilibrada y profundamente hidratada. Actúa restaurando los nutrientes esenciales de la piel y protegiéndola de agresiones externas. Su fórmula penetra en las tres primeras capas de la piel, activando la circulación y ayudando a eliminar células muertas y toxinas. El aceite de HEMP regula la producción de sebo, forma una barrera que retiene la humedad y alivia irritaciones. Ideal para todo tipo de piel.",
     price: 77900,
     category: "Cremas",
     tone: "sand",
     label: "CREMA",
     sub: "Hidratante Facial",
-    rating: 4.9,
-    reviews: 128,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Hidratacion_profunda_para_una_piel_radiante_Nuestra_Crema_Hidratante_Facial_con_extractos_n.jpg?v=1757598636",
   },
   {
     id: "contorno-de-ojos",
-    name: "Contorno de Ojos",
-    tagline: "Estimula la circulación y reduce signos de fatiga. Con elastina y karité.",
+    name: "Contorno De Ojos",
+    tagline:
+      "Reduce bolsas, ojeras y arrugas finas con extracto de sakura y aceite de HEMP.",
+    description:
+      "Contorno de Ojos con Extractos Naturales y HEMP: combina el poder rejuvenecedor del extracto de hoja de sakura con el aceite de HEMP para una hidratación profunda y duradera. Su fórmula ligera y de rápida absorción estimula la producción de colágeno, devolviendo elasticidad y firmeza, mientras combate bolsas, ojeras y arrugas finas. Con manteca de karité, calma y refresca el contorno de ojos y labios. Ideal para uso diario.",
     price: 75000,
     category: "Cremas",
     tone: "olive",
     label: "CONTORNO",
     sub: "de Ojos",
-    rating: 4.8,
-    reviews: 86,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Revitaliza_tu_mirada_con_el_poder_del_HEMP_y_el_Sakura_Despidete_de_las_ojeras_bolsas_y_line.jpg?v=1757599088",
   },
   {
-    id: "botox-vegetal",
-    name: "Bótox Vegetal · Efecto Tensor",
+    id: "botox-vegetal-efecto-tensor",
+    name: "Bótox Vegetal Efecto Tensor",
     tagline:
-      "Suavidad y firmeza al instante gracias a extractos de uva, hamamelis y vitamina E.",
-    price: 98000,
-    compareAt: 115000,
+      "Lifting inmediato y duradero con extractos botánicos y aceite de HEMP.",
+    description:
+      "Bótox Vegetal Efecto Tensor: crema avanzada para un lifting inmediato y duradero. Combina extractos botánicos y aceite de HEMP para estimular el metabolismo celular, hidratar en profundidad y aportar firmeza, dejando la piel tersa, suave y tonificada. Las líneas de expresión y arrugas se reducen visiblemente gracias a su acción alisadora, reparadora y regeneradora.",
+    price: 90000,
     category: "Cremas",
     tone: "forest",
     label: "BÓTOX",
     sub: "Vegetal",
-    rating: 5.0,
-    reviews: 64,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "BOTOX_VEGETAL_EFECTO_TENSOR_Transforma_tu_piel_con_nuestra_innovadora_crema_nutritiva_con_e.jpg?v=1757352902",
+  },
+  {
+    id: "protector-solar-natural-spf-50",
+    name: "Protector Solar Natural SPF 50",
+    tagline:
+      "Alta protección UVB, UVA e IR con filtros naturales, HEMP y vitamina E.",
+    description:
+      "Protector Solar SPF 50 de alta protección que combina filtros solares naturales (dióxido de titanio y óxido de zinc) con aceite de HEMP. Ofrece una barrera efectiva contra los rayos UVB, UVA e infrarrojos (IR). Enriquecido con vitamina E, protege de quemaduras solares y previene el envejecimiento prematuro. Fórmula ligera y segura, ideal para todo tipo de pieles, incluidas las sensibles.",
+    price: 87000,
+    compareAt: 100000,
+    category: "Cremas",
+    tone: "gold",
+    label: "SPF 50",
+    sub: "Protector Solar",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "protector_solar.jpg?v=1757600445",
+  },
+  {
+    id: "agua-micelar-con-extractos-naturales",
+    name: "Agua Micelar con Extractos Naturales",
+    tagline:
+      "Limpieza profunda y suave sin aclarado. Sin perfume ni parabenos.",
+    description:
+      "Agua Micelar con Extractos Naturales: solución de limpieza avanzada que combina la suavidad del agua micelar con aceite de cáñamo, agua de rosas y azahares. Su fórmula sin perfume ni parabenos elimina impurezas, maquillaje (incluso resistente al agua) y residuos sin irritar la piel. No necesita aclarado, dejando la piel limpia, hidratada y tonificada. Apta para todo tipo de pieles, ideal para las sensibles.",
+    price: 48000,
+    category: "Cremas",
+    tone: "olive",
+    label: "AGUA",
+    sub: "Micelar",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Agua_Micelar_con_Extractos_Naturales_es_tu_nueva_aliada_diaria._Con_aceite_de_HEMP_agua_de_2.jpg?v=1759978684",
+  },
+  {
+    id: "serum-revitalizante-facial",
+    name: "Sérum Revitalizante Facial",
+    tagline:
+      "Combate los signos de la edad con HEMP, ácido hialurónico y colágeno.",
+    description:
+      "Sérum Revitalizante Facial: fórmula avanzada para combatir los signos del envejecimiento y devolver vitalidad a la piel. Con aceite de HEMP, ácido hialurónico y colágeno, reduce la inflamación, minimiza manchas y arrugas y promueve la renovación celular. Textura ligera y de rápida absorción, ideal para todo tipo de pieles, incluidas grasas, mixtas, secas, sensibles o con tendencia al acné.",
+    price: 98000,
+    category: "Sérums",
+    tone: "sage",
+    label: "SÉRUM",
+    sub: "Revitalizante",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Vitalidad_y_juventud_para_tu_piel_El_Serum_Revitalizante_Facial_de_Pharma_Dream_es_la_clave_p.jpg?v=1757600598",
+  },
+  {
+    id: "serum-renovador-facial",
+    name: "Sérum Renovador Facial",
+    tagline:
+      "Renovación celular para piel grasa, mixta o con tendencia acneica.",
+    description:
+      "Sérum Renovador Facial: fórmula avanzada que combina aceites naturales, vitaminas y extractos botánicos para pieles grasas, mixtas o con tendencia al acné. Con aceite de HEMP que regula el sebo y calma la piel, junto con retinol (retinyl palmitate) y ácido láctico que promueven la renovación celular y reducen la apariencia de poros abiertos. Deja la piel suave, equilibrada y radiante.",
+    price: 95000,
+    category: "Sérums",
+    tone: "forest",
+    label: "SÉRUM",
+    sub: "Renovador",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Renueva_y_equilibra_tu_piel_El_Serum_Renovador_Facial_de_Pharma_Dream_esta_disenado_para_pi.jpg?v=1757600845",
+  },
+  {
+    id: "serum-iluminador-facial",
+    name: "Sérum Iluminador Facial",
+    tagline:
+      "Unifica el tono y devuelve luminosidad con HEMP, retinol y ácido láctico.",
+    description:
+      "Sérum Iluminador Facial: combina extractos naturales, vitaminas y aceites esenciales para devolver la luminosidad a la piel. Con aceite de HEMP, retinol (retinyl palmitate) y ácido láctico, unifica el tono, reduce la pigmentación y suaviza irregularidades, dejando la piel radiante y rejuvenecida. Textura ligera y de rápida absorción, apta para todo tipo de pieles.",
+    price: 99500,
+    category: "Sérums",
+    tone: "gold",
+    label: "SÉRUM",
+    sub: "Iluminador",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "iluminadorf.jpg?v=1757601278",
   },
   {
     id: "serum-hidratante",
     name: "Sérum Hidratante",
-    tagline: "Hidratación profunda de absorción rápida con ácido hialurónico y HEMP.",
+    tagline:
+      "Hidratación reparadora con jojoba, macadamia, vitamina E y aceite de HEMP.",
+    description:
+      "Sérum Hidratante con Extractos Naturales y Aceite de HEMP: fórmula rica en aceites nutritivos y extractos botánicos para una hidratación profunda y reparadora. Calma la piel, reduce la inflamación y fortalece la barrera cutánea. Con aceite de girasol, jojoba y macadamia que nutren, y vitamina E y escualeno que protegen y revitalizan. Ideal para pieles secas, apagadas, frágiles o con tendencia a irritarse.",
     price: 60000,
     category: "Sérums",
     tone: "sage",
     label: "SÉRUM",
     sub: "Hidratante",
-    rating: 4.9,
-    reviews: 142,
-  },
-  {
-    id: "serum-colageno",
-    name: "Sérum Colágeno",
-    tagline: "Reafirma y mejora la elasticidad visible de la piel con uso continuo.",
-    price: 68000,
-    category: "Sérums",
-    tone: "gold",
-    label: "COLÁGENO",
-    sub: "Sérum Reafirmante",
-    rating: 4.8,
-    reviews: 73,
-  },
-  {
-    id: "agua-micelar",
-    name: "Agua Micelar",
-    tagline: "Limpia, desmaquilla y equilibra sin resecar. Ideal para piel sensible.",
-    price: 52000,
-    category: "Cremas",
-    tone: "olive",
-    label: "AGUA",
-    sub: "Micelar",
-    rating: 4.7,
-    reviews: 95,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "Hidratacionprofundaparatupiel_NuestroSerumHidratanteestadisenadopararevitalizary.jpg?v=1757601418",
   },
 ];
 
 export const KITS: Product[] = [
   {
-    id: "kit-glow-mananero",
-    name: "Kit Glow Mañanero",
-    tagline: "Cuidado facial diario: agua micelar, contorno, crema y protector.",
+    id: "kit-colageno-y-elastina-reafirma-nutre-y-revitaliza",
+    name: "Kit Colágeno y Elastina",
+    tagline: "Reafirma, nutre y revitaliza. Colágeno + Elastina con HEMP.",
+    description:
+      "Kit Colágeno y Elastina, creado para fortalecer la matriz dérmica y recuperar elasticidad, firmeza y luminosidad. Formulado con activos de última generación y enriquecido con hemp (aceite de cáñamo). Beneficios: reafirmación visible, elasticidad revitalizada, estimulación natural del colágeno (vitamina C), renovación celular (retinol), hidratación equilibrada y protección antioxidante. Incluye Colágeno y Elastina en un ritual completo.",
+    price: 160000,
+    category: "Kits",
+    tone: "gold",
+    label: "KIT COLÁGENO",
+    sub: "& Elastina",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "KITS2.png?v=1760026790",
+  },
+  {
+    id: "kit-glow-mananero-cuidado-facial-diario",
+    name: "Kit Glow Mañanero – Cuidado Facial Diario",
+    tagline:
+      "Rutina matutina: agua micelar, contorno, crema y protector SPF 50.",
+    description:
+      "Kit Glow Mañanero: tu rutina matutina completa para una piel radiante, hidratada y protegida en pocos pasos. Incluye Agua Micelar (limpia y prepara la piel), Contorno de Ojos (atenúa ojeras y aporta firmeza), Crema Hidratante (hidratación ligera y de rápida absorción) y Protector Solar SPF 50 (protege de los rayos UV y el envejecimiento prematuro).",
     price: 233750,
     compareAt: 275750,
     category: "Kits",
     tone: "sand",
     label: "KIT GLOW",
     sub: "Mañanero",
-    rating: 5.0,
-    reviews: 41,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "KITS1.png?v=1759953997",
   },
   {
-    id: "kit-colageno-elastina",
-    name: "Kit Colágeno y Elastina",
-    tagline: "Reafirma, nutre y revitaliza con sérums de colágeno y elastina.",
-    price: 125000,
-    compareAt: 160000,
-    category: "Kits",
-    tone: "gold",
-    label: "KIT COLÁGENO",
-    sub: "& Elastina",
-    rating: 4.9,
-    reviews: 58,
-  },
-  {
-    id: "kit-noche-renovadora",
-    name: "Kit Noche Renovadora",
-    tagline: "Reparación y nutrición nocturna con agua micelar, crema y sérum.",
+    id: "kit-noche-renovadora-reparacion-y-antiedad",
+    name: "Kit Noche Renovadora – Reparación y Antiedad",
+    tagline:
+      "Limpieza, nutrición y regeneración nocturna con el poder del HEMP.",
+    description:
+      "Kit Noche Renovadora: cuidado profundo mientras duermes. Combina limpieza, nutrición y regeneración en una fórmula pensada para la noche, con el poder del hemp. Ideal para despertar con una piel más suave, luminosa y reparada. Incluye Agua Micelar, Crema Hidratante Facial y Sérum Renovador.",
     price: 176800,
     compareAt: 208000,
     category: "Kits",
     tone: "forest",
     label: "KIT NOCHE",
     sub: "Renovadora",
-    rating: 4.9,
-    reviews: 37,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "KITS4.png?v=1759969333",
   },
   {
-    id: "kit-antiedad",
-    name: "Kit Antiedad",
-    tagline: "Reafirmante y regenerador con bótox vegetal, crema y colágeno.",
+    id: "kit-antiedad-reafirmante-y-regenerador",
+    name: "Kit Antiedad – Reafirmante y Regenerador",
+    tagline: "Bótox vegetal, crema facial y kit colágeno y elastina.",
+    description:
+      "Kit Antiedad – Reafirmante y Regenerador: solución completa que combina la acción tensora del Bótox Vegetal, la nutrición de la crema facial y el poder del kit de colágeno y elastina, todo potenciado con hemp. Diseñado para reafirmar, regenerar y devolver juventud visible a tu piel.",
     price: 233759,
     compareAt: 275000,
     category: "Kits",
     tone: "olive",
     label: "KIT ANTIEDAD",
     sub: "Reafirmante",
-    rating: 5.0,
-    reviews: 29,
+    rating: 5,
+    reviews: 0,
+    image: CDN + "KITS3.png?v=1759956172",
+  },
+  {
+    id: "kit-piel-saludable-nutricion-y-equilibrio-natural",
+    name: "Kit Despigmentante – Iluminador y Uniformidad",
+    tagline: "Combate manchas y unifica el tono. Agua micelar, crema y sérum.",
+    description:
+      "Kit Despigmentante – Iluminador y Uniformidad: formulado con ingredientes naturales y enriquecido con hemp. Una rutina específica para combatir manchas, unificar el tono y aportar luminosidad gradual y saludable. Incluye Agua Micelar, Crema Facial y Sérum Iluminador.",
+    price: 181050,
+    compareAt: 213000,
+    category: "Kits",
+    tone: "sage",
+    label: "KIT DESPIGMENTANTE",
+    sub: "Iluminador",
+    rating: 5,
+    reviews: 0,
+    image: CDN + "KITS5_80857ae9-d335-4eec-9f5f-4f46da3428c4.png?v=1759978520",
   },
 ];
 
@@ -195,14 +297,14 @@ export const CATEGORIES: Category[] = [
     description: "Hidratación y reparación de la barrera cutánea.",
     tone: "sage",
     image: UNSPLASH("1556228720-195a672e8a03", 800),
-    count: 8,
+    count: 5,
   },
   {
     name: "Sérums",
     description: "Activos concentrados de absorción rápida.",
     tone: "gold",
     image: UNSPLASH("1620916566398-39f1143ab7be", 800),
-    count: 6,
+    count: 4,
   },
   {
     name: "Kits",
@@ -219,12 +321,12 @@ export type Ingredient = {
 };
 
 export const INGREDIENTS: Ingredient[] = [
-  { name: "Aceite de HEMP", benefit: "Calma, nutre y refuerza la barrera cutánea." },
+  { name: "Aceite de HEMP", benefit: "Calma, regula el sebo y refuerza la barrera cutánea." },
   { name: "Ácido Hialurónico", benefit: "Hidratación profunda y efecto relleno." },
-  { name: "Hamamelis", benefit: "Astringente natural que tonifica y afina el poro." },
-  { name: "Vitamina E", benefit: "Antioxidante que protege del estrés ambiental." },
-  { name: "Manteca de Karité", benefit: "Repara y devuelve elasticidad a la piel." },
-  { name: "Aloe Vera", benefit: "Refresca y acelera la regeneración cutánea." },
+  { name: "Colágeno y Elastina", benefit: "Reafirman y devuelven elasticidad a la piel." },
+  { name: "Retinol", benefit: "Renovación celular y textura más uniforme." },
+  { name: "Vitamina E", benefit: "Antioxidante que protege del daño ambiental." },
+  { name: "Manteca de Karité", benefit: "Nutre y suaviza en profundidad." },
 ];
 
 export type Review = {

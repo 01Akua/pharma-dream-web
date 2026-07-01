@@ -37,7 +37,7 @@ export type SiteContent = {
 export const DEFAULT_CONTENT: SiteContent = {
   announcement: [
     "Envíos gratis a partir de COP $200.000",
-    "10% OFF en tu primera compra uniéndote al Club Pharma Dream",
+    "Gana un 10% OFF en tu primera compra uniéndote al Club Pharma Dream",
     "Pago seguro · Tarjeta, PSE y contra entrega",
   ],
   hero: [
@@ -45,24 +45,24 @@ export const DEFAULT_CONTENT: SiteContent = {
       eyebrow: "Dermocosmética avanzada",
       title: "Nutrición para la piel",
       subtitle:
-        "El poder nutracéutico que conecta la ciencia con la naturaleza. Fórmulas con Tecnología Fitomolecular para piel sensible y reactiva.",
+        "El poder nutracéutico que conecta ciencia y naturaleza para cuidar tu piel.",
       cta: "Ver catálogo",
       image: UNSPLASH("1497436072909-60f360e1d4b1", 1920, 80),
     },
     {
       eyebrow: "Efecto tensor natural",
-      title: "Firmeza que se siente",
+      title: "Efecto Tensor Natural",
       subtitle:
         "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
-      cta: "Conocer el Bótox Vegetal",
+      cta: "Comprar",
       image: UNSPLASH("1556760544-74068565f05c", 1920, 80),
     },
     {
-      eyebrow: "Respaldado por la ciencia",
-      title: "Tu piel merece innovación",
+      eyebrow: "Hidratación profunda",
+      title: "Sérum Hidratante Facial",
       subtitle:
-        "Activos vegetales bioactivos con alta afinidad cutánea, formulados para resultados visibles con uso continuo.",
-      cta: "Explorar ingredientes",
+        "Nutre, calma y devuelve luminosidad a las pieles secas y sensibles con aceite de HEMP.",
+      cta: "Comprar",
       image: UNSPLASH("1570172619644-dfd03ed5d881", 1920, 80),
     },
   ],
@@ -84,34 +84,35 @@ export const DEFAULT_CONTENT: SiteContent = {
     },
   ],
   science: {
-    eyebrow: "Respaldado por la ciencia",
+    eyebrow: "Tecnología Fitomolecular",
     title: "Dermocosmética avanzada para piel sensible y reactiva",
     description:
-      "Integramos Tecnología Fitomolecular y activos vegetales bioactivos para optimizar la afinidad cutánea y fortalecer la barrera natural de la piel. Productos seguros, eficaces y adaptados a ti.",
-    statValue: "+98%",
-    statLabel:
-      "reportó una piel más hidratada y confortable tras 4 semanas.",
+      "En Pharma Dream elevamos el cuidado de la piel a un enfoque dermocosmético inteligente. Nuestras fórmulas integran Tecnología Fitomolecular y activos vegetales bioactivos para optimizar la afinidad cutánea y favorecer una piel equilibrada y saludable. Creamos productos seguros, eficaces y adaptados a ti, porque tu piel merece innovación respaldada por la ciencia.",
+    statValue: "100%",
+    statLabel: "Activos vegetales bioactivos y aceite de HEMP.",
     image: UNSPLASH("1466781783364-36c955e42a7f", 1000, 80),
   },
   blog: [
     {
-      title: "Guía completa para aplicar cremas cosméticas naturales",
+      title: "Guía Completa para Aplicar Cremas Cosméticas Naturales",
       excerpt:
-        "Aplicar correctamente una crema de lujo potencia sus activos. Te mostramos el orden y la técnica ideal.",
+        "El cuidado de la piel no es solo belleza, sino salud. Aplicar correctamente una crema de lujo potencia sus beneficios y maximiza la absorción de los activos.",
       tag: "Rutina",
       image: UNSPLASH("1570172619644-dfd03ed5d881", 800),
     },
     {
-      title: "Tecnología Fitomolecular: el secreto detrás de la eficacia",
+      title:
+        "Ingredientes Naturales y Extracción Fitomolecular: El Secreto Detrás de la Eficacia",
       excerpt:
-        "Cómo la biodiversidad colombiana y la extracción avanzada logran fórmulas con alta afinidad cutánea.",
+        "Descubre cómo Pharma Dream aprovecha la biodiversidad colombiana y técnicas de extracción molecular para crear cosméticos naturales con HEMP.",
       tag: "Ciencia",
       image: UNSPLASH("1518531933037-91b2f5f229cc", 800),
     },
     {
-      title: "Beneficios del CBD y otros cannabinoides en el cuidado de la piel",
+      title:
+        "Beneficios del CBD y Otros Cannabinoides en el Cuidado de la Piel",
       excerpt:
-        "Evidencia científica y aplicaciones reales del HEMP para piel sensible, reactiva y madura.",
+        "El cannabidiol (CBD) y otros cannabinoides han emergido como compuestos prometedores en dermatología y bienestar, con propiedades respaldadas por la evidencia.",
       tag: "Ingredientes",
       image: UNSPLASH("1540555700478-4be289fbecef", 800),
     },
@@ -119,7 +120,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   newsletter: {
     title: "Únete al Club Pharma Dream",
     subtitle:
-      "Recibe 10% de descuento en tu primera compra, descuentos mensuales y rifas exclusivas.",
+      "Regístrate y obtén un 10% de descuento en tu primera compra, además de descuentos mensuales y rifas exclusivas.",
   },
   footer: {
     blurb:
@@ -130,7 +131,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   },
 };
 
-const KEY = "pd_content_v1";
+const KEY = "pd_content_v2";
 
 let cache: SiteContent | null = null;
 const listeners = new Set<() => void>();

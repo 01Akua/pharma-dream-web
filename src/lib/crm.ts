@@ -42,7 +42,7 @@ export type Order = {
   createdAt: string; // ISO
 };
 
-const KEY = "pd_orders_v1";
+const KEY = "pd_orders_v2";
 
 /* ---------- Datos demo ---------- */
 
@@ -80,15 +80,15 @@ function order(
 function seed(): Order[] {
   return [
     order("PD-1042", "Valentina Ramírez", "Bogotá", "+57 310 555 1042", [pick("crema-hidratante-facial"), pick("serum-hidratante")], "entregado", 27),
-    order("PD-1043", "Daniela Moreno", "Medellín", "+57 311 555 1043", [pick("botox-vegetal", 2)], "entregado", 24),
-    order("PD-1044", "Carolina Peña", "Cali", "+57 312 555 1044", [pick("kit-noche-renovadora")], "enviado", 19),
-    order("PD-1045", "Andrés Gómez", "Bogotá", "+57 313 555 1045", [pick("contorno-de-ojos"), pick("agua-micelar")], "entregado", 16),
-    order("PD-1046", "Laura Castaño", "Barranquilla", "+57 314 555 1046", [pick("kit-colageno-elastina")], "pagado", 12),
-    order("PD-1047", "María José Ruiz", "Bogotá", "+57 315 555 1047", [pick("serum-colageno"), pick("crema-hidratante-facial")], "enviado", 9),
-    order("PD-1048", "Santiago Torres", "Bucaramanga", "+57 316 555 1048", [pick("kit-antiedad")], "pagado", 6),
+    order("PD-1043", "Daniela Moreno", "Medellín", "+57 311 555 1043", [pick("botox-vegetal-efecto-tensor", 2)], "entregado", 24),
+    order("PD-1044", "Carolina Peña", "Cali", "+57 312 555 1044", [pick("kit-noche-renovadora-reparacion-y-antiedad")], "enviado", 19),
+    order("PD-1045", "Andrés Gómez", "Bogotá", "+57 313 555 1045", [pick("contorno-de-ojos"), pick("agua-micelar-con-extractos-naturales")], "entregado", 16),
+    order("PD-1046", "Laura Castaño", "Barranquilla", "+57 314 555 1046", [pick("kit-colageno-y-elastina-reafirma-nutre-y-revitaliza")], "pagado", 12),
+    order("PD-1047", "María José Ruiz", "Bogotá", "+57 315 555 1047", [pick("serum-revitalizante-facial"), pick("crema-hidratante-facial")], "enviado", 9),
+    order("PD-1048", "Santiago Torres", "Bucaramanga", "+57 316 555 1048", [pick("kit-antiedad-reafirmante-y-regenerador")], "pagado", 6),
     order("PD-1049", "Paula Herrera", "Medellín", "+57 317 555 1049", [pick("serum-hidratante", 2)], "nuevo", 3),
-    order("PD-1050", "Juliana Ríos", "Bogotá", "+57 318 555 1050", [pick("botox-vegetal"), pick("contorno-de-ojos")], "nuevo", 1),
-    order("PD-1051", "Camila Vargas", "Pereira", "+57 319 555 1051", [pick("kit-glow-mananero")], "cancelado", 14),
+    order("PD-1050", "Juliana Ríos", "Bogotá", "+57 318 555 1050", [pick("botox-vegetal-efecto-tensor"), pick("contorno-de-ojos")], "nuevo", 1),
+    order("PD-1051", "Camila Vargas", "Pereira", "+57 319 555 1051", [pick("kit-glow-mananero-cuidado-facial-diario")], "cancelado", 14),
   ];
 }
 

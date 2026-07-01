@@ -169,23 +169,25 @@ export default function ProductDetail({ product: initial }: { product: Product }
           {product.name}
         </h1>
 
-        <div className="mt-3 flex items-center gap-2">
-          <div className="flex">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`h-4 w-4 ${
-                  i < Math.round(product.rating)
-                    ? "fill-gold text-gold"
-                    : "text-sand"
-                }`}
-              />
-            ))}
+        {product.reviews > 0 && (
+          <div className="mt-3 flex items-center gap-2">
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-4 w-4 ${
+                    i < Math.round(product.rating)
+                      ? "fill-gold text-gold"
+                      : "text-sand"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-ink-soft">
+              {product.rating} · {product.reviews} reseñas
+            </span>
           </div>
-          <span className="text-sm text-ink-soft">
-            {product.rating} · {product.reviews} reseñas
-          </span>
-        </div>
+        )}
 
         <div className="mt-5 flex items-end gap-3">
           <span className="font-display text-3xl font-semibold text-forest">
@@ -199,11 +201,11 @@ export default function ProductDetail({ product: initial }: { product: Product }
         </div>
 
         <p className="mt-5 leading-relaxed text-ink">{product.tagline}</p>
-        <p className="mt-3 leading-relaxed text-ink-soft">
-          Formulada con Tecnología Fitomolecular para optimizar la afinidad
-          cutánea y fortalecer la barrera natural de la piel. Resultados visibles
-          con uso continuo, incluso en pieles sensibles y reactivas.
-        </p>
+        {product.description && (
+          <p className="mt-3 leading-relaxed text-ink-soft">
+            {product.description}
+          </p>
+        )}
 
         {/* Ingredientes clave */}
         <div className="mt-6 flex flex-wrap gap-2">

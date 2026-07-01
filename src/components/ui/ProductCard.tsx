@@ -84,9 +84,15 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* Detalle */}
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center gap-1.5 text-gold">
-          <Star className="h-3.5 w-3.5 fill-gold" />
-          <span className="text-xs font-semibold text-ink">{product.rating}</span>
-          <span className="text-xs text-ink-soft">({product.reviews})</span>
+          {product.reviews > 0 && (
+            <>
+              <Star className="h-3.5 w-3.5 fill-gold" />
+              <span className="text-xs font-semibold text-ink">
+                {product.rating}
+              </span>
+              <span className="text-xs text-ink-soft">({product.reviews})</span>
+            </>
+          )}
           <span className="ml-auto text-[0.65rem] uppercase tracking-wider text-sage">
             {product.category}
           </span>

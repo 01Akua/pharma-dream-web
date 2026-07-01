@@ -14,7 +14,7 @@ import { ALL_PRODUCTS, type Product } from "./data";
 
 export type StoredProduct = Product & { published: boolean };
 
-const KEY = "pd_products_v1";
+const KEY = "pd_products_v2";
 
 /* Semilla inmutable a partir del catálogo por defecto */
 const SEED: StoredProduct[] = ALL_PRODUCTS.map((p) => ({
