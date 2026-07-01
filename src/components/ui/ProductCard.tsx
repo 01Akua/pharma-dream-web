@@ -32,11 +32,25 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         )}
 
+        {/* Imagen subida desde el panel admin (si existe) */}
+        {product.image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.image}
+            alt={product.name}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        )}
+
         {/* halo decorativo */}
         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl transition-transform duration-700 group-hover:scale-150" />
 
         {/* "botella" simulada con tipografía de empaque */}
-        <div className="relative flex flex-col items-center text-center transition-transform duration-700 group-hover:scale-[1.04]">
+        <div
+          className={`relative flex flex-col items-center text-center transition-transform duration-700 group-hover:scale-[1.04] ${
+            product.image ? "hidden" : ""
+          }`}
+        >
           <div className="relative flex h-40 w-24 flex-col items-center justify-end rounded-[2rem] rounded-t-md bg-white/15 pb-4 backdrop-blur-[2px] ring-1 ring-white/25">
             <span className="absolute -top-4 h-7 w-9 rounded-t-md bg-white/25 ring-1 ring-white/30" />
             <span

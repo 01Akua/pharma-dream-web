@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ALL_PRODUCTS } from "@/lib/data";
+import { useVisibleProducts } from "@/lib/store";
 import ProductCard from "./ui/ProductCard";
 
 const filters = ["Todos", "Cremas", "Sérums", "Kits"] as const;
@@ -24,17 +24,18 @@ export default function ShopGrid() {
     filters.includes(initial) ? initial : "Todos",
   );
   const [sort, setSort] = useState<SortKey>("destacados");
+  const products = useVisibleProducts();
 
   const visible = useMemo(() => {
     let list =
       filter === "Todos"
-        ? [...ALL_PRODUCTS]
-        : ALL_PRODUCTS.filter((p) => p.category === filter);
+        ? [...products]
+        : products.filter((p) => p.category === filter);
     if (sort === "precioAsc") list = list.sort((a, b) => a.price - b.price);
     if (sort === "precioDesc") list = list.sort((a, b) => b.price - a.price);
     if (sort === "rating") list = list.sort((a, b) => b.rating - a.rating);
     return list;
-  }, [filter, sort]);
+  }, [filter, sort, products]);
 
   return (
     <>

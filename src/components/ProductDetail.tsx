@@ -14,6 +14,7 @@ import {
   Truck,
 } from "lucide-react";
 import { type Product, formatCOP, TONE_STYLES, INGREDIENTS } from "@/lib/data";
+import { useStoredProduct } from "@/lib/store";
 
 function StudioCard({
   product,
@@ -26,6 +27,20 @@ function StudioCard({
 }) {
   const tone = TONE_STYLES[product.tone];
   const bg = tone.bg.replace(/^linear-gradient\(\d+deg/, `linear-gradient(${angle}deg`);
+
+  if (product.image) {
+    return (
+      <div className="relative h-full w-full overflow-hidden rounded-2xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl"
@@ -96,7 +111,8 @@ const faqs = [
   },
 ];
 
-export default function ProductDetail({ product }: { product: Product }) {
+export default function ProductDetail({ product: initial }: { product: Product }) {
+  const product = useStoredProduct(initial.id, initial) ?? initial;
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [angle, setAngle] = useState(150);

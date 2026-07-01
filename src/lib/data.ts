@@ -27,7 +27,14 @@ export type Product = {
   sub: string; // subtítulo del empaque
   rating: number;
   reviews: number;
+  /* Campos gestionables desde el panel admin */
+  published?: boolean; // visible en la tienda
+  image?: string; // imagen subida (dataURL o URL); si no hay, se usa el "studio card"
+  stock?: number;
 };
+
+export const CATEGORY_NAMES = ["Cremas", "Sérums", "Kits"] as const;
+export const TONE_NAMES = ["forest", "olive", "sage", "gold", "sand"] as const;
 
 export const PRODUCTS: Product[] = [
   {

@@ -4,20 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { PRODUCTS, KITS, type Product } from "@/lib/data";
+import type { Product } from "@/lib/data";
+import { useVisibleProducts } from "@/lib/store";
 import ProductCard from "./ui/ProductCard";
 import Reveal from "./ui/Reveal";
 
 const filters = ["Todos", "Cremas", "Sérums", "Kits"] as const;
 type Filter = (typeof filters)[number];
 
-const ALL = [...PRODUCTS, ...KITS];
-
 export default function FeaturedProducts() {
   const [filter, setFilter] = useState<Filter>("Todos");
+  const all = useVisibleProducts();
 
-  const visible: Product[] =
-    filter === "Todos" ? ALL : ALL.filter((p) => p.category === filter);
+  const visible: Product[] = (
+    filter === "Todos" ? all : all.filter((p) => p.category === filter)
+  ).slice(0, 8);
 
   return (
     <section id="productos" className="relative bg-cream-deep py-24">

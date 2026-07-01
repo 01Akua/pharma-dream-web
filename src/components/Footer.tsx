@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AtSign, Camera, Mail, MapPin, Phone, Video } from "lucide-react";
 import Logo from "./ui/Logo";
 
@@ -90,9 +91,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-cream/15 py-6 text-center text-xs text-cream/50">
-          © {new Date().getFullYear()} Pharma Dream · Colombia (COP $). Todos los
-          derechos reservados.
+        <div className="flex flex-col items-center justify-between gap-2 border-t border-cream/15 py-6 text-center text-xs text-cream/50 sm:flex-row">
+          <span>
+            © {new Date().getFullYear()} Pharma Dream · Colombia (COP $). Todos
+            los derechos reservados.
+          </span>
+          <Link href="/admin" className="transition-colors hover:text-gold-soft">
+            Panel administrativo
+          </Link>
         </div>
       </div>
     </footer>

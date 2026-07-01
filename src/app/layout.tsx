@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClubPopup from "@/components/ClubPopup";
 import WhatsappFloat from "@/components/WhatsappFloat";
+import ChromeGate from "@/components/ChromeGate";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -36,12 +37,16 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
-        <AnnouncementBar />
-        <Navbar />
+        <ChromeGate>
+          <AnnouncementBar />
+          <Navbar />
+        </ChromeGate>
         {children}
-        <Footer />
-        <ClubPopup />
-        <WhatsappFloat />
+        <ChromeGate>
+          <Footer />
+          <ClubPopup />
+          <WhatsappFloat />
+        </ChromeGate>
       </body>
     </html>
   );
