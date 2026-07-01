@@ -1,12 +1,17 @@
-import { Truck, Sparkles } from "lucide-react";
+"use client";
 
-const items = [
-  { icon: Truck, text: "Envíos gratis a partir de COP $200.000" },
-  { icon: Sparkles, text: "10% OFF en tu primera compra uniéndote al Club Pharma Dream" },
-  { icon: Truck, text: "Pago seguro · Tarjeta, PSE y contra entrega" },
-];
+import { Truck, Sparkles, ShieldCheck } from "lucide-react";
+import { useContent } from "@/lib/content";
+
+const icons = [Truck, Sparkles, ShieldCheck];
 
 export default function AnnouncementBar() {
+  const { announcement } = useContent();
+  const items = announcement.map((text, i) => ({
+    icon: icons[i % icons.length],
+    text,
+  }));
+
   return (
     <div className="relative z-50 overflow-hidden bg-forest text-cream/90">
       <div className="flex w-max animate-marquee">

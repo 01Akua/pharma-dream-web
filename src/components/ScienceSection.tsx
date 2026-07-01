@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import { FlaskConical, Leaf, ShieldCheck, Sparkles } from "lucide-react";
-import { INGREDIENTS, UNSPLASH } from "@/lib/data";
+import { INGREDIENTS } from "@/lib/data";
+import { useContent } from "@/lib/content";
 import Reveal from "./ui/Reveal";
 
 const badges = [
@@ -11,6 +14,7 @@ const badges = [
 ];
 
 export default function ScienceSection() {
+  const { science } = useContent();
   return (
     <section id="ciencia" className="relative overflow-hidden bg-forest py-24 text-cream">
       {/* textura decorativa */}
@@ -24,7 +28,7 @@ export default function ScienceSection() {
             <div className="relative">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-card">
                 <Image
-                  src={UNSPLASH("1466781783364-36c955e42a7f", 1000, 80)}
+                  src={science.image}
                   alt="Cuidado de la piel con activos naturales"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -34,9 +38,11 @@ export default function ScienceSection() {
               </div>
               {/* tarjeta flotante */}
               <div className="absolute -bottom-6 -right-4 w-48 rounded-2xl bg-cream p-5 text-forest shadow-card sm:-right-8">
-                <span className="font-display text-3xl font-semibold">+98%</span>
+                <span className="font-display text-3xl font-semibold">
+                  {science.statValue}
+                </span>
                 <p className="mt-1 text-xs leading-snug text-ink-soft">
-                  reportó una piel más hidratada y confortable tras 4 semanas.
+                  {science.statLabel}
                 </p>
               </div>
             </div>
@@ -45,15 +51,11 @@ export default function ScienceSection() {
           {/* Texto + ingredientes */}
           <div>
             <Reveal>
-              <span className="eyebrow text-gold-soft">Respaldado por la ciencia</span>
+              <span className="eyebrow text-gold-soft">{science.eyebrow}</span>
               <h2 className="mt-4 font-display text-4xl font-medium leading-tight sm:text-5xl">
-                Dermocosmética avanzada para piel sensible y reactiva
+                {science.title}
               </h2>
-              <p className="mt-5 max-w-lg text-cream/80">
-                Integramos Tecnología Fitomolecular y activos vegetales bioactivos
-                para optimizar la afinidad cutánea y fortalecer la barrera natural
-                de la piel. Productos seguros, eficaces y adaptados a ti.
-              </p>
+              <p className="mt-5 max-w-lg text-cream/80">{science.description}</p>
             </Reveal>
 
             <div className="mt-8 grid gap-x-6 gap-y-5 sm:grid-cols-2">

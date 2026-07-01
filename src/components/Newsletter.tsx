@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { Check, Gift } from "lucide-react";
+import { useContent } from "@/lib/content";
 import Reveal from "./ui/Reveal";
 
 export default function Newsletter() {
+  const { newsletter } = useContent();
   const [sent, setSent] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -19,11 +21,10 @@ export default function Newsletter() {
             <Gift className="h-6 w-6 text-gold-soft" />
           </span>
           <h2 className="relative mt-6 font-display text-3xl font-medium text-cream sm:text-4xl">
-            Únete al Club Pharma Dream
+            {newsletter.title}
           </h2>
           <p className="relative mx-auto mt-3 max-w-md text-cream/80">
-            Recibe <strong className="text-gold-soft">10% de descuento</strong> en
-            tu primera compra, descuentos mensuales y rifas exclusivas.
+            {newsletter.subtitle}
           </p>
 
           <form

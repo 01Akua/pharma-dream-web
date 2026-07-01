@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { AtSign, Camera, Mail, MapPin, Phone, Video } from "lucide-react";
 import Logo from "./ui/Logo";
+import { useContent } from "@/lib/content";
 
 const groups = [
   {
@@ -22,6 +25,7 @@ const groups = [
 const socials = [Camera, AtSign, Video, Mail];
 
 export default function Footer() {
+  const { footer } = useContent();
   return (
     <footer className="bg-forest pt-16 text-cream/80">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -30,18 +34,17 @@ export default function Footer() {
           <div>
             <Logo variant="light" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/65">
-              Dermocosmética inteligente que conecta la ciencia con la naturaleza.
-              Fórmulas seguras y eficaces para piel sensible y reactiva.
+              {footer.blurb}
             </p>
             <ul className="mt-6 space-y-2.5 text-sm">
               <li className="flex items-center gap-2.5">
-                <MapPin className="h-4 w-4 text-gold-soft" /> Bogotá, Colombia
+                <MapPin className="h-4 w-4 text-gold-soft" /> {footer.city}
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-gold-soft" /> +57 321 745 0695
+                <Phone className="h-4 w-4 text-gold-soft" /> {footer.phone}
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-gold-soft" /> info@pharma-dream.com
+                <Mail className="h-4 w-4 text-gold-soft" /> {footer.email}
               </li>
             </ul>
           </div>

@@ -3,51 +3,56 @@
 import {
   Package,
   Eye,
-  EyeOff,
   DollarSign,
+  ShoppingBag,
+  Clock,
   Plus,
   ArrowUpRight,
 } from "lucide-react";
 import { useAllProducts } from "@/lib/store";
+import { useOrders, computeStats } from "@/lib/crm";
 import { formatCOP } from "@/lib/data";
 
 export default function Dashboard({
   onGoToProducts,
+  onGoToSales,
 }: {
   onGoToProducts: () => void;
+  onGoToSales: () => void;
 }) {
   const products = useAllProducts();
+  const orders = useOrders();
+  const sales = computeStats(orders);
   const publicados = products.filter((p) => p.published).length;
-  const ocultos = products.length - publicados;
-  const inventario = products.reduce(
-    (sum, p) => sum + p.price * (p.stock ?? 0),
-    0,
-  );
 
   const stats = [
     {
-      label: "Productos",
-      value: products.length,
-      icon: Package,
-      tone: "bg-olive/15 text-olive",
-    },
-    {
-      label: "Publicados",
-      value: publicados,
-      icon: Eye,
-      tone: "bg-sage/20 text-forest",
-    },
-    {
-      label: "Ocultos",
-      value: ocultos,
-      icon: EyeOff,
-      tone: "bg-sand text-ink-soft",
-    },
-    {
-      label: "Valor inventario",
-      value: formatCOP(inventario),
+      label: "Ingresos",
+      value: formatCOP(sales.revenue),
       icon: DollarSign,
       tone: "bg-gold/20 text-gold-deep",
+      onClick: onGoToSales,
+    },
+    {
+      label: "Pedidos",
+      value: sales.orders,
+      icon: ShoppingBag,
+      tone: "bg-olive/15 text-olive",
+      onClick: onGoToSales,
+    },
+    {
+      label: "Por gestionar",
+      value: sales.pending,
+      icon: Clock,
+      tone: "bg-blue-100 text-blue-700",
+      onClick: onGoToSales,
+    },
+    {
+      label: "Productos publicados",
+      value: `${publicados}/${products.length}`,
+      icon: Eye,
+      tone: "bg-sage/20 text-forest",
+      onClick: onGoToProducts,
     },
   ];
 
@@ -76,9 +81,10 @@ export default function Dashboard({
       {/* Métricas */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <div
+          <button
             key={s.label}
-            className="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-forest/5"
+            onClick={s.onClick}
+            className="rounded-2xl bg-white p-5 text-left shadow-soft ring-1 ring-forest/5 transition hover:ring-gold/40"
           >
             <span
               className={`flex h-10 w-10 items-center justify-center rounded-xl ${s.tone}`}
@@ -89,7 +95,7 @@ export default function Dashboard({
               {s.value}
             </div>
             <div className="text-sm text-ink-soft">{s.label}</div>
-          </div>
+          </button>
         ))}
       </div>
 

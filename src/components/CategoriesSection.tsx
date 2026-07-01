@@ -1,10 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CATEGORIES } from "@/lib/data";
+import { useContent } from "@/lib/content";
 import Reveal from "./ui/Reveal";
 
 export default function CategoriesSection() {
+  const { categories } = useContent();
+  const cats = CATEGORIES.map((base, i) => ({
+    ...base,
+    name: categories[i]?.name ?? base.name,
+    description: categories[i]?.description ?? base.description,
+    image: categories[i]?.image ?? base.image,
+  }));
+
   return (
     <section className="relative bg-cream py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -16,7 +27,7 @@ export default function CategoriesSection() {
         </Reveal>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {CATEGORIES.map((cat, i) => (
+          {cats.map((cat, i) => (
             <Reveal key={cat.name} delay={i * 0.1}>
               <Link
                 href={`/tienda?cat=${cat.name}`}

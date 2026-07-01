@@ -4,44 +4,18 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { UNSPLASH } from "@/lib/data";
-
-const slides = [
-  {
-    eyebrow: "Dermocosmética avanzada",
-    title: "Nutrición para la piel",
-    subtitle:
-      "El poder nutracéutico que conecta la ciencia con la naturaleza. Fórmulas con Tecnología Fitomolecular para piel sensible y reactiva.",
-    cta: "Ver catálogo",
-    image: UNSPLASH("1497436072909-60f360e1d4b1", 1920, 80),
-  },
-  {
-    eyebrow: "Efecto tensor natural",
-    title: "Firmeza que se siente",
-    subtitle:
-      "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
-    cta: "Conocer el Bótox Vegetal",
-    image: UNSPLASH("1556760544-74068565f05c", 1920, 80),
-  },
-  {
-    eyebrow: "Respaldado por la ciencia",
-    title: "Tu piel merece innovación",
-    subtitle:
-      "Activos vegetales bioactivos con alta afinidad cutánea, formulados para resultados visibles con uso continuo.",
-    cta: "Explorar ingredientes",
-    image: UNSPLASH("1570172619644-dfd03ed5d881", 1920, 80),
-  },
-];
+import { useContent } from "@/lib/content";
 
 export default function Hero() {
+  const { hero: slides } = useContent();
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
     return () => clearInterval(t);
-  }, []);
+  }, [slides.length]);
 
-  const slide = slides[index];
+  const slide = slides[index % slides.length];
 
   return (
     <section

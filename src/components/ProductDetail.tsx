@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { type Product, formatCOP, TONE_STYLES, INGREDIENTS } from "@/lib/data";
 import { useStoredProduct } from "@/lib/store";
+import CheckoutModal from "./CheckoutModal";
 
 function StudioCard({
   product,
@@ -117,6 +118,7 @@ export default function ProductDetail({ product: initial }: { product: Product }
   const [added, setAdded] = useState(false);
   const [angle, setAngle] = useState(150);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [checkout, setCheckout] = useState(false);
 
   const discount = product.compareAt
     ? Math.round((1 - product.price / product.compareAt) * 100)
@@ -264,7 +266,10 @@ export default function ProductDetail({ product: initial }: { product: Product }
           </button>
         </div>
 
-        <button className="mt-3 w-full rounded-full bg-gold py-3.5 text-sm font-semibold text-forest transition hover:bg-gold-soft">
+        <button
+          onClick={() => setCheckout(true)}
+          className="mt-3 w-full rounded-full bg-gold py-3.5 text-sm font-semibold text-forest transition hover:bg-gold-soft"
+        >
           Comprar ahora
         </button>
 
@@ -311,6 +316,14 @@ export default function ProductDetail({ product: initial }: { product: Product }
           ))}
         </div>
       </div>
+
+      {checkout && (
+        <CheckoutModal
+          product={product}
+          qty={qty}
+          onClose={() => setCheckout(false)}
+        />
+      )}
     </div>
   );
 }

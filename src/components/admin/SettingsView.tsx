@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { RotateCcw, Info, Database, ShieldCheck } from "lucide-react";
 import { resetStore } from "@/lib/store";
+import { resetOrders } from "@/lib/crm";
+import { resetContent } from "@/lib/content";
 import type { Notify } from "./AdminApp";
 
 export default function SettingsView({ notify }: { notify: Notify }) {
@@ -51,7 +53,8 @@ export default function SettingsView({ notify }: { notify: Notify }) {
       <div className="mt-4 rounded-2xl border border-sand bg-cream p-5">
         <h3 className="font-semibold text-forest">Restablecer demo</h3>
         <p className="mt-1 text-sm text-ink-soft">
-          Vuelve el catálogo a su estado original y borra los cambios de prueba.
+          Vuelve el catálogo, los pedidos y el contenido a su estado original y
+          borra los cambios de prueba.
         </p>
         {!confirm ? (
           <button
@@ -67,8 +70,10 @@ export default function SettingsView({ notify }: { notify: Notify }) {
             <button
               onClick={() => {
                 resetStore();
+                resetOrders();
+                resetContent();
                 setConfirm(false);
-                notify("Catálogo restablecido");
+                notify("Demo restablecida");
               }}
               className="rounded-full bg-red-600 px-5 py-2 text-sm font-semibold text-cream hover:bg-red-700"
             >

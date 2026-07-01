@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { POSTS } from "@/lib/data";
+import { useContent } from "@/lib/content";
 import Reveal from "./ui/Reveal";
 
 export default function BlogSection() {
+  const { blog: POSTS } = useContent();
   return (
     <section id="blog" className="bg-cream-deep py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">

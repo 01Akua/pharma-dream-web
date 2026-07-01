@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard,
   Package,
+  ShoppingBag,
+  LayoutTemplate,
   Settings,
   LogOut,
   ExternalLink,
@@ -15,18 +17,27 @@ import Logo from "@/components/ui/Logo";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import ProductsView from "./ProductsView";
+import CRMView from "./CRMView";
+import ContentView from "./ContentView";
 import SettingsView from "./SettingsView";
 
 const SESSION_KEY = "pd_admin_session";
 export const DEMO_USER = "admin";
 export const DEMO_PASS = "pharma2026";
 
-export type View = "dashboard" | "productos" | "ajustes";
+export type View =
+  | "dashboard"
+  | "productos"
+  | "ventas"
+  | "contenido"
+  | "ajustes";
 export type Notify = (message: string, type?: "success" | "error") => void;
 
 const nav: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "dashboard", label: "Resumen", icon: LayoutDashboard },
   { id: "productos", label: "Productos", icon: Package },
+  { id: "ventas", label: "Ventas", icon: ShoppingBag },
+  { id: "contenido", label: "Contenido", icon: LayoutTemplate },
   { id: "ajustes", label: "Ajustes", icon: Settings },
 ];
 
@@ -137,9 +148,14 @@ export default function AdminApp() {
       <main className="lg:pl-64">
         <div className="mx-auto max-w-6xl px-5 py-8 lg:px-10 lg:py-10">
           {view === "dashboard" && (
-            <Dashboard onGoToProducts={() => setView("productos")} />
+            <Dashboard
+              onGoToProducts={() => setView("productos")}
+              onGoToSales={() => setView("ventas")}
+            />
           )}
           {view === "productos" && <ProductsView notify={notify} />}
+          {view === "ventas" && <CRMView notify={notify} />}
+          {view === "contenido" && <ContentView notify={notify} />}
           {view === "ajustes" && <SettingsView notify={notify} />}
         </div>
       </main>
