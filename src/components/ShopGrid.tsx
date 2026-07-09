@@ -2,11 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { CATEGORIES } from "@/lib/data";
 import { useVisibleProducts } from "@/lib/store";
 import ProductCard from "./ui/ProductCard";
 
-const filters = ["Todos", "Cremas", "Sérums", "Kits"] as const;
+const filters = ["Cremas", "Sérums", "Kits"] as const;
 type Filter = (typeof filters)[number];
 
 const sorts = {
@@ -19,29 +22,77 @@ type SortKey = keyof typeof sorts;
 
 export default function ShopGrid() {
   const params = useSearchParams();
-  const initial = (params.get("cat") as Filter) || "Todos";
-  const [filter, setFilter] = useState<Filter>(
-    filters.includes(initial) ? initial : "Todos",
+  const initial = params.get("cat") as Filter | null;
+  const [filter, setFilter] = useState<Filter | null>(
+    initial && filters.includes(initial) ? initial : null,
   );
   const [sort, setSort] = useState<SortKey>("destacados");
   const products = useVisibleProducts();
 
   const visible = useMemo(() => {
-    let list =
-      filter === "Todos"
-        ? [...products]
-        : products.filter((p) => p.category === filter);
+    if (!filter) return [];
+    let list = products.filter((p) => p.category === filter);
     if (sort === "precioAsc") list = list.sort((a, b) => a.price - b.price);
     if (sort === "precioDesc") list = list.sort((a, b) => b.price - a.price);
     if (sort === "rating") list = list.sort((a, b) => b.rating - a.rating);
     return list;
   }, [filter, sort, products]);
 
+  if (!filter) {
+    return (
+      <div className="py-4">
+        <p className="text-center text-sm uppercase tracking-[0.14em] text-sage">
+          Elige una categoría para ver los productos
+        </p>
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.name}
+              onClick={() => setFilter(cat.name as Filter)}
+              className="group relative block h-80 overflow-hidden rounded-3xl text-left shadow-soft"
+            >
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-forest/30 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display text-2xl font-semibold text-cream">
+                    {cat.name}
+                  </h3>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-cream/15 text-cream backdrop-blur-sm transition-all duration-300 group-hover:bg-gold group-hover:text-forest">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+                <p className="mt-1.5 max-w-xs text-sm text-cream/80">
+                  {cat.description}
+                </p>
+                <span className="mt-3 inline-block text-[0.7rem] uppercase tracking-[0.18em] text-gold-soft">
+                  {cat.count} productos
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Barra de filtros */}
       <div className="flex flex-col gap-4 border-y border-sand py-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setFilter(null)}
+            className="rounded-full border border-sand px-5 py-2 text-sm font-medium text-ink-soft transition-all duration-300 hover:bg-sand"
+          >
+            ← Categorías
+          </button>
           {filters.map((f) => (
             <button
               key={f}

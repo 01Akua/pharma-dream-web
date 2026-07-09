@@ -18,7 +18,7 @@ export default function FeaturedProducts() {
 
   const visible: Product[] = (
     filter === "Todos" ? all : all.filter((p) => p.category === filter)
-  ).slice(0, 8);
+  ).slice(0, 4);
 
   return (
     <section id="productos" className="relative bg-cream-deep py-24">

@@ -13,6 +13,7 @@ const links = [
   { label: "Ingredientes", href: "/#ciencia" },
   { label: "Reseñas", href: "/#resenas" },
   { label: "Blog", href: "/#blog" },
+  { label: "Nosotros", href: "/nosotros" },
 ];
 
 export default function Navbar() {
