@@ -3,6 +3,8 @@
    Precios y nombres basados en la tienda real.
    ============================================================ */
 
+import { withBasePath } from "./paths";
+
 export const UNSPLASH = (id: string, w = 1000, q = 80) =>
   `https://images.unsplash.com/photo-${id}?w=${w}&q=${q}&auto=format&fit=crop`;
 
@@ -296,21 +298,21 @@ export const CATEGORIES: Category[] = [
     name: "Cremas",
     description: "Hidratación y reparación de la barrera cutánea.",
     tone: "sage",
-    image: "/images/categorias/cremas.webp",
+    image: withBasePath("/images/categorias/cremas.webp"),
     count: 5,
   },
   {
     name: "Sérums",
     description: "Activos concentrados de absorción rápida.",
     tone: "gold",
-    image: "/images/categorias/serums.webp",
+    image: withBasePath("/images/categorias/serums.webp"),
     count: 4,
   },
   {
     name: "Kits",
     description: "Rutinas completas con descuento por tiempo limitado.",
     tone: "forest",
-    image: "/images/categorias/kits.webp",
+    image: withBasePath("/images/categorias/kits.webp"),
     count: 5,
   },
 ];

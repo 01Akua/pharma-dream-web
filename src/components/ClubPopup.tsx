@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Gift, X } from "lucide-react";
+import { withBasePath } from "@/lib/paths";
 
 const STORAGE_KEY = "pd_club_popup_dismissed";
 
@@ -64,7 +65,9 @@ export default function ClubPopup() {
             {/* Lado visual */}
             <div
               className="relative hidden flex-col justify-end bg-cover bg-center p-8 text-cream sm:flex"
-              style={{ backgroundImage: "url(/images/categorias/kits.webp)" }}
+              style={{
+                backgroundImage: `url(${withBasePath("/images/categorias/kits.webp")})`,
+              }}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/70 to-forest/20" />
               <div className="relative">
