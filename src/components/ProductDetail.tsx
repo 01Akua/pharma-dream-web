@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { type Product, formatCOP, TONE_STYLES, INGREDIENTS } from "@/lib/data";
 import { useStoredProduct } from "@/lib/store";
+import { addToCart, openCartDrawer } from "@/lib/cart";
 import CheckoutModal from "./CheckoutModal";
 
 function StudioCard({
@@ -242,8 +243,10 @@ export default function ProductDetail({ product: initial }: { product: Product }
 
           <button
             onClick={() => {
+              addToCart(product, qty);
               setAdded(true);
               setTimeout(() => setAdded(false), 1800);
+              setTimeout(() => openCartDrawer(), 300);
             }}
             className={`flex flex-1 items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition-all ${
               added
@@ -321,8 +324,14 @@ export default function ProductDetail({ product: initial }: { product: Product }
 
       {checkout && (
         <CheckoutModal
-          product={product}
-          qty={qty}
+          items={[
+            {
+              productId: product.id,
+              name: product.name,
+              price: product.price,
+              qty,
+            },
+          ]}
           onClose={() => setCheckout(false)}
         />
       )}

@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ClubPopup from "@/components/ClubPopup";
 import WhatsappFloat from "@/components/WhatsappFloat";
 import ChromeGate from "@/components/ChromeGate";
+import CartDrawer from "@/components/CartDrawer";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -38,14 +39,17 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <ChromeGate>
-          <AnnouncementBar />
-          <Navbar />
+          <div className="fixed inset-x-0 top-0 z-40">
+            <AnnouncementBar />
+            <Navbar />
+          </div>
         </ChromeGate>
         {children}
         <ChromeGate>
           <Footer />
           <ClubPopup />
           <WhatsappFloat />
+          <CartDrawer />
         </ChromeGate>
       </body>
     </html>

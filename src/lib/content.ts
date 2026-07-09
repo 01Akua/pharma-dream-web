@@ -7,7 +7,6 @@
    ============================================================ */
 
 import { useEffect, useState } from "react";
-import { UNSPLASH } from "./data";
 
 export type HeroSlide = {
   eyebrow: string;
@@ -47,7 +46,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       subtitle:
         "El poder nutracéutico que conecta ciencia y naturaleza para cuidar tu piel.",
       cta: "Ver catálogo",
-      image: UNSPLASH("1497436072909-60f360e1d4b1", 1920, 80),
+      image: "/images/hero/nutricion.webp",
     },
     {
       eyebrow: "Efecto tensor natural",
@@ -55,7 +54,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       subtitle:
         "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
       cta: "Comprar",
-      image: UNSPLASH("1556760544-74068565f05c", 1920, 80),
+      image: "/images/hero/tensor.webp",
     },
     {
       eyebrow: "Hidratación profunda",
@@ -63,24 +62,24 @@ export const DEFAULT_CONTENT: SiteContent = {
       subtitle:
         "Nutre, calma y devuelve luminosidad a las pieles secas y sensibles con aceite de HEMP.",
       cta: "Comprar",
-      image: UNSPLASH("1570172619644-dfd03ed5d881", 1920, 80),
+      image: "/images/hero/hidratante.webp",
     },
   ],
   categories: [
     {
       name: "Cremas",
       description: "Hidratación y reparación de la barrera cutánea.",
-      image: UNSPLASH("1556228720-195a672e8a03", 800),
+      image: "/images/categorias/cremas.webp",
     },
     {
       name: "Sérums",
       description: "Activos concentrados de absorción rápida.",
-      image: UNSPLASH("1620916566398-39f1143ab7be", 800),
+      image: "/images/categorias/serums.webp",
     },
     {
       name: "Kits",
       description: "Rutinas completas con descuento por tiempo limitado.",
-      image: UNSPLASH("1612817288484-6f916006741a", 800),
+      image: "/images/categorias/kits.webp",
     },
   ],
   science: {
@@ -90,7 +89,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       "En Pharma Dream elevamos el cuidado de la piel a un enfoque dermocosmético inteligente. Nuestras fórmulas integran Tecnología Fitomolecular y activos vegetales bioactivos para optimizar la afinidad cutánea y favorecer una piel equilibrada y saludable. Creamos productos seguros, eficaces y adaptados a ti, porque tu piel merece innovación respaldada por la ciencia.",
     statValue: "100%",
     statLabel: "Activos vegetales bioactivos y aceite de HEMP.",
-    image: UNSPLASH("1466781783364-36c955e42a7f", 1000, 80),
+    image: "/images/ciencia/ciencia.webp",
   },
   blog: [
     {
@@ -98,7 +97,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       excerpt:
         "El cuidado de la piel no es solo belleza, sino salud. Aplicar correctamente una crema de lujo potencia sus beneficios y maximiza la absorción de los activos.",
       tag: "Rutina",
-      image: UNSPLASH("1570172619644-dfd03ed5d881", 800),
+      image: "/images/blog/guia-cremas.webp",
     },
     {
       title:
@@ -106,7 +105,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       excerpt:
         "Descubre cómo Pharma Dream aprovecha la biodiversidad colombiana y técnicas de extracción molecular para crear cosméticos naturales con HEMP.",
       tag: "Ciencia",
-      image: UNSPLASH("1518531933037-91b2f5f229cc", 800),
+      image: "/images/blog/fitomolecular.webp",
     },
     {
       title:
@@ -114,7 +113,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       excerpt:
         "El cannabidiol (CBD) y otros cannabinoides han emergido como compuestos prometedores en dermatología y bienestar, con propiedades respaldadas por la evidencia.",
       tag: "Ingredientes",
-      image: UNSPLASH("1540555700478-4be289fbecef", 800),
+      image: "/images/blog/cbd.webp",
     },
   ],
   newsletter: {

@@ -43,9 +43,9 @@ export default function Hero() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Overlay para legibilidad (corrige contraste del hero original) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-forest/85 via-forest/55 to-forest/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-forest/30" />
+      {/* Overlay neutro, solo para legibilidad del texto (sin tinte de color) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
 
       {/* Contenido */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">

@@ -42,3 +42,7 @@ next-env.d.ts
 
 # Screenshots de verificación (no versionar)
 /shots/
+
+# Material fuente de marca (fotos/videos en bruto, muy pesado — ya procesado en public/images)
+*.zip
+/brand-assets/

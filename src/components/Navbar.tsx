@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import Logo from "./ui/Logo";
+import { openCartDrawer, useCartCount } from "@/lib/cart";
 
 const links = [
   { label: "Inicio", href: "/" },
@@ -19,6 +20,7 @@ export default function Navbar() {
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const cartCount = useCartCount();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -32,7 +34,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+      className={`relative transition-all duration-500 ${
         solid ? "bg-cream/90 shadow-soft backdrop-blur-md" : "bg-transparent"
       }`}
     >
@@ -70,14 +72,17 @@ export default function Navbar() {
           </button>
           <button
             aria-label="Carrito"
+            onClick={openCartDrawer}
             className={`relative transition-colors hover:text-gold ${
               solid ? "text-forest" : "text-cream"
             }`}
           >
             <ShoppingBag className="h-5 w-5" />
-            <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[0.6rem] font-bold text-forest">
-              0
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[0.6rem] font-bold text-forest">
+                {cartCount > 9 ? "9+" : cartCount}
+              </span>
+            )}
           </button>
           <button
             aria-label="Menú"

@@ -62,23 +62,33 @@ export default function ClubPopup() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Lado visual */}
-            <div className="relative hidden flex-col justify-end bg-gradient-to-br from-olive to-forest p-8 text-cream sm:flex">
-              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/15 blur-2xl" />
-              <Gift className="h-10 w-10 text-gold-soft" />
-              <h3 className="mt-4 font-display text-2xl font-semibold leading-tight">
-                Club Pharma Dream
-              </h3>
-              <ul className="mt-4 space-y-2 text-sm text-cream/85">
-                <li className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-gold-soft" /> 10% en tu primera compra
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-gold-soft" /> Descuentos cada mes
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-gold-soft" /> Rifas mensuales
-                </li>
-              </ul>
+            <div
+              className="relative hidden flex-col justify-end bg-cover bg-center p-8 text-cream sm:flex"
+              style={{ backgroundImage: "url(/images/categorias/kits.webp)" }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/70 to-forest/20" />
+              <div className="relative">
+                <span className="font-display text-3xl italic text-gold-soft">
+                  Club
+                </span>
+                <h3 className="font-display text-2xl font-semibold uppercase tracking-[0.1em] leading-tight">
+                  Pharma Dream
+                </h3>
+                <p className="mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-gold-soft">
+                  Beneficios exclusivos
+                </p>
+                <ul className="mt-3 space-y-2 text-sm text-cream/90">
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 shrink-0 text-gold-soft" /> 10% de descuento en tu primera compra
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 shrink-0 text-gold-soft" /> Descuentos especiales cada mes
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 shrink-0 text-gold-soft" /> Rifas mensuales de productos Pharma Dream
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Formulario */}
@@ -91,14 +101,23 @@ export default function ClubPopup() {
                 <X className="h-5 w-5" />
               </button>
 
-              <h3 className="font-display text-2xl font-semibold text-forest">
-                ¡Consiente tu piel!
+              <Gift className="h-8 w-8 text-gold" />
+              <h3 className="mt-3 font-display text-2xl font-semibold leading-tight text-forest">
+                ¡Únete al Club Pharma Dream y consiente tu piel!
               </h3>
               <p className="mt-2 text-sm text-ink-soft">
-                Regístrate y recibe{" "}
+                Regístrate en nuestro boletín y recibe{" "}
                 <strong className="text-gold-deep">10% de descuento</strong> en tu
-                primera compra.
+                primera compra. Además, disfruta de beneficios exclusivos:
               </p>
+              <ul className="mt-3 space-y-1.5 text-sm text-ink-soft">
+                <li className="flex items-center gap-2">
+                  <Check className="h-4 w-4 shrink-0 text-gold-deep" /> Descuentos especiales cada mes
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="h-4 w-4 shrink-0 text-gold-deep" /> Rifas mensuales de productos Pharma Dream
+                </li>
+              </ul>
 
               <form
                 onSubmit={(e) => {

@@ -33,12 +33,28 @@ export type OrderItem = {
   qty: number;
 };
 
+export type PaymentMethod =
+  | "contraentrega"
+  | "transferencia"
+  | "tarjeta"
+  | "pse"
+  | "nequi";
+
+export const PAYMENT_METHODS: { id: PaymentMethod; label: string }[] = [
+  { id: "contraentrega", label: "Pago contra entrega" },
+  { id: "transferencia", label: "Transferencia bancaria" },
+  { id: "tarjeta", label: "Tarjeta (crédito/débito)" },
+  { id: "pse", label: "PSE" },
+  { id: "nequi", label: "Nequi / Daviplata" },
+];
+
 export type Order = {
   id: string;
   customer: { name: string; phone: string; city: string };
   items: OrderItem[];
   total: number;
   status: OrderStatus;
+  paymentMethod?: PaymentMethod;
   createdAt: string; // ISO
 };
 
@@ -137,6 +153,7 @@ export function useOrders(): Order[] {
 export function createOrder(input: {
   customer: Order["customer"];
   items: OrderItem[];
+  paymentMethod?: PaymentMethod;
 }): Order {
   const list = read();
   const next: Order = {
@@ -145,6 +162,7 @@ export function createOrder(input: {
     items: input.items,
     total: input.items.reduce((s, it) => s + it.price * it.qty, 0),
     status: "nuevo",
+    paymentMethod: input.paymentMethod,
     createdAt: new Date().toISOString(),
   };
   write([next, ...list]);

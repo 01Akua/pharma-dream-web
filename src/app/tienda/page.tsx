@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function TiendaPage() {
   return (
-    <main className="flex-1 pt-[68px]">
+    <main className="flex-1 pt-[110px]">
       {/* Encabezado */}
       <section className="bg-forest px-5 py-16 text-cream lg:px-8">
         <div className="mx-auto max-w-7xl">

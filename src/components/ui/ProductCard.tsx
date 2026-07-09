@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Plus, Star } from "lucide-react";
 import { type Product, formatCOP, TONE_STYLES } from "@/lib/data";
+import { addToCart } from "@/lib/cart";
 
 export default function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
@@ -38,6 +39,8 @@ export default function ProductCard({ product }: { product: Product }) {
           <img
             src={product.image}
             alt={product.name}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
@@ -123,7 +126,9 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
 
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              addToCart(product, 1);
               setAdded(true);
               setTimeout(() => setAdded(false), 1600);
             }}

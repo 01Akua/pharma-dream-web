@@ -30,7 +30,7 @@ export default async function ProductPage({ params }: Params) {
   const related = getRelated(product);
 
   return (
-    <main className="flex-1 pt-[68px]">
+    <main className="flex-1 pt-[110px]">
       <section className="px-5 py-10 lg:px-8">
         <div className="mx-auto max-w-7xl">
           {/* Breadcrumb */}
