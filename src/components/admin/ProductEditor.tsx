@@ -18,6 +18,15 @@ import {
   type Product,
 } from "@/lib/data";
 import type { Notify } from "./AdminApp";
+import { StringListEditor, PairListEditor } from "./ListEditor";
+
+const WARNINGS_ESTANDAR = [
+  "Producto de uso exclusivamente externo.",
+  "Evite el contacto directo con los ojos y mucosas. En caso de contacto accidental, enjuague con abundante agua.",
+  "No ingerir.",
+  "Suspenda su uso si presenta irritación, enrojecimiento o cualquier reacción desfavorable. Si la molestia persiste, consulte a su médico o dermatólogo.",
+  "Manténgase fuera del alcance de los niños.",
+];
 
 type Props = {
   product: StoredProduct | null; // null = crear
@@ -335,6 +344,80 @@ export default function ProductEditor({ product, onClose, notify }: Props) {
               </button>
             </label>
           </div>
+        </div>
+
+        {/* Ficha completa del producto */}
+        <div className="flex flex-col gap-6 border-t border-sand p-6">
+          <h3 className="font-display text-lg font-semibold text-forest">
+            Ficha de producto (página de detalle)
+          </h3>
+
+          <Field label="Descripción larga">
+            <textarea
+              value={form.description ?? ""}
+              onChange={(e) => set("description", e.target.value)}
+              rows={4}
+              placeholder="Descripción completa que aparece en la página del producto…"
+              className="input resize-none"
+            />
+          </Field>
+
+          <StringListEditor
+            label="Beneficios clave"
+            items={form.benefits ?? []}
+            onChange={(v) => set("benefits", v)}
+            placeholder="Hidratación profunda: …"
+          />
+
+          <PairListEditor
+            label="Ingredientes principales"
+            items={form.keyIngredients ?? []}
+            onChange={(v) => set("keyIngredients", v)}
+          />
+
+          <Field label="Composición (INCI)">
+            <textarea
+              value={form.inci ?? ""}
+              onChange={(e) => set("inci", e.target.value)}
+              rows={3}
+              placeholder="Aqua, Glycerin, Cannabis Sativa Seed Oil…"
+              className="input resize-none"
+            />
+          </Field>
+
+          <StringListEditor
+            label="Modo de empleo"
+            items={form.howToUse ?? []}
+            onChange={(v) => set("howToUse", v)}
+            placeholder="Aplicar sobre el rostro limpio…"
+          />
+
+          <div>
+            <button
+              type="button"
+              onClick={() => set("warnings", WARNINGS_ESTANDAR)}
+              className="text-xs font-semibold text-gold-deep hover:underline"
+            >
+              Usar advertencias estándar
+            </button>
+            <div className="mt-2">
+              <StringListEditor
+                label="Advertencias y precauciones"
+                items={form.warnings ?? []}
+                onChange={(v) => set("warnings", v)}
+                placeholder="Evitar el contacto con los ojos…"
+              />
+            </div>
+          </div>
+
+          {form.category === "Kits" && (
+            <StringListEditor
+              label="Productos que incluye el kit"
+              items={form.includes ?? []}
+              onChange={(v) => set("includes", v)}
+              placeholder="Agua Micelar con Extractos Naturales y HEMP"
+            />
+          )}
         </div>
 
         {/* Footer */}

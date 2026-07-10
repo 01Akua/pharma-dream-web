@@ -7,6 +7,7 @@ import {
   Package,
   ShoppingBag,
   LayoutTemplate,
+  Newspaper,
   Settings,
   LogOut,
   ExternalLink,
@@ -19,6 +20,7 @@ import Dashboard from "./Dashboard";
 import ProductsView from "./ProductsView";
 import CRMView from "./CRMView";
 import ContentView from "./ContentView";
+import BlogView from "./BlogView";
 import SettingsView from "./SettingsView";
 
 const SESSION_KEY = "pd_admin_session";
@@ -30,6 +32,7 @@ export type View =
   | "productos"
   | "ventas"
   | "contenido"
+  | "blog"
   | "ajustes";
 export type Notify = (message: string, type?: "success" | "error") => void;
 
@@ -38,6 +41,7 @@ const nav: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "productos", label: "Productos", icon: Package },
   { id: "ventas", label: "Ventas", icon: ShoppingBag },
   { id: "contenido", label: "Contenido", icon: LayoutTemplate },
+  { id: "blog", label: "Blog", icon: Newspaper },
   { id: "ajustes", label: "Ajustes", icon: Settings },
 ];
 
@@ -151,11 +155,13 @@ export default function AdminApp() {
             <Dashboard
               onGoToProducts={() => setView("productos")}
               onGoToSales={() => setView("ventas")}
+              onGoToBlog={() => setView("blog")}
             />
           )}
           {view === "productos" && <ProductsView notify={notify} />}
           {view === "ventas" && <CRMView notify={notify} />}
           {view === "contenido" && <ContentView notify={notify} />}
+          {view === "blog" && <BlogView notify={notify} />}
           {view === "ajustes" && <SettingsView notify={notify} />}
         </div>
       </main>

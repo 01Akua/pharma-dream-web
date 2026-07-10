@@ -6,24 +6,30 @@ import {
   DollarSign,
   ShoppingBag,
   Clock,
+  Newspaper,
   Plus,
   ArrowUpRight,
 } from "lucide-react";
 import { useAllProducts } from "@/lib/store";
 import { useOrders, computeStats } from "@/lib/crm";
+import { useAllBlogPosts } from "@/lib/blogStore";
 import { formatCOP } from "@/lib/data";
 
 export default function Dashboard({
   onGoToProducts,
   onGoToSales,
+  onGoToBlog,
 }: {
   onGoToProducts: () => void;
   onGoToSales: () => void;
+  onGoToBlog: () => void;
 }) {
   const products = useAllProducts();
   const orders = useOrders();
+  const posts = useAllBlogPosts();
   const sales = computeStats(orders);
   const publicados = products.filter((p) => p.published).length;
+  const postsPublicados = posts.filter((p) => p.published).length;
 
   const stats = [
     {
@@ -53,6 +59,13 @@ export default function Dashboard({
       icon: Eye,
       tone: "bg-sage/20 text-forest",
       onClick: onGoToProducts,
+    },
+    {
+      label: "Artículos del blog",
+      value: `${postsPublicados}/${posts.length}`,
+      icon: Newspaper,
+      tone: "bg-blue-100 text-blue-700",
+      onClick: onGoToBlog,
     },
   ];
 

@@ -1,11 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { BLOG_POSTS } from "@/lib/blog";
+import { useVisibleBlogPosts } from "@/lib/blogStore";
 import Reveal from "./ui/Reveal";
 
 export default function BlogSection() {
-  const posts = BLOG_POSTS.slice(0, 3);
+  const posts = useVisibleBlogPosts().slice(0, 3);
   return (
     <section id="blog" className="bg-cream-deep py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -29,14 +31,16 @@ export default function BlogSection() {
           {posts.map((post, i) => (
             <Reveal key={post.slug} delay={i * 0.1}>
               <Link href={`/blog/${post.slug}`} className="group block">
-                <div className="relative aspect-[16/11] overflow-hidden rounded-2xl shadow-soft">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                <div className="relative aspect-[16/11] overflow-hidden rounded-2xl bg-sand shadow-soft">
+                  {post.image && (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
                   <span className="absolute left-4 top-4 rounded-full bg-cream/90 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-forest backdrop-blur-sm">
                     {post.tag}
                   </span>

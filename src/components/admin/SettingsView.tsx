@@ -5,6 +5,7 @@ import { RotateCcw, Info, Database, ShieldCheck } from "lucide-react";
 import { resetStore } from "@/lib/store";
 import { resetOrders } from "@/lib/crm";
 import { resetContent } from "@/lib/content";
+import { resetBlogPosts } from "@/lib/blogStore";
 import type { Notify } from "./AdminApp";
 
 export default function SettingsView({ notify }: { notify: Notify }) {
@@ -22,9 +23,10 @@ export default function SettingsView({ notify }: { notify: Notify }) {
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-gold-deep" />
         <div className="text-sm leading-relaxed text-ink">
           <strong className="text-forest">Esto es una demostración.</strong> Los
-          cambios (productos e imágenes) se guardan en este navegador para que
-          puedas probar todas las funciones. En la versión profesional, los datos
-          se guardarán en la nube y se verán reflejados para todos los clientes y
+          cambios (productos, artículos del blog, contenido del sitio e
+          imágenes) se guardan en este navegador para que puedas probar todas
+          las funciones. En la versión profesional, los datos se guardarán en
+          la nube y se verán reflejados para todos los clientes y
           dispositivos al instante.
         </div>
       </div>
@@ -35,7 +37,8 @@ export default function SettingsView({ notify }: { notify: Notify }) {
           <Database className="h-5 w-5 text-olive" />
           <h3 className="mt-3 font-semibold text-forest">Datos</h3>
           <p className="mt-1 text-sm text-ink-soft">
-            Crear, editar, publicar y eliminar productos, con precios, stock e
+            Crear, editar, publicar y eliminar productos y artículos del
+            blog, con precios, stock, ingredientes, modo de empleo e
             imágenes.
           </p>
         </div>
@@ -72,6 +75,7 @@ export default function SettingsView({ notify }: { notify: Notify }) {
                 resetStore();
                 resetOrders();
                 resetContent();
+                resetBlogPosts();
                 setConfirm(false);
                 notify("Demo restablecida");
               }}
