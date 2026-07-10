@@ -1,12 +1,11 @@
-"use client";
-
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useContent } from "@/lib/content";
+import { BLOG_POSTS } from "@/lib/blog";
 import Reveal from "./ui/Reveal";
 
 export default function BlogSection() {
-  const { blog: POSTS } = useContent();
+  const posts = BLOG_POSTS.slice(0, 3);
   return (
     <section id="blog" className="bg-cream-deep py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -17,19 +16,19 @@ export default function BlogSection() {
               Ciencia y cuidado de la piel
             </h2>
           </div>
-          <a
-            href="#blog"
+          <Link
+            href="/blog"
             className="group inline-flex items-center gap-2 text-sm font-semibold text-forest"
           >
             Ver todo
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </Link>
         </Reveal>
 
         <div className="mt-12 grid gap-7 md:grid-cols-3">
-          {POSTS.map((post, i) => (
-            <Reveal key={post.title} delay={i * 0.1}>
-              <a href="#blog" className="group block">
+          {posts.map((post, i) => (
+            <Reveal key={post.slug} delay={i * 0.1}>
+              <Link href={`/blog/${post.slug}`} className="group block">
                 <div className="relative aspect-[16/11] overflow-hidden rounded-2xl shadow-soft">
                   <Image
                     src={post.image}
@@ -45,14 +44,14 @@ export default function BlogSection() {
                 <h3 className="mt-5 font-display text-xl font-semibold leading-snug text-forest transition-colors group-hover:text-olive">
                   {post.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">
                   {post.excerpt}
                 </p>
                 <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-deep">
                   Leer artículo
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </span>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>

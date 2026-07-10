@@ -29,7 +29,6 @@ export type SiteContent = {
     statLabel: string;
     image: string;
   };
-  blog: { title: string; excerpt: string; tag: string; image: string }[];
   newsletter: { title: string; subtitle: string };
   footer: { blurb: string; city: string; phone: string; email: string };
 };
@@ -92,31 +91,6 @@ export const DEFAULT_CONTENT: SiteContent = {
     statLabel: "Activos vegetales bioactivos y aceite de HEMP.",
     image: withBasePath("/images/ciencia/ciencia.webp"),
   },
-  blog: [
-    {
-      title: "Guía Completa para Aplicar Cremas Cosméticas Naturales",
-      excerpt:
-        "El cuidado de la piel no es solo belleza, sino salud. Aplicar correctamente una crema de lujo potencia sus beneficios y maximiza la absorción de los activos.",
-      tag: "Rutina",
-      image: withBasePath("/images/blog/guia-cremas.webp"),
-    },
-    {
-      title:
-        "Ingredientes Naturales y Extracción Fitomolecular: El Secreto Detrás de la Eficacia",
-      excerpt:
-        "Descubre cómo Pharma Dream aprovecha la biodiversidad colombiana y técnicas de extracción molecular para crear cosméticos naturales con HEMP.",
-      tag: "Ciencia",
-      image: withBasePath("/images/blog/fitomolecular.webp"),
-    },
-    {
-      title:
-        "Beneficios del CBD y Otros Cannabinoides en el Cuidado de la Piel",
-      excerpt:
-        "El cannabidiol (CBD) y otros cannabinoides han emergido como compuestos prometedores en dermatología y bienestar, con propiedades respaldadas por la evidencia.",
-      tag: "Ingredientes",
-      image: withBasePath("/images/blog/cbd.webp"),
-    },
-  ],
   newsletter: {
     title: "Únete al Club Pharma Dream",
     subtitle:

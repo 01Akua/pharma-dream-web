@@ -15,7 +15,6 @@ type Tab =
   | "hero"
   | "categorias"
   | "ciencia"
-  | "blog"
   | "newsletter"
   | "contacto";
 
@@ -24,7 +23,6 @@ const tabs: { id: Tab; label: string }[] = [
   { id: "anuncios", label: "Barra de anuncios" },
   { id: "categorias", label: "Categorías" },
   { id: "ciencia", label: "Sección Ciencia" },
-  { id: "blog", label: "Blog" },
   { id: "newsletter", label: "Club / Newsletter" },
   { id: "contacto", label: "Contacto / Footer" },
 ];
@@ -370,68 +368,6 @@ export default function ContentView({ notify }: { notify: Notify }) {
                 </label>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* BLOG */}
-        {tab === "blog" && (
-          <div className="grid gap-6 md:grid-cols-3">
-            {draft.blog.map((post, i) => (
-              <div key={i} className="flex flex-col gap-3">
-                <ImageField
-                  value={post.image}
-                  aspect="aspect-[16/11]"
-                  onError={(m) => notify(m, "error")}
-                  onChange={(v) =>
-                    edit((d) => {
-                      d.blog[i].image = v;
-                      return d;
-                    })
-                  }
-                />
-                <label>
-                  <Label>Etiqueta</Label>
-                  <input
-                    className="input mt-1"
-                    value={post.tag}
-                    onChange={(e) =>
-                      edit((d) => {
-                        d.blog[i].tag = e.target.value;
-                        return d;
-                      })
-                    }
-                  />
-                </label>
-                <label>
-                  <Label>Título</Label>
-                  <textarea
-                    className="input mt-1 resize-none"
-                    rows={2}
-                    value={post.title}
-                    onChange={(e) =>
-                      edit((d) => {
-                        d.blog[i].title = e.target.value;
-                        return d;
-                      })
-                    }
-                  />
-                </label>
-                <label>
-                  <Label>Extracto</Label>
-                  <textarea
-                    className="input mt-1 resize-none"
-                    rows={3}
-                    value={post.excerpt}
-                    onChange={(e) =>
-                      edit((d) => {
-                        d.blog[i].excerpt = e.target.value;
-                        return d;
-                      })
-                    }
-                  />
-                </label>
-              </div>
-            ))}
           </div>
         )}
 
