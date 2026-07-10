@@ -1,12 +1,11 @@
 /* ============================================================
-   Datos del sitio Pharma Dream (demo de alta calidad)
-   Precios y nombres basados en la tienda real.
+   Datos del sitio Pharma Dream
+   Precios, nombres, descripciones, ingredientes y modo de empleo
+   extraídos de la tienda real (pharma-dream.com) y de las fichas
+   técnicas oficiales 2026.
    ============================================================ */
 
 import { withBasePath } from "./paths";
-
-export const UNSPLASH = (id: string, w = 1000, q = 80) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=${q}&auto=format&fit=crop`;
 
 export function formatCOP(value: number): string {
   return new Intl.NumberFormat("es-CO", {
@@ -15,6 +14,8 @@ export function formatCOP(value: number): string {
     maximumFractionDigits: 0,
   }).format(value);
 }
+
+export type ProductIngredient = { name: string; benefit: string };
 
 export type Product = {
   id: string;
@@ -30,6 +31,12 @@ export type Product = {
   rating: number;
   reviews: number;
   description?: string; // descripción larga (ficha de producto)
+  benefits?: string[]; // beneficios clave
+  keyIngredients?: ProductIngredient[]; // ingredientes principales
+  inci?: string; // composición INCI completa
+  howToUse?: string[]; // modo de empleo, paso a paso
+  warnings?: string[]; // advertencias y precauciones
+  includes?: string[]; // solo kits: productos que incluye
   /* Campos gestionables desde el panel admin */
   published?: boolean; // visible en la tienda
   image?: string; // imagen subida (dataURL o URL); si no hay, se usa el "studio card"
@@ -41,6 +48,18 @@ export const TONE_NAMES = ["forest", "olive", "sage", "gold", "sand"] as const;
 
 const CDN = "https://cdn.shopify.com/s/files/1/0691/9399/0198/files/";
 
+const WARNINGS_ESTANDAR = [
+  "Producto de uso exclusivamente externo.",
+  "Evite el contacto directo con los ojos y mucosas. En caso de contacto accidental, enjuague con abundante agua.",
+  "No ingerir.",
+  "Suspenda su uso si presenta irritación, enrojecimiento o cualquier reacción desfavorable. Si la molestia persiste, consulte a su médico o dermatólogo.",
+  "No aplicar sobre piel irritada, lesionada o con heridas abiertas.",
+  "Manténgase fuera del alcance de los niños.",
+  "Conservar en su envase original, bien cerrado, en un lugar fresco y seco, protegido de la luz directa y fuentes de calor.",
+  "Agítese antes de usar.",
+  "El aceite de semilla de cáñamo de espectro completo proviene de plantas de cáñamo enteras; por ello, puede contener trazas de polen. No se recomienda su uso en personas alérgicas al polen.",
+];
+
 export const PRODUCTS: Product[] = [
   {
     id: "crema-hidratante-facial",
@@ -48,7 +67,28 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Hidratación profunda y equilibrio con extractos naturales y aceite de HEMP. 50 ml.",
     description:
-      "Crema Hidratante Facial con Extractos Naturales y Aceite de HEMP (50 ml), para una piel equilibrada y profundamente hidratada. Actúa restaurando los nutrientes esenciales de la piel y protegiéndola de agresiones externas. Su fórmula penetra en las tres primeras capas de la piel, activando la circulación y ayudando a eliminar células muertas y toxinas. El aceite de HEMP regula la producción de sebo, forma una barrera que retiene la humedad y alivia irritaciones. Ideal para todo tipo de piel.",
+      "Crema facial hidratante y reparadora enriquecida con aceite de HEMP, diseñada para nutrir, calmar y revitalizar la piel. Ideal para todo tipo de pieles, incluyendo las sensibles. Actúa restaurando los nutrientes esenciales de la piel, devolviéndole su equilibrio natural y protegiéndola de agresiones externas. Su fórmula penetra en las tres primeras capas de la piel, activando la circulación sanguínea y ayudando a eliminar células muertas y toxinas.",
+    benefits: [
+      "Hidratación profunda: el aceite de HEMP regula la producción de sebo y actúa como un potente hidratante.",
+      "Protección duradera: forma una barrera que retiene la humedad, manteniendo tu piel hidratada por más tiempo.",
+      "Cuidado de la piel: alivia irritaciones y mejora la absorción de nutrientes esenciales, como vitaminas, antioxidantes y minerales.",
+    ],
+    keyIngredients: [
+      { name: "Aceite de HEMP (semilla de cáñamo)", benefit: "Calma la piel, reduce la inflamación y equilibra la producción de sebo. Rico en omega-3 y omega-6, nutre y fortalece la barrera cutánea." },
+      { name: "Ácido Hialurónico", benefit: "Hidratación intensa y reducción de líneas finas." },
+      { name: "Niacinamida (Vitamina B3)", benefit: "Unifica el tono y mejora la textura." },
+      { name: "Extracto de Aloe Vera", benefit: "Calma y refresca, ideal para pieles sensibles." },
+      { name: "Aceite de Jojoba", benefit: "Nutre y suaviza sin obstruir los poros." },
+    ],
+    inci:
+      "Rosa Damascena Flower Water, Aloe Barbadensis Leaf Extract, Calendula Officinalis Flower Water, Olivoyl Hydrolyzed Oat Protein, Cetearyl Alcohol, Glyceryl Oleate, Glyceryl Stearate, Cetyl Alcohol, Theobroma Grandiflorum Seed Butter, Triticum Vulgare Germ Oil, Prunus Amygdalus Dulcis Oil, Cannabis Sativa Seed Oil, Hydrolyzed Hyaluronic Acid, Kaempferol, Magnolol, Honokiol, Polyglyceryl-10 Oleate, Polyglyceryl-6 Esters, Prunus Armeniaca (Apricot) Kernel Oil Polyglyceryl-6 Esters, Sorbitan Palmitate, Dicetyl Phosphate, Aqua (Water), Glycerin, Caprylyl Glycol, Ethylhexylglycerin, Pelargonium Graveolens Flower Oil, Aniba Rosaeodora (Rosewood) Wood Oil, Xanthan Gum, Lactic Acid.",
+    howToUse: [
+      "Limpiar el rostro con un limpiador suave.",
+      "Aplicar una pequeña cantidad de crema en las yemas de los dedos.",
+      "Distribuir uniformemente sobre el rostro y el cuello con movimientos ascendentes.",
+      "Dejar absorber completamente antes de aplicar maquillaje u otros productos.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 77900,
     category: "Cremas",
     tone: "sand",
@@ -64,7 +104,31 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Reduce bolsas, ojeras y arrugas finas con extracto de sakura y aceite de HEMP.",
     description:
-      "Contorno de Ojos con Extractos Naturales y HEMP: combina el poder rejuvenecedor del extracto de hoja de sakura con el aceite de HEMP para una hidratación profunda y duradera. Su fórmula ligera y de rápida absorción estimula la producción de colágeno, devolviendo elasticidad y firmeza, mientras combate bolsas, ojeras y arrugas finas. Con manteca de karité, calma y refresca el contorno de ojos y labios. Ideal para uso diario.",
+      "Tratamiento de inspiración japonesa que repara y revitaliza la piel del contorno de ojos y labios. Combina el poder rejuvenecedor del extracto de hoja de sakura con el aceite de HEMP, ofreciendo una hidratación profunda y duradera. Su fórmula ligera y de rápida absorción estimula la producción de colágeno, devolviendo elasticidad y firmeza, mientras combate bolsas, ojeras y arrugas finas.",
+    benefits: [
+      "Reduce visiblemente las bolsas, ojeras y arrugas finas.",
+      "Estimula la producción de colágeno, mejorando la firmeza y elasticidad.",
+      "Hidratación profunda y duradera gracias al HEMP y la manteca de karité.",
+      "Calma y refresca la piel del contorno de ojos y labios.",
+      "Fórmula ligera y de rápida absorción, ideal para uso diario.",
+    ],
+    keyIngredients: [
+      { name: "Manteca de Karité", benefit: "Rica en polifenoles, vitamina A y E, nutre la piel en profundidad, combate los radicales libres y calma irritaciones, acné o eccemas." },
+      { name: "Aceite de HEMP", benefit: "Alto contenido en omega 3 y 6, antioxidantes y vitamina E. Regula la grasa, reduce la inflamación e hidrata sin obstruir los poros." },
+      { name: "Elastina", benefit: "Proteína esencial que aporta resistencia y flexibilidad al tejido cutáneo, manteniendo la piel firme y rejuvenecida." },
+      { name: "Vitamina E", benefit: "Neutraliza los radicales libres generados por la contaminación y la radiación UV, retrasando los signos de envejecimiento." },
+      { name: "Extracto de Hamamelis", benefit: "Acción purificante y tonificante; reduce poros dilatados, alivia enrojecimiento y disminuye bolsas y ojeras." },
+    ],
+    inci:
+      "Aqua, Propylene Glycol, Glycerin, Collagen, Hydrolyzed Elastin, Rosa Moschata Seed Oil, Butyrospermum Parkii (Shea) Butter, Aloe Barbadensis Leaf Extract, Cannabis Sativa Seed Oil, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Triticum Vulgare (Wheat) Germ Extract, Avena Sativa (Oat) Kernel Extract, Vitis Vinifera (Grape) Seed Extract, Prunus Serrulata (Sakura) Flower Extract, Tocopherol, Allantoin, Pearl Extract, Squalane, Ethylhexyl Methoxycinnamate.",
+    howToUse: [
+      "Agitar el envase airless antes de usar.",
+      "Aplicar una pequeña cantidad (un push) del producto sobre los dedos.",
+      "Deslizar suavemente en el contorno de los ojos, realizando movimientos ascendentes.",
+      "Masajear hasta su completa absorción.",
+      "Usar por la mañana y por la noche para obtener los mejores resultados.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 75000,
     category: "Cremas",
     tone: "olive",
@@ -78,9 +142,35 @@ export const PRODUCTS: Product[] = [
     id: "botox-vegetal-efecto-tensor",
     name: "Bótox Vegetal Efecto Tensor",
     tagline:
-      "Lifting inmediato y duradero con extractos botánicos y aceite de HEMP.",
+      "Lifting inmediato y duradero con péptidos biomiméticos y ácido hialurónico.",
     description:
-      "Bótox Vegetal Efecto Tensor: crema avanzada para un lifting inmediato y duradero. Combina extractos botánicos y aceite de HEMP para estimular el metabolismo celular, hidratar en profundidad y aportar firmeza, dejando la piel tersa, suave y tonificada. Las líneas de expresión y arrugas se reducen visiblemente gracias a su acción alisadora, reparadora y regeneradora.",
+      "Sérum facial concentrado con péptidos biomiméticos y activos hidratantes, diseñado para mejorar la apariencia de líneas de expresión, aportar efecto tensor inmediato y favorecer la firmeza cutánea. Su combinación de Acetyl Hexapeptide-8, Matrixyl®, Ácido Hialurónico y Niacinamida contribuye a mejorar visiblemente la textura de la piel, aumentar la hidratación y promover una apariencia más lisa y rejuvenecida. Fórmula de rápida absorción, no comedogénica y apta para todo tipo de piel.",
+    benefits: [
+      "Efecto lifting inmediato y duradero.",
+      "Reduce visiblemente las líneas de expresión y arrugas.",
+      "Hidratación profunda y reparadora.",
+      "Aporta firmeza y suavidad a la piel.",
+      "Enriquecida con péptidos biomiméticos y extractos naturales.",
+    ],
+    keyIngredients: [
+      { name: "Acetyl Hexapeptide-8", benefit: "Péptido biomimético con efecto tipo \"botox-like\". Ayuda a reducir la apariencia de líneas de expresión al relajar parcialmente la contracción muscular superficial." },
+      { name: "Palmitoyl Tripeptide-1 & Tetrapeptide-7 (Matrixyl®)", benefit: "Péptido estimulador de colágeno. Favorece la síntesis de colágeno y elastina, mejorando firmeza, elasticidad y densidad cutánea." },
+      { name: "Sodium Hyaluronate (Ácido Hialurónico)", benefit: "Potente agente hidratante de alto poder de retención de agua. Rellena visualmente líneas finas, dejando la piel más tersa." },
+      { name: "Niacinamide", benefit: "Forma activa de la vitamina B3. Mejora la luminosidad, unifica el tono y fortalece la barrera cutánea." },
+      { name: "Cannabis Sativa Callus Lysate", benefit: "Activo obtenido de cultivos celulares de Cannabis sativa. Rico en antioxidantes, aminoácidos y péptidos vegetales con acción bioestimulante." },
+      { name: "Panthenol (D-Pantenol)", benefit: "Provitamina B5 con propiedades hidratantes y reparadoras. Calma la piel y favorece la regeneración cutánea." },
+      { name: "Allantoin", benefit: "Ingrediente calmante y regenerador que favorece la renovación celular y reduce la irritación." },
+    ],
+    inci:
+      "Aqua (Water), Acetyl Hexapeptide-8, Glycerin, Palmitoyl Tripeptide-1 (and) Palmitoyl Tetrapeptide-7, Niacinamide, Benzoic Acid (and) Dehydroacetic Acid (and) Benzyl Alcohol, Panthenol, Sodium Hyaluronate, Allantoin, Cannabis Sativa Callus Lysate, Disodium EDTA.",
+    howToUse: [
+      "Presione suavemente el tubo colapsible hasta dispensar una pequeña cantidad de producto.",
+      "Aplique directamente sobre el rostro limpio y seco utilizando el aplicador metálico, deslizándolo suavemente en movimientos ascendentes sobre frente, contorno de ojos, surcos nasogenianos y cuello.",
+      "Masajee hasta su completa absorción.",
+      "Se recomienda su uso dos veces al día (mañana y noche). Durante el día, complementar con protector solar.",
+      "Después de cada uso, limpiar el aplicador metálico con un pañuelo limpio y cerrar correctamente el envase.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 90000,
     category: "Cremas",
     tone: "forest",
@@ -96,7 +186,30 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Alta protección UVB, UVA e IR con filtros naturales, HEMP y vitamina E.",
     description:
-      "Protector Solar SPF 50 de alta protección que combina filtros solares naturales (dióxido de titanio y óxido de zinc) con aceite de HEMP. Ofrece una barrera efectiva contra los rayos UVB, UVA e infrarrojos (IR). Enriquecido con vitamina E, protege de quemaduras solares y previene el envejecimiento prematuro. Fórmula ligera y segura, ideal para todo tipo de pieles, incluidas las sensibles.",
+      "Crema de alta protección que combina filtros solares naturales (dióxido de titanio y óxido de zinc) con aceite de HEMP, ofreciendo una barrera efectiva contra los rayos UVB, UVA e infrarrojos (IR). Enriquecido con vitamina E, protege de quemaduras solares y previene el envejecimiento prematuro. Fórmula ligera y segura, ideal para todo tipo de pieles, incluidas las sensibles.",
+    benefits: [
+      "Protección total contra los rayos UVB, UVA e infrarrojos (IR).",
+      "Hidratación profunda gracias al aceite de HEMP, que calma y mejora la elasticidad.",
+      "Previene el envejecimiento prematuro causado por el sol.",
+      "Fórmula ligera y segura, ideal para todo tipo de pieles, incluyendo las sensibles.",
+    ],
+    keyIngredients: [
+      { name: "Dióxido de Titanio", benefit: "Filtro físico que protege contra los rayos UVB y UVA." },
+      { name: "Óxido de Zinc", benefit: "Filtro físico de amplio espectro que protege contra los rayos UVB, UVA e infrarrojos (IR)." },
+      { name: "Aceite de HEMP", benefit: "Hidrata, calma la piel y mejora su elasticidad." },
+      { name: "Vitamina E (Tocopherol)", benefit: "Potente antioxidante que previene el daño oxidativo y el envejecimiento prematuro." },
+      { name: "Aceite de Jojoba", benefit: "Nutre y suaviza la piel sin obstruir los poros." },
+      { name: "Panthenol (Provitamina B5)", benefit: "Repara y calma la piel, promoviendo su regeneración natural." },
+    ],
+    inci:
+      "Cetyl Alcohol, Stearyl Alcohol, Beeswax, Ceteareth-20, Propylene Glycol, Glycerin, Tocopherol, Titanium Dioxide, Zinc Oxide, Simmondsia Chinensis Seed Oil, Cannabis Sativa Seed Oil, BHT, Panthenol, Octocrylene, Diethylhexyl Butamido, Imidazolidinyl Urea, Butyl Methoxydibenzoylmethane, Aqua.",
+    howToUse: [
+      "Agitar el envase antes de usar.",
+      "Aplicar generosamente sobre la piel limpia y seca, al menos 15 minutos antes de la exposición al sol.",
+      "Reaplicar cada 2 horas, especialmente después de nadar, sudar o secarse con una toalla.",
+      "Usar diariamente para una protección óptima.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 87000,
     compareAt: 100000,
     category: "Cremas",
@@ -113,7 +226,30 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Limpieza profunda y suave sin aclarado. Sin perfume ni parabenos.",
     description:
-      "Agua Micelar con Extractos Naturales: solución de limpieza avanzada que combina la suavidad del agua micelar con aceite de cáñamo, agua de rosas y azahares. Su fórmula sin perfume ni parabenos elimina impurezas, maquillaje (incluso resistente al agua) y residuos sin irritar la piel. No necesita aclarado, dejando la piel limpia, hidratada y tonificada. Apta para todo tipo de pieles, ideal para las sensibles.",
+      "Agua micelar suave que limpia eficazmente el rostro eliminando impurezas profundas e incluso maquillaje de larga duración, sin alterar la barrera cutánea ni dejar sensación grasosa. Su fórmula combina agua de rosas, cocoamida propil betaína, acetato de tocoferol, aceite de rosas, aceite de argán y aceite de HEMP, aportando propiedades calmantes, antioxidantes e hidratantes. El aceite de HEMP contribuye a restaurar la barrera lipídica, mejorar la hidratación y mantener el balance del sebo.",
+    benefits: [
+      "Elimina impurezas, maquillaje y residuos sin irritar la piel.",
+      "Hidratación profunda y regulación del sebo gracias al aceite de HEMP.",
+      "Efecto calmante y refrescante, ideal para pieles sensibles.",
+      "No necesita aclarado, dejando la piel limpia y tonificada.",
+      "Fórmula sin perfume ni parabenos, apta para todo tipo de pieles.",
+    ],
+    keyIngredients: [
+      { name: "Agua de Rosas", benefit: "Tonificante, calmante y refrescante; ayuda a equilibrar el pH cutáneo y reduce el enrojecimiento." },
+      { name: "Cocamidopropyl Betaine", benefit: "Tensioactivo anfótero suave; limpia con baja irritación y mejora la tolerancia cutánea." },
+      { name: "Acetato de Tocoferol (Vitamina E)", benefit: "Antioxidante que protege la piel del estrés oxidativo y aporta propiedades hidratantes." },
+      { name: "Aceite de Argán", benefit: "Rico en ácidos grasos esenciales; refuerza la barrera cutánea y mejora la elasticidad y suavidad." },
+      { name: "Aceite de HEMP", benefit: "Ayuda a restaurar la barrera lipídica, mejora la hidratación y contribuye al equilibrio del sebo cutáneo." },
+    ],
+    inci:
+      "Aqua (Water), Rosa Damascena Flower Water, Cocamidopropyl Betaine, Polysorbate 80, Tocopheryl Acetate, Lecithin, Glycerin, Sodium Benzoate, Potassium Sorbate, Citric Acid, Rosa Damascena Flower Oil, Argania Spinosa Kernel Oil, Cannabis Sativa Seed Oil, Parfum.",
+    howToUse: [
+      "Agítese antes de usar.",
+      "Aplicar con un algodón sobre párpados, rostro y cuello mediante suaves toques.",
+      "Elimina fácilmente el maquillaje y las impurezas, dejando la piel limpia, tonificada y preparada para el cuidado diario.",
+      "No requiere enjuague; se recomienda retirar el exceso de producto antes de aplicar otros tratamientos.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 48000,
     category: "Cremas",
     tone: "olive",
@@ -129,7 +265,31 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Combate los signos de la edad con HEMP, ácido hialurónico y colágeno.",
     description:
-      "Sérum Revitalizante Facial: fórmula avanzada para combatir los signos del envejecimiento y devolver vitalidad a la piel. Con aceite de HEMP, ácido hialurónico y colágeno, reduce la inflamación, minimiza manchas y arrugas y promueve la renovación celular. Textura ligera y de rápida absorción, ideal para todo tipo de pieles, incluidas grasas, mixtas, secas, sensibles o con tendencia al acné.",
+      "Fórmula avanzada diseñada para combatir los signos del envejecimiento y devolver la vitalidad a la piel. Con aceite de HEMP, ácido hialurónico y colágeno, este sérum reduce la inflamación, minimiza la apariencia de manchas y arrugas, y promueve la renovación celular. Su textura ligera y de rápida absorción lo hace ideal para todo tipo de pieles.",
+    benefits: [
+      "Reduce la inflamación y calma la piel gracias al HEMP.",
+      "Minimiza la apariencia de manchas, arrugas y líneas finas.",
+      "Promueve la renovación celular y devuelve la vitalidad a la piel.",
+      "Hidratación profunda y duradera con ácido hialurónico.",
+      "Protege la piel del daño oxidativo y el envejecimiento prematuro.",
+    ],
+    keyIngredients: [
+      { name: "Aceite de HEMP", benefit: "Reduce la inflamación, calma la piel y promueve su regeneración." },
+      { name: "Ácido Hialurónico", benefit: "Proporciona hidratación intensa y reduce la apariencia de líneas finas y arrugas." },
+      { name: "Colágeno", benefit: "Mejora la firmeza y elasticidad de la piel." },
+      { name: "Ubiquinona (Coenzima Q10)", benefit: "Protege la piel del daño oxidativo y estimula la renovación celular." },
+      { name: "Extracto de Caléndula", benefit: "Calma la piel irritada y promueve su regeneración." },
+    ],
+    inci:
+      "Rosa Damascena Flower Water, Aloe Barbadensis Leaf Extract, Mauritia Flexuosa Fruit Oil, Olivoyl Hydrolyzed Oat Protein, Cetearyl Alcohol, Glyceryl Oleate, Glyceryl Stearate, Cetyl Alcohol, Persea Gratissima (Avocado) Oil, Hydrogenated Vegetable Oil, Tocopherol, Macadamia Ternifolia Seed Oil, Rosa Moschata Seed Oil, Aqua (Water), Glycerin, Algae Extract, Potassium Sorbate, Caprylyl Glycol, Ethylhexylglycerin, Pelargonium Graveolens Flower Oil, Cannabis Sativa Seed Oil, Lactic Acid.",
+    howToUse: [
+      "Aplicar 3-4 gotas del sérum en la palma de las manos.",
+      "Frotar las manos para generar calor y activar los ingredientes.",
+      "Distribuir el producto sobre el rostro con suaves masajes circulares ascendentes.",
+      "Dejar absorber durante 1 minuto antes de aplicar otros productos.",
+      "Usar preferiblemente por la noche para aprovechar su efecto regenerador.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 98000,
     category: "Sérums",
     tone: "sage",
@@ -145,7 +305,31 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Renovación celular para piel grasa, mixta o con tendencia acneica.",
     description:
-      "Sérum Renovador Facial: fórmula avanzada que combina aceites naturales, vitaminas y extractos botánicos para pieles grasas, mixtas o con tendencia al acné. Con aceite de HEMP que regula el sebo y calma la piel, junto con retinol (retinyl palmitate) y ácido láctico que promueven la renovación celular y reducen la apariencia de poros abiertos. Deja la piel suave, equilibrada y radiante.",
+      "Fórmula avanzada que combina aceites naturales, vitaminas y extractos botánicos para tratar las pieles grasas, mixtas o con tendencia al acné. Diseñado para combatir el envejecimiento prematuro, controlar el exceso de grasa y favorecer la cicatrización, dejando la piel libre de impurezas y con poros menos visibles.",
+    benefits: [
+      "Regula la producción de sebo.",
+      "Promueve la renovación celular.",
+      "Reduce la apariencia de poros abiertos.",
+      "Favorece la cicatrización.",
+      "Deja la piel suave, equilibrada y radiante.",
+    ],
+    keyIngredients: [
+      { name: "Aceite de HEMP", benefit: "Regula la producción de sebo, calma la piel y reduce la inflamación." },
+      { name: "Retinol (Retinyl Palmitate)", benefit: "Promueve la renovación celular y reduce los signos del envejecimiento." },
+      { name: "Ácido Láctico", benefit: "Exfolia suavemente, mejora la textura de la piel y reduce la apariencia de poros." },
+      { name: "Niacinamida", benefit: "Reduce el enrojecimiento, unifica el tono de la piel y controla el exceso de grasa." },
+      { name: "Aceite de Argán", benefit: "Nutre y equilibra la piel sin obstruir los poros." },
+    ],
+    inci:
+      "Rosa Damascena Flower Water, Aloe Barbadensis Leaf Extract, Chamomilla Recutita (Matricaria) Flower Water, Olivoyl Hydrolyzed Oat Protein, Cetearyl Alcohol, Glyceryl Oleate, Glyceryl Stearate, Ascorbic Acid, Vitis Vinifera (Grape) Seed Oil, Argania Spinosa Kernel Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Butyrospermum Parkii (Shea) Butter, Retinyl Palmitate, Caffeine, Glycerin, Niacinamide, Hydrolyzed Wheat Protein, Ubiquinone, Camellia Sinensis Leaf Extract, Ginkgo Biloba Leaf Extract, Caprylyl Glycol (and) Ethylhexylglycerin, Lavandula Angustifolia (Lavender) Flower Oil, Cannabis Sativa Seed Oil, Tocopheryl Acetate, Lactic Acid.",
+    howToUse: [
+      "Aplicar 3-4 gotas del sérum en la palma de las manos.",
+      "Frotar las manos para generar calor y activar los ingredientes.",
+      "Distribuir el producto sobre el rostro con suaves masajes circulares ascendentes.",
+      "Dejar absorber durante 1 minuto antes de aplicar otros productos.",
+      "Usar preferiblemente por la noche para aprovechar su efecto regenerador.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 95000,
     category: "Sérums",
     tone: "forest",
@@ -161,7 +345,31 @@ export const PRODUCTS: Product[] = [
     tagline:
       "Unifica el tono y devuelve luminosidad con HEMP, retinol y ácido láctico.",
     description:
-      "Sérum Iluminador Facial: combina extractos naturales, vitaminas y aceites esenciales para devolver la luminosidad a la piel. Con aceite de HEMP, retinol (retinyl palmitate) y ácido láctico, unifica el tono, reduce la pigmentación y suaviza irregularidades, dejando la piel radiante y rejuvenecida. Textura ligera y de rápida absorción, apta para todo tipo de pieles.",
+      "Fórmula avanzada que combina extractos naturales, vitaminas y aceites esenciales para devolver la luminosidad a la piel. Con aceite de HEMP, retinol (retinyl palmitate) y ácido láctico, este sérum unifica el tono, reduce la pigmentación y suaviza las irregularidades, dejando la piel radiante y rejuvenecida.",
+    benefits: [
+      "Unifica el tono de la piel y reduce la pigmentación.",
+      "Devuelve la luminosidad y deja la piel radiante.",
+      "Reduce las irregularidades y suaviza las líneas de expresión.",
+      "Calma la piel y reduce la inflamación gracias al HEMP.",
+      "Promueve la renovación celular con retinol y ácido láctico.",
+    ],
+    keyIngredients: [
+      { name: "Aceite de HEMP", benefit: "Calma la piel, reduce la inflamación y mejora su elasticidad." },
+      { name: "Retinol (Retinyl Palmitate)", benefit: "Promueve la renovación celular y reduce los signos del envejecimiento." },
+      { name: "Ácido Láctico", benefit: "Exfolia suavemente, unifica el tono y mejora la textura de la piel." },
+      { name: "Vitamina C (Sodium Ascorbyl Phosphate)", benefit: "Ilumina la piel y reduce la apariencia de manchas." },
+      { name: "Niacinamida", benefit: "Reduce el enrojecimiento, unifica el tono y controla el exceso de grasa." },
+    ],
+    inci:
+      "Rosa Damascena Flower Water, Aloe Barbadensis Extract, Chamomilla Recutita Flower Water, Olivoyl Hydrolyzed Oat Protein, Cetearyl Alcohol, Glyceryl Oleate, Glyceryl Stearate, Hibiscus Sabdariffa Seed Oil, Illicium Verum Oil, Argania Spinosa Kernel Oil, Prunus Amygdalus Dulcis Oil, Retinyl Palmitate, Squalane, Theobroma Grandiflorum, Allantoin, Niacin, Glycerin, Bisabolol, Sodium Ascorbyl Phosphate, Sodium Lactate, Caprylyl Glycol (and) Ethylhexylglycerin, Cananga Odorata Flower Oil, Cannabis Sativa Seed Oil, Tocopheryl Acetate, Lactic Acid.",
+    howToUse: [
+      "Aplicar 3-4 gotas del sérum en la palma de las manos.",
+      "Frotar las manos para generar calor y activar los ingredientes.",
+      "Distribuir el producto sobre el rostro con suaves masajes circulares ascendentes.",
+      "Dejar absorber durante 1 minuto antes de aplicar otros productos.",
+      "Usar preferiblemente por la noche para aprovechar su efecto regenerador; debido al retinol, usar protector solar durante el día.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 99500,
     category: "Sérums",
     tone: "gold",
@@ -175,9 +383,32 @@ export const PRODUCTS: Product[] = [
     id: "serum-hidratante",
     name: "Sérum Hidratante",
     tagline:
-      "Hidratación reparadora con jojoba, macadamia, vitamina E y aceite de HEMP.",
+      "Hidratación reparadora con argán, almendra y mantequilla de mango.",
     description:
-      "Sérum Hidratante con Extractos Naturales y Aceite de HEMP: fórmula rica en aceites nutritivos y extractos botánicos para una hidratación profunda y reparadora. Calma la piel, reduce la inflamación y fortalece la barrera cutánea. Con aceite de girasol, jojoba y macadamia que nutren, y vitamina E y escualeno que protegen y revitalizan. Ideal para pieles secas, apagadas, frágiles o con tendencia a irritarse.",
+      "Aceite facial nutritivo de origen natural, formulado con una mezcla de aceites vegetales y antioxidantes que trabajan en sinergia para hidratar profundamente, reparar la piel y mejorar su apariencia general. Su combinación de aceite de argán, almendra y mantequilla de mango aporta una nutrición intensiva que ayuda a restaurar la suavidad y elasticidad de la piel desde la primera aplicación. Gracias al poder regenerador del aceite de rosa mosqueta y burití, contribuye a mejorar la apariencia de manchas, cicatrices y signos de envejecimiento.",
+    benefits: [
+      "Hidratación profunda y reparadora para pieles secas y apagadas.",
+      "Restaura la suavidad y elasticidad de la piel desde la primera aplicación.",
+      "Mejora la apariencia de manchas, cicatrices y signos de envejecimiento.",
+      "Protege la piel del daño oxidativo con vitamina E.",
+    ],
+    keyIngredients: [
+      { name: "Aceite de Argán", benefit: "Rico en ácidos grasos esenciales, vitamina E y polifenoles antioxidantes. Hidrata, nutre y mejora la elasticidad de la piel." },
+      { name: "Mantequilla de Mango", benefit: "Propiedades emolientes, hidratantes y suavizantes. Ideal para pieles secas; aporta confort y flexibilidad cutánea." },
+      { name: "Aceite de Almendra Dulce", benefit: "Rico en vitaminas A y E y ácidos grasos. Suaviza, nutre y protege la piel, aportando hidratación duradera." },
+      { name: "Aceite de Rosa Mosqueta", benefit: "Propiedades regeneradoras y reparadoras; ayuda a mejorar la apariencia de cicatrices, manchas y líneas de expresión." },
+      { name: "Aceite de HEMP", benefit: "Rico en ácidos grasos omega 3, 6 y 9. Proporciona hidratación profunda, acción antioxidante y efecto calmante." },
+      { name: "Aceite de Burití", benefit: "Alto contenido en carotenoides (provitamina A) y vitamina E; aporta acción antioxidante, hidratante y protectora." },
+    ],
+    inci:
+      "Argania Spinosa Kernel Oil, Mangifera Indica Seed Butter, Prunus Amygdalus Dulcis Oil, Rosa Rubiginosa Seed Oil, Cannabis Sativa Seed Oil, Mauritia Flexuosa Fruit Oil, Tocopheryl Acetate, Ricinus Communis Seed Oil, Parfum (Honey Fragrance).",
+    howToUse: [
+      "Aplicar tres gotas en las palmas de las manos.",
+      "Frotarlas suavemente para activar los aceites.",
+      "Distribuir sobre el rostro, cuello y escote mediante un suave masaje hasta su total absorción.",
+      "Agitar antes de usar.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 60000,
     category: "Sérums",
     tone: "sage",
@@ -195,7 +426,32 @@ export const KITS: Product[] = [
     name: "Kit Colágeno y Elastina",
     tagline: "Reafirma, nutre y revitaliza. Colágeno + Elastina con HEMP.",
     description:
-      "Kit Colágeno y Elastina, creado para fortalecer la matriz dérmica y recuperar elasticidad, firmeza y luminosidad. Formulado con activos de última generación y enriquecido con hemp (aceite de cáñamo). Beneficios: reafirmación visible, elasticidad revitalizada, estimulación natural del colágeno (vitamina C), renovación celular (retinol), hidratación equilibrada y protección antioxidante. Incluye Colágeno y Elastina en un ritual completo.",
+      "Regenera la estructura de tu piel con el Kit Colágeno & Elastina, creado para fortalecer la matriz dérmica y recuperar elasticidad, firmeza y luminosidad. Formulado con activos de última generación y enriquecido con HEMP.",
+    includes: [
+      "Colágeno USP con Ácido Ascórbico: fortalece, reafirma y revitaliza la piel desde las capas más profundas. Combina colágeno de grado USP con vitamina C, que estimula la producción natural de colágeno.",
+      "Elastina con Retinol: mejora la firmeza, elasticidad y textura de la piel, estimulando la regeneración celular y la producción natural de colágeno.",
+    ],
+    benefits: [
+      "Reafirmación visible al restaurar la estructura dérmica.",
+      "Elasticidad revitalizada.",
+      "Estimulación natural del colágeno (vitamina C).",
+      "Renovación celular (retinol).",
+      "Hidratación equilibrada y protección antioxidante.",
+    ],
+    keyIngredients: [
+      { name: "Ácido Hialurónico Puro", benefit: "Potente agente hidratante; proporciona efecto relleno y mejora la elasticidad de la piel." },
+      { name: "Matrixil 3000", benefit: "Complejo de péptidos biomiméticos que estimula la producción natural de colágeno y elastina." },
+      { name: "Niacinamida", benefit: "Acción iluminadora y fortalecedora; mejora el tono desigual y refuerza la barrera cutánea." },
+    ],
+    inci:
+      "Colágeno — Aqua (Water), Rosa Damascena Flower Water, Sodium Hyaluronate, Disodium EDTA, Niacinamide, Panthenol, Sharomix, Cannabis Sativa Seed Oil, Palmitoyl Tripeptide-1 (and) Palmitoyl Tetrapeptide-7, Polysorbate 80, Allantoin, Tocopherol. · Elastina — Aqua, Sodium Hyaluronate, Glycyrrhiza Glabra (Licorice) Root Extract, Rosa Damascena Flower Oil, Polysorbate 80, Niacinamide, Panthenol, Sharomix, Hydrolyzed Silk, Cannabis Sativa Seed Oil, Palmitoyl Tripeptide-1 (and) Palmitoyl Tetrapeptide-7, Glyceryl Stearate, Tocopheryl Acetate.",
+    howToUse: [
+      "Aplicar unas gotas en la palma de las manos, frotar suavemente para activar el calor.",
+      "Extender sobre el rostro con masajes circulares ascendentes.",
+      "Dejar actuar durante un minuto hasta su completa absorción.",
+      "Para mejores resultados, usar en la noche, permitiendo que la piel se regenere durante el descanso.",
+    ],
+    warnings: [...WARNINGS_ESTANDAR, "No usar en estado de embarazo."],
     price: 160000,
     category: "Kits",
     tone: "gold",
@@ -211,7 +467,27 @@ export const KITS: Product[] = [
     tagline:
       "Rutina matutina: agua micelar, contorno, crema y protector SPF 50.",
     description:
-      "Kit Glow Mañanero: tu rutina matutina completa para una piel radiante, hidratada y protegida en pocos pasos. Incluye Agua Micelar (limpia y prepara la piel), Contorno de Ojos (atenúa ojeras y aporta firmeza), Crema Hidratante (hidratación ligera y de rápida absorción) y Protector Solar SPF 50 (protege de los rayos UV y el envejecimiento prematuro).",
+      "Empieza tu día con una piel radiante y saludable. Esta rutina integral combina cuatro productos esenciales que trabajan juntos para limpiar, calmar, hidratar y proteger tu piel ante los desafíos diarios.",
+    includes: [
+      "Agua Micelar con Extractos Naturales y HEMP",
+      "Contorno de Ojos con Extractos Naturales y HEMP",
+      "Crema Hidratante Facial con Extractos Naturales y HEMP",
+      "Protector Solar SPF 50 con Filtros Naturales y HEMP",
+    ],
+    benefits: [
+      "Limpieza profunda sin alterar el equilibrio natural de la piel.",
+      "Reduce ojeras y descongestiona la zona periocular.",
+      "Hidratación ligera y de rápida absorción.",
+      "Protección de amplio espectro contra rayos UVB, UVA e infrarrojos.",
+      "Previene manchas y envejecimiento prematuro.",
+    ],
+    howToUse: [
+      "Agua Micelar: aplicar con disco de algodón, no requiere enjuague.",
+      "Contorno de ojos: pequeña cantidad con el dedo anular, con toques suaves desde el lagrimal.",
+      "Crema hidratante: aplicar sobre rostro y cuello con masajes ascendentes.",
+      "Protector solar: aplicar en capa uniforme al final de la rutina; reaplicar cada 2-3 horas.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 233750,
     compareAt: 275750,
     category: "Kits",
@@ -228,7 +504,24 @@ export const KITS: Product[] = [
     tagline:
       "Limpieza, nutrición y regeneración nocturna con el poder del HEMP.",
     description:
-      "Kit Noche Renovadora: cuidado profundo mientras duermes. Combina limpieza, nutrición y regeneración en una fórmula pensada para la noche, con el poder del hemp. Ideal para despertar con una piel más suave, luminosa y reparada. Incluye Agua Micelar, Crema Hidratante Facial y Sérum Renovador.",
+      "Dale a tu piel el cuidado profundo que merece mientras duermes. El Kit Noche Renovadora combina limpieza, nutrición y regeneración en una fórmula pensada para la noche, con el poder del HEMP.",
+    includes: [
+      "Agua Micelar con Extractos Naturales y HEMP: limpia profundamente sin irritar ni resecar la piel.",
+      "Sérum Renovador Facial con Extractos Naturales y HEMP: estimula la regeneración celular y la producción de colágeno.",
+      "Crema Hidratante Facial con Extractos Naturales y HEMP: proporciona hidratación profunda y nutrición intensa mientras duermes.",
+    ],
+    benefits: [
+      "Elimina maquillaje, grasa y residuos acumulados durante el día.",
+      "Suaviza líneas finas, mejora la textura y unifica el tono de la piel.",
+      "Deja el rostro más suave, firme y luminoso al despertar.",
+    ],
+    howToUse: [
+      "Aplicar agua micelar con disco de algodón en movimientos suaves.",
+      "Aplicar 3-5 gotas de sérum en rostro limpio, extendiendo con masajes ascendentes.",
+      "Permitir la absorción antes del siguiente paso.",
+      "Aplicar la crema con movimientos circulares ascendentes como último paso.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 176800,
     compareAt: 208000,
     category: "Kits",
@@ -244,7 +537,27 @@ export const KITS: Product[] = [
     name: "Kit Antiedad – Reafirmante y Regenerador",
     tagline: "Bótox vegetal, crema facial y kit colágeno y elastina.",
     description:
-      "Kit Antiedad – Reafirmante y Regenerador: solución completa que combina la acción tensora del Bótox Vegetal, la nutrición de la crema facial y el poder del kit de colágeno y elastina, todo potenciado con hemp. Diseñado para reafirmar, regenerar y devolver juventud visible a tu piel.",
+      "Transforma tu rutina antiedad con una solución completa que combina la acción tensora del Bótox Vegetal, la nutrición de la crema facial y el poder del kit de colágeno y elastina, todo potenciado con HEMP.",
+    includes: [
+      "Bótox Vegetal Efecto Tensor con Extractos Naturales y HEMP",
+      "Colágeno USP con Ácido Ascórbico",
+      "Elastina con Retinol",
+      "Crema Hidratante Facial con Extractos Naturales y HEMP",
+    ],
+    benefits: [
+      "Devuelve juventud visible a tu piel.",
+      "Reafirma, hidrata y regenera desde capas profundas.",
+      "Reduce líneas de expresión y mejora la elasticidad.",
+      "Efecto tensor inmediato sin procedimientos invasivos.",
+      "Piel más firme, luminosa y revitalizada desde las primeras aplicaciones.",
+    ],
+    howToUse: [
+      "Aplicar en la mañana o en la noche sobre piel limpia y seca.",
+      "Distribuir una pequeña cantidad con masajes suaves en frente, contorno de ojos y boca.",
+      "Usar los sérums antes de la crema facial.",
+      "El kit de colágeno y elastina se recomienda para uso nocturno.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 233759,
     compareAt: 275000,
     category: "Kits",
@@ -260,7 +573,24 @@ export const KITS: Product[] = [
     name: "Kit Despigmentante – Iluminador y Uniformidad",
     tagline: "Combate manchas y unifica el tono. Agua micelar, crema y sérum.",
     description:
-      "Kit Despigmentante – Iluminador y Uniformidad: formulado con ingredientes naturales y enriquecido con hemp. Una rutina específica para combatir manchas, unificar el tono y aportar luminosidad gradual y saludable. Incluye Agua Micelar, Crema Facial y Sérum Iluminador.",
+      "Rutina específica diseñada para combatir manchas, unificar el tono y aportar luminosidad gradual y saludable, formulada con ingredientes naturales y enriquecida con HEMP.",
+    includes: [
+      "Agua Micelar con Extractos Naturales y HEMP: limpieza suave, purificante y equilibrante que prepara la piel para recibir activos despigmentantes.",
+      "Sérum Iluminador Facial con Extractos Naturales y HEMP: reduce la pigmentación visible, favorece la renovación celular y potencia la luminosidad natural.",
+      "Crema Hidratante Facial con Extractos Naturales y HEMP: hidratación ligera y de rápida absorción, con acabado luminoso y saludable.",
+    ],
+    benefits: [
+      "Elimina impurezas sin resecar la piel.",
+      "Reduce la pigmentación visible y las manchas.",
+      "Suaviza irregularidades del tono.",
+      "Nutre y suaviza sin obstruir los poros.",
+    ],
+    howToUse: [
+      "Agua Micelar: aplicar con disco de algodón en rostro y cuello, mañana y noche. No requiere enjuague.",
+      "Sérum: aplicar 3-5 gotas en rostro limpio, masajeando con movimientos ascendentes. Usar con protector solar durante el día.",
+      "Crema: aplicar después del sérum con masajes ascendentes en rostro y cuello, preferentemente en la noche.",
+    ],
+    warnings: WARNINGS_ESTANDAR,
     price: 181050,
     compareAt: 213000,
     category: "Kits",
@@ -317,6 +647,59 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
+/* Ingredientes de marca (página /ingredientes), agrupados como en la
+   ficha oficial de Pharma Dream. */
+export type IngredientDetail = {
+  name: string;
+  inci: string;
+};
+
+export type IngredientCategory = {
+  category: string;
+  items: IngredientDetail[];
+};
+
+export const INGREDIENT_CATEGORIES: IngredientCategory[] = [
+  {
+    category: "Aguas Infusionadas",
+    items: [
+      { name: "Agua de Flor de Rosa Damascena", inci: "Rosa damascena flower water" },
+      { name: "Agua de Flor de Manzanilla", inci: "Chamomilla recutita flower water" },
+    ],
+  },
+  {
+    category: "Extractos Naturales",
+    items: [
+      { name: "Extracto de Aloe Vera", inci: "Aloe barbadensis leaf extract" },
+      { name: "Extracto de Avena", inci: "Avena sativa kernel extract" },
+      { name: "Extracto de Caléndula", inci: "Calendula officinalis oil" },
+      { name: "Extracto de Hamamelis", inci: "Hamamelis virginiana leaf extract" },
+      { name: "Extracto de Hibisco", inci: "Hibiscus sabdariffa seed oil" },
+      { name: "Extracto de Perla", inci: "Pearl extract" },
+      { name: "Extracto de Uva", inci: "Vitis vinifera seed extract" },
+    ],
+  },
+  {
+    category: "Aceites",
+    items: [
+      { name: "Aceite de Almendras Dulces", inci: "Prunus amygdalus dulcis oil" },
+      { name: "Aceite de Argán", inci: "Argania spinosa kernel oil" },
+      { name: "Aceite de Cáñamo (HEMP)", inci: "Cannabis sativa seed oil" },
+      { name: "Aceite de Hibisco", inci: "Hibiscus sabdariffa seed oil" },
+      { name: "Aceite de Illicium Verum", inci: "Illicium verum oil" },
+      { name: "Aceite de Rosa Damascena", inci: "Rosa damascena flower oil" },
+      { name: "Aceite de Sándalo", inci: "Santalum album oil" },
+      { name: "Aceite de Semilla de Uva", inci: "Vitis vinifera seed oil" },
+      { name: "Aceite de Caléndula", inci: "Calendula officinalis oil" },
+      { name: "Aceite de Germen de Trigo", inci: "Triticum vulgare germ oil" },
+      { name: "Aceite de Jojoba", inci: "Simmondsia chinensis seed oil" },
+      { name: "Aceite de Oliva", inci: "Olea europaea fruit oil" },
+      { name: "Aceite de Rosa Mosqueta", inci: "Rosa moschata seed oil" },
+    ],
+  },
+];
+
+/* Resumen corto usado en la sección "Ciencia" del home */
 export type Ingredient = {
   name: string;
   benefit: string;
@@ -329,69 +712,6 @@ export const INGREDIENTS: Ingredient[] = [
   { name: "Retinol", benefit: "Renovación celular y textura más uniforme." },
   { name: "Vitamina E", benefit: "Antioxidante que protege del daño ambiental." },
   { name: "Manteca de Karité", benefit: "Nutre y suaviza en profundidad." },
-];
-
-export type Review = {
-  name: string;
-  city: string;
-  text: string;
-  product: string;
-  avatar: string;
-};
-
-export const REVIEWS: Review[] = [
-  {
-    name: "Valentina R.",
-    city: "Bogotá",
-    text: "Mi piel sensible por fin dejó de reaccionar. La crema hidratante es lo mejor que he probado, la textura es de lujo.",
-    product: "Crema Hidratante Facial",
-    avatar: UNSPLASH("1494790108377-be9c29b29330", 200),
-  },
-  {
-    name: "Daniela M.",
-    city: "Medellín",
-    text: "El bótox vegetal hace un efecto tensor real desde la primera aplicación. Se siente firme sin resecar.",
-    product: "Bótox Vegetal",
-    avatar: UNSPLASH("1438761681033-6461ffad8d80", 200),
-  },
-  {
-    name: "Carolina P.",
-    city: "Cali",
-    text: "Compré el Kit Noche Renovadora y mi rutina cambió por completo. Despierto con la piel descansada y luminosa.",
-    product: "Kit Noche Renovadora",
-    avatar: UNSPLASH("1534528741775-53994a69daeb", 200),
-  },
-];
-
-export type Post = {
-  title: string;
-  excerpt: string;
-  tag: string;
-  image: string;
-};
-
-export const POSTS: Post[] = [
-  {
-    title: "Guía completa para aplicar cremas cosméticas naturales",
-    excerpt:
-      "Aplicar correctamente una crema de lujo potencia sus activos. Te mostramos el orden y la técnica ideal.",
-    tag: "Rutina",
-    image: UNSPLASH("1570172619644-dfd03ed5d881", 800),
-  },
-  {
-    title: "Tecnología Fitomolecular: el secreto detrás de la eficacia",
-    excerpt:
-      "Cómo la biodiversidad colombiana y la extracción avanzada logran fórmulas con alta afinidad cutánea.",
-    tag: "Ciencia",
-    image: UNSPLASH("1518531933037-91b2f5f229cc", 800),
-  },
-  {
-    title: "Beneficios del CBD y otros cannabinoides en el cuidado de la piel",
-    excerpt:
-      "Evidencia científica y aplicaciones reales del HEMP para piel sensible, reactiva y madura.",
-    tag: "Ingredientes",
-    image: UNSPLASH("1540555700478-4be289fbecef", 800),
-  },
 ];
 
 export const TONE_STYLES: Record<

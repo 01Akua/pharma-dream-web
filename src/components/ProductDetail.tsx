@@ -13,7 +13,7 @@ import {
   Star,
   Truck,
 } from "lucide-react";
-import { type Product, formatCOP, TONE_STYLES, INGREDIENTS } from "@/lib/data";
+import { type Product, formatCOP, TONE_STYLES } from "@/lib/data";
 import { useStoredProduct } from "@/lib/store";
 import { addToCart, openCartDrawer } from "@/lib/cart";
 import CheckoutModal from "./CheckoutModal";
@@ -98,21 +98,6 @@ function StudioCard({
   );
 }
 
-const faqs = [
-  {
-    q: "Modo de uso",
-    a: "Aplica sobre el rostro limpio y seco, con movimientos ascendentes hasta su total absorción. Recomendado para uso diario, mañana y noche.",
-  },
-  {
-    q: "Ingredientes",
-    a: "Activos vegetales bioactivos formulados con Tecnología Fitomolecular. Libre de parabenos y crueldad animal. Apto para piel sensible.",
-  },
-  {
-    q: "Envío y devoluciones",
-    a: "Envío a todo Colombia. Gratis en compras superiores a COP $200.000. Devoluciones dentro de los 30 días posteriores a la compra.",
-  },
-];
-
 export default function ProductDetail({ product: initial }: { product: Product }) {
   const product = useStoredProduct(initial.id, initial) ?? initial;
   const [qty, setQty] = useState(1);
@@ -124,7 +109,34 @@ export default function ProductDetail({ product: initial }: { product: Product }
   const discount = product.compareAt
     ? Math.round((1 - product.price / product.compareAt) * 100)
     : 0;
-  const keyIngredients = INGREDIENTS.slice(0, 4);
+  const keyIngredients = product.keyIngredients?.slice(0, 4) ?? [];
+
+  const faqs = [
+    product.includes && {
+      q: "🌿 Este kit incluye",
+      list: product.includes,
+    },
+    product.keyIngredients && {
+      q: "💧 Ingredientes principales",
+      items: product.keyIngredients,
+    },
+    product.inci && {
+      q: "⚗️ Composición (INCI)",
+      text: product.inci,
+    },
+    (product.howToUse || product.warnings) && {
+      q: "💫 Modo de empleo y recomendaciones",
+      steps: product.howToUse,
+      warnings: product.warnings,
+    },
+  ].filter(Boolean) as {
+    q: string;
+    list?: string[];
+    items?: { name: string; benefit: string }[];
+    text?: string;
+    steps?: string[];
+    warnings?: string[];
+  }[];
 
   return (
     <div className="grid gap-12 lg:grid-cols-2">
@@ -206,6 +218,17 @@ export default function ProductDetail({ product: initial }: { product: Product }
           <p className="mt-3 leading-relaxed text-ink-soft">
             {product.description}
           </p>
+        )}
+
+        {product.benefits && product.benefits.length > 0 && (
+          <ul className="mt-4 space-y-1.5">
+            {product.benefits.map((b) => (
+              <li key={b} className="flex gap-2 text-sm leading-relaxed text-ink-soft">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-olive" />
+                {b}
+              </li>
+            ))}
+          </ul>
         )}
 
         {/* Ingredientes clave */}
@@ -305,17 +328,54 @@ export default function ProductDetail({ product: initial }: { product: Product }
               >
                 {f.q}
                 <ChevronDown
-                  className={`h-5 w-5 transition-transform ${
+                  className={`h-5 w-5 shrink-0 transition-transform ${
                     openFaq === i ? "rotate-180" : ""
                   }`}
                 />
               </button>
               <div
                 className={`overflow-hidden text-sm leading-relaxed text-ink-soft transition-all ${
-                  openFaq === i ? "max-h-40 pb-4" : "max-h-0"
+                  openFaq === i ? "max-h-[1000px] pb-5" : "max-h-0"
                 }`}
               >
-                {f.a}
+                {f.list && (
+                  <ul className="space-y-2">
+                    {f.list.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <Leaf className="mt-0.5 h-4 w-4 shrink-0 text-olive" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {f.items && (
+                  <dl className="space-y-3">
+                    {f.items.map((ing) => (
+                      <div key={ing.name}>
+                        <dt className="font-semibold text-forest">{ing.name}</dt>
+                        <dd>{ing.benefit}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                {f.text && <p>{f.text}</p>}
+                {f.steps && (
+                  <ol className="list-decimal space-y-1.5 pl-4">
+                    {f.steps.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ol>
+                )}
+                {f.warnings && (
+                  <ul className="mt-4 space-y-1.5 border-t border-sand pt-4">
+                    {f.warnings.map((w) => (
+                      <li key={w} className="flex gap-2">
+                        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-sage" />
+                        <span>{w}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           ))}

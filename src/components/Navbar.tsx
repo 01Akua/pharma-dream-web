@@ -10,7 +10,7 @@ import { openCartDrawer, useCartCount } from "@/lib/cart";
 const links = [
   { label: "Inicio", href: "/" },
   { label: "Tienda", href: "/tienda" },
-  { label: "Ingredientes", href: "/#ciencia" },
+  { label: "Ingredientes", href: "/ingredientes" },
   { label: "Blog", href: "/#blog" },
   { label: "Nosotros", href: "/nosotros" },
 ];
