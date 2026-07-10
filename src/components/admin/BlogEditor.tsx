@@ -17,13 +17,16 @@ const TAGS = ["Rutina", "Ciencia", "Ingredientes"];
 
 type Props = {
   post: StoredBlogPost | null; // null = crear
+  initialDraft?: Partial<StoredBlogPost>; // valores iniciales al crear (ej. importados de un .md)
   onClose: () => void;
   notify: Notify;
 };
 
-export default function BlogEditor({ post, onClose, notify }: Props) {
+export default function BlogEditor({ post, initialDraft, onClose, notify }: Props) {
   const isNew = !post;
-  const [form, setForm] = useState<StoredBlogPost>(post ?? emptyBlogPost());
+  const [form, setForm] = useState<StoredBlogPost>(
+    post ?? { ...emptyBlogPost(), ...initialDraft },
+  );
 
   const set = <K extends keyof StoredBlogPost>(key: K, value: StoredBlogPost[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -62,9 +65,16 @@ export default function BlogEditor({ post, onClose, notify }: Props) {
         className="relative my-8 w-full max-w-3xl rounded-3xl bg-cream shadow-card"
       >
         <div className="flex items-center justify-between border-b border-sand px-6 py-4">
-          <h2 className="font-display text-xl font-semibold text-forest">
-            {isNew ? "Nuevo artículo" : "Editar artículo"}
-          </h2>
+          <div>
+            <h2 className="font-display text-xl font-semibold text-forest">
+              {isNew ? "Nuevo artículo" : "Editar artículo"}
+            </h2>
+            {initialDraft && (
+              <p className="mt-0.5 text-xs text-gold-deep">
+                Importado del archivo — revisa el contenido y sube la imagen antes de publicar.
+              </p>
+            )}
+          </div>
           <button onClick={onClose} className="text-ink-soft hover:text-forest" aria-label="Cerrar">
             <X className="h-5 w-5" />
           </button>

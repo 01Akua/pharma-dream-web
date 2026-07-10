@@ -1,23 +1,40 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Plus, Search, Pencil, Trash2, Eye, EyeOff, Newspaper, ExternalLink } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import {
+  Plus,
+  Search,
+  Pencil,
+  Trash2,
+  Eye,
+  EyeOff,
+  Newspaper,
+  ExternalLink,
+  Upload,
+  FileText,
+} from "lucide-react";
 import {
   useAllBlogPosts,
   deleteBlogPost,
   toggleBlogPublished,
+  emptyBlogPost,
   type StoredBlogPost,
 } from "@/lib/blogStore";
 import { formatBlogDate } from "@/lib/blog";
+import { parseBlogMarkdown, BLOG_TEMPLATE } from "@/lib/blogImport";
 import type { Notify } from "./AdminApp";
 import BlogEditor from "./BlogEditor";
+import BlogFormatModal from "./BlogFormatModal";
 
 export default function BlogView({ notify }: { notify: Notify }) {
   const posts = useAllBlogPosts();
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<StoredBlogPost | null>(null);
   const [creating, setCreating] = useState(false);
+  const [importDraft, setImportDraft] = useState<Partial<StoredBlogPost> | undefined>();
   const [confirmSlug, setConfirmSlug] = useState<string | null>(null);
+  const [showFormat, setShowFormat] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const filtered = useMemo(
     () => posts.filter((p) => p.title.toLowerCase().includes(query.toLowerCase())),
@@ -27,6 +44,28 @@ export default function BlogView({ notify }: { notify: Notify }) {
   const closeEditor = () => {
     setEditing(null);
     setCreating(false);
+    setImportDraft(undefined);
+  };
+
+  const handleImportFile = async (file?: File) => {
+    if (!file) return;
+    if (!file.name.endsWith(".md") && !file.name.endsWith(".txt")) {
+      notify("Sube un archivo .md o .txt", "error");
+      return;
+    }
+    const text = await file.text();
+    const { post, warnings, errors } = parseBlogMarkdown(text);
+    if (!post) {
+      notify(`No se pudo importar: ${errors.join(" ")}`, "error");
+      return;
+    }
+    setImportDraft({ ...emptyBlogPost(), ...post });
+    setCreating(true);
+    if (warnings.length > 0) {
+      notify(`Importado con avisos: ${warnings.join(" ")}`);
+    } else {
+      notify("Artículo importado — revísalo antes de publicar");
+    }
   };
 
   return (
@@ -38,13 +77,39 @@ export default function BlogView({ notify }: { notify: Notify }) {
             {posts.length} artículos publicados en el sitio.
           </p>
         </div>
-        <button
-          onClick={() => setCreating(true)}
-          className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-gold hover:text-forest"
-        >
-          <Plus className="h-4 w-4" />
-          Nuevo artículo
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setShowFormat(true)}
+            className="inline-flex items-center gap-2 rounded-full border border-sand px-4 py-2.5 text-sm font-semibold text-forest transition hover:bg-sand"
+          >
+            <FileText className="h-4 w-4" />
+            Formato para redactar externo
+          </button>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex items-center gap-2 rounded-full border border-forest px-4 py-2.5 text-sm font-semibold text-forest transition hover:bg-forest hover:text-cream"
+          >
+            <Upload className="h-4 w-4" />
+            Importar artículo
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".md,.txt"
+            className="hidden"
+            onChange={(e) => {
+              handleImportFile(e.target.files?.[0]);
+              e.target.value = "";
+            }}
+          />
+          <button
+            onClick={() => setCreating(true)}
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-gold hover:text-forest"
+          >
+            <Plus className="h-4 w-4" />
+            Nuevo artículo
+          </button>
+        </div>
       </div>
 
       <div className="mt-6 flex items-center gap-2 rounded-full border border-sand bg-white px-4">
@@ -77,7 +142,7 @@ export default function BlogView({ notify }: { notify: Notify }) {
               key={p.slug}
               className="grid grid-cols-1 gap-3 border-b border-sand px-5 py-4 last:border-0 lg:grid-cols-[1fr_140px_140px_110px_130px] lg:items-center lg:gap-4"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-cream-deep ring-1 ring-forest/10">
                   {p.image && (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -148,7 +213,16 @@ export default function BlogView({ notify }: { notify: Notify }) {
       </div>
 
       {(editing || creating) && (
-        <BlogEditor post={editing} onClose={closeEditor} notify={notify} />
+        <BlogEditor
+          post={editing}
+          initialDraft={importDraft}
+          onClose={closeEditor}
+          notify={notify}
+        />
+      )}
+
+      {showFormat && (
+        <BlogFormatModal template={BLOG_TEMPLATE} onClose={() => setShowFormat(false)} />
       )}
 
       {confirmSlug && (

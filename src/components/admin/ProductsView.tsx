@@ -114,7 +114,7 @@ export default function ProductsView({ notify }: { notify: Notify }) {
               className="grid grid-cols-1 gap-3 border-b border-sand px-5 py-4 last:border-0 lg:grid-cols-[1fr_120px_120px_110px_120px] lg:items-center lg:gap-4"
             >
               {/* Producto */}
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span
                   className="h-11 w-11 shrink-0 overflow-hidden rounded-lg ring-1 ring-forest/10"
                   style={{ background: "linear-gradient(150deg,#8a9a6b,#5a6b3b)" }}
