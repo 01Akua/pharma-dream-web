@@ -6,16 +6,40 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useContent } from "@/lib/content";
 
+// Fotos muy panorámicas (banners anchos y bajos) se ven muy recortadas si se
+// fuerzan a cubrir un hero a pantalla completa; se detecta por el tamaño real
+// de la imagen para que funcione también con contenido ya guardado en
+// localStorage (que puede no traer el campo "fit" más nuevo) o con fotos que
+// suba el cliente desde el admin.
+const WIDE_BANNER_RATIO = 2.2;
+
 export default function Hero() {
   const { hero: slides } = useContent();
   const [index, setIndex] = useState(0);
+  const [wideImages, setWideImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 6500);
     return () => clearInterval(t);
   }, [slides.length]);
 
+  useEffect(() => {
+    slides.forEach((s) => {
+      if (typeof window === "undefined" || wideImages[s.image] !== undefined) return;
+      const img = new window.Image();
+      img.onload = () => {
+        setWideImages((prev) => ({
+          ...prev,
+          [s.image]: img.naturalWidth / img.naturalHeight > WIDE_BANNER_RATIO,
+        }));
+      };
+      img.src = s.image;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides]);
+
   const slide = slides[index % slides.length];
+  const isContain = slide.fit === "contain" || wideImages[slide.image];
 
   return (
     <section
@@ -32,7 +56,7 @@ export default function Hero() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          {slide.fit === "contain" ? (
+          {isContain ? (
             <>
               {/* Fondo desenfocado para rellenar, sin recortar la foto principal */}
               <Image
@@ -41,15 +65,18 @@ export default function Hero() {
                 fill
                 priority
                 sizes="100vw"
-                className="scale-110 object-cover opacity-60 blur-2xl"
+                className="scale-125 object-cover blur-3xl"
               />
+              {/* Foto completa, con los bordes superior/inferior difuminados
+                  para que se integren con el fondo en vez de verse como una
+                  franja cortada */}
               <Image
                 src={slide.image}
                 alt=""
                 fill
                 priority
                 sizes="100vw"
-                className="object-contain"
+                className="object-contain [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]"
               />
             </>
           ) : (
