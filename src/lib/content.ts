@@ -15,6 +15,8 @@ export type HeroSlide = {
   subtitle: string;
   cta: string;
   image: string;
+  /** "contain" evita recortar la foto (útil para fotos panorámicas anchas y bajas). Por defecto "cover". */
+  fit?: "cover" | "contain";
 };
 
 export type SiteContent = {
@@ -55,6 +57,7 @@ export const DEFAULT_CONTENT: SiteContent = {
         "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
       cta: "Comprar",
       image: withBasePath("/images/hero/tensor.webp"),
+      fit: "contain",
     },
     {
       eyebrow: "Hidratación profunda",

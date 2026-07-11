@@ -32,14 +32,36 @@ export default function Hero() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Image
-            src={slide.image}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+          {slide.fit === "contain" ? (
+            <>
+              {/* Fondo desenfocado para rellenar, sin recortar la foto principal */}
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="scale-110 object-cover opacity-60 blur-2xl"
+              />
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain"
+              />
+            </>
+          ) : (
+            <Image
+              src={slide.image}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          )}
         </motion.div>
       </AnimatePresence>
 
