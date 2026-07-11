@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, Gift, X } from "lucide-react";
 import { withBasePath } from "@/lib/paths";
 
-const STORAGE_KEY = "pd_club_popup_dismissed";
+const STORAGE_KEY = "pd_club_popup_dismissed_until";
+const DISMISS_DAYS = 30;
 
 export default function ClubPopup() {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,8 @@ export default function ClubPopup() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (localStorage.getItem(STORAGE_KEY)) return;
+    const dismissedUntil = Number(localStorage.getItem(STORAGE_KEY) ?? 0);
+    if (dismissedUntil > Date.now()) return;
 
     // 1) aparece tras 7s
     const timer = setTimeout(() => setOpen(true), 7000);
@@ -38,7 +40,8 @@ export default function ClubPopup() {
   const dismiss = () => {
     setOpen(false);
     if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEY, "1");
+      const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(until));
     }
   };
 
