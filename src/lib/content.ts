@@ -43,20 +43,20 @@ export const DEFAULT_CONTENT: SiteContent = {
   ],
   hero: [
     {
+      eyebrow: "Dermocosmética avanzada",
+      title: "Nutrición para la piel",
+      subtitle:
+        "El poder nutracéutico que conecta ciencia y naturaleza para cuidar tu piel.",
+      cta: "Ver catálogo",
+      image: withBasePath("/images/hero/rutina-3-modelos.webp"),
+    },
+    {
       eyebrow: "Efecto tensor natural",
       title: "Efecto Tensor Natural",
       subtitle:
         "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
       cta: "Comprar",
       image: withBasePath("/images/hero/tensor.webp"),
-    },
-    {
-      eyebrow: "Dermocosmética avanzada",
-      title: "Nutrición para la piel",
-      subtitle:
-        "El poder nutracéutico que conecta ciencia y naturaleza para cuidar tu piel.",
-      cta: "Ver catálogo",
-      image: withBasePath("/images/hero/nutricion.webp"),
     },
     {
       eyebrow: "Hidratación profunda",
