@@ -163,6 +163,32 @@ export default function ProductDetail({ product: initial }: { product: Product }
             </button>
           ))}
         </div>
+
+        {/* Video de modo de uso (clip corto sin audio) */}
+        {(product.videos ?? (product.video ? [product.video] : [])).length > 0 && (
+          <div
+            className={`mt-4 grid gap-3 ${
+              (product.videos?.length ?? 1) > 1 ? "grid-cols-2" : "grid-cols-1"
+            }`}
+          >
+            {(product.videos ?? [product.video!]).map((v) => (
+              <div
+                key={v}
+                className="aspect-[9/16] overflow-hidden rounded-2xl bg-cream-deep shadow-soft"
+              >
+                <video
+                  src={v}
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Info */}
