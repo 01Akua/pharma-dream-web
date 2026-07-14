@@ -28,7 +28,23 @@ function read(): StoredBlogPost[] {
   if (cache) return cache;
   try {
     const raw = localStorage.getItem(KEY);
-    cache = raw ? (JSON.parse(raw) as StoredBlogPost[]) : SEED;
+    if (!raw) {
+      cache = SEED;
+      return cache;
+    }
+    const stored = JSON.parse(raw) as StoredBlogPost[];
+    const seedBySlug = new Map(SEED.map((p) => [p.slug, p]));
+    const storedSlugs = new Set(stored.map((p) => p.slug));
+    // Completa con el catálogo actual los campos que un navegador con una
+    // versión vieja en localStorage todavía no conoce, y descarta posts que
+    // ya no existen.
+    const merged = stored
+      .filter((p) => seedBySlug.has(p.slug))
+      .map((p) => ({ ...seedBySlug.get(p.slug)!, ...p }));
+    for (const seedPost of SEED) {
+      if (!storedSlugs.has(seedPost.slug)) merged.push(seedPost);
+    }
+    cache = merged;
   } catch {
     cache = SEED;
   }

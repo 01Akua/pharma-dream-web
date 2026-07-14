@@ -652,6 +652,8 @@ export const CATEGORIES: Category[] = [
 export type IngredientDetail = {
   name: string;
   inci: string;
+  description: string;
+  image: string;
 };
 
 export type IngredientCategory = {
@@ -659,42 +661,183 @@ export type IngredientCategory = {
   items: IngredientDetail[];
 };
 
+const ING = (file: string) => withBasePath(`/images/ingredientes/${file}`);
+
 export const INGREDIENT_CATEGORIES: IngredientCategory[] = [
   {
     category: "Aguas Infusionadas",
     items: [
-      { name: "Agua de Flor de Rosa Damascena", inci: "Rosa damascena flower water" },
-      { name: "Agua de Flor de Manzanilla", inci: "Chamomilla recutita flower water" },
+      {
+        name: "Agua de Flor de Rosa Damascena",
+        inci: "Rosa damascena flower water",
+        description:
+          "Hidrolato calmante e hidratante que ayuda a tonificar y afinar la apariencia de los poros, dejando la piel fresca y suave.",
+        image: ING("agua-rosa-damascena.webp"),
+      },
+      {
+        name: "Agua de Flor de Manzanilla",
+        inci: "Chamomilla recutita flower water",
+        description:
+          "Reconocida por su efecto calmante y antiinflamatorio; ideal para pieles sensibles o con tendencia al enrojecimiento.",
+        image: ING("agua-manzanilla.webp"),
+      },
     ],
   },
   {
     category: "Extractos Naturales",
     items: [
-      { name: "Extracto de Aloe Vera", inci: "Aloe barbadensis leaf extract" },
-      { name: "Extracto de Avena", inci: "Avena sativa kernel extract" },
-      { name: "Extracto de Caléndula", inci: "Calendula officinalis oil" },
-      { name: "Extracto de Hamamelis", inci: "Hamamelis virginiana leaf extract" },
-      { name: "Extracto de Hibisco", inci: "Hibiscus sabdariffa seed oil" },
-      { name: "Extracto de Perla", inci: "Pearl extract" },
-      { name: "Extracto de Uva", inci: "Vitis vinifera seed extract" },
+      {
+        name: "Extracto de Aloe Vera",
+        inci: "Aloe barbadensis leaf extract",
+        description:
+          "Hidrata en profundidad y calma la piel irritada; aporta frescura y ayuda a mantener la barrera cutánea en buen estado.",
+        image: ING("extracto-aloe-vera.webp"),
+      },
+      {
+        name: "Extracto de Avena",
+        inci: "Avena sativa kernel extract",
+        description:
+          "Rico en betaglucanos que calman y protegen; suaviza la piel y alivia la sensación de tirantez o picor.",
+        image: ING("extracto-avena.webp"),
+      },
+      {
+        name: "Extracto de Caléndula",
+        inci: "Calendula officinalis oil",
+        description:
+          "Propiedades cicatrizantes y antiinflamatorias reconocidas; ayuda a calmar rojeces y favorece la regeneración de la piel.",
+        image: ING("extracto-calendula.webp"),
+      },
+      {
+        name: "Extracto de Hamamelis",
+        inci: "Hamamelis virginiana leaf extract",
+        description:
+          "Astringente natural que ayuda a equilibrar el exceso de grasa y afinar visiblemente el aspecto de los poros.",
+        image: ING("extracto-hamamelis.webp"),
+      },
+      {
+        name: "Extracto de Hibisco",
+        inci: "Hibiscus sabdariffa seed oil",
+        description:
+          "Aporta antioxidantes naturales y ayuda a mejorar la elasticidad, dando a la piel una apariencia más firme y luminosa.",
+        image: ING("extracto-hibisco.webp"),
+      },
+      {
+        name: "Extracto de Perla",
+        inci: "Pearl extract",
+        description:
+          "Aporta luminosidad y ayuda a unificar el tono de la piel, dejando un acabado más terso y radiante.",
+        image: ING("extracto-perla.webp"),
+      },
+      {
+        name: "Extracto de Uva",
+        inci: "Vitis vinifera seed extract",
+        description:
+          "Alto contenido de antioxidantes que ayudan a proteger la piel del daño ambiental y a mantener su firmeza.",
+        image: ING("extracto-perla.webp"),
+      },
     ],
   },
   {
     category: "Aceites",
     items: [
-      { name: "Aceite de Almendras Dulces", inci: "Prunus amygdalus dulcis oil" },
-      { name: "Aceite de Argán", inci: "Argania spinosa kernel oil" },
-      { name: "Aceite de Cáñamo (HEMP)", inci: "Cannabis sativa seed oil" },
-      { name: "Aceite de Hibisco", inci: "Hibiscus sabdariffa seed oil" },
-      { name: "Aceite de Illicium Verum", inci: "Illicium verum oil" },
-      { name: "Aceite de Rosa Damascena", inci: "Rosa damascena flower oil" },
-      { name: "Aceite de Sándalo", inci: "Santalum album oil" },
-      { name: "Aceite de Semilla de Uva", inci: "Vitis vinifera seed oil" },
-      { name: "Aceite de Caléndula", inci: "Calendula officinalis oil" },
-      { name: "Aceite de Germen de Trigo", inci: "Triticum vulgare germ oil" },
-      { name: "Aceite de Jojoba", inci: "Simmondsia chinensis seed oil" },
-      { name: "Aceite de Oliva", inci: "Olea europaea fruit oil" },
-      { name: "Aceite de Rosa Mosqueta", inci: "Rosa moschata seed oil" },
+      {
+        name: "Aceite de Almendras Dulces",
+        inci: "Prunus amygdalus dulcis oil",
+        description:
+          "Emoliente suave que nutre e hidrata sin obstruir los poros; ideal para pieles secas y sensibles.",
+        image: ING("aceite-almendras.webp"),
+      },
+      {
+        name: "Aceite de Argán",
+        inci: "Argania spinosa kernel oil",
+        description:
+          "Rico en vitamina E y ácidos grasos esenciales; hidrata en profundidad y ayuda a mantener la piel más elástica y rejuvenecida.",
+        image: ING("aceite-argan.webp"),
+      },
+      {
+        name: "Aceite de Cáñamo (HEMP)",
+        inci: "Cannabis sativa seed oil",
+        description:
+          "Equilibra la producción de sebo y refuerza la barrera cutánea; calma sin dejar sensación grasosa.",
+        image: ING("aceite-canamo.webp"),
+      },
+      {
+        name: "Aceite de Hibisco",
+        inci: "Hibiscus sabdariffa seed oil",
+        description:
+          "Con propiedades exfoliantes suaves y antioxidantes que ayudan a mejorar la textura y luminosidad de la piel.",
+        image: ING("aceite-hibisco.webp"),
+      },
+      {
+        name: "Aceite de Illicium Verum",
+        inci: "Illicium verum oil",
+        description:
+          "Aceite esencial con propiedades calmantes que complementa las fórmulas aportando una sensación de frescura.",
+        image: ING("aceite-illicium.webp"),
+      },
+      {
+        name: "Aceite de Rosa Damascena",
+        inci: "Rosa damascena flower oil",
+        description:
+          "Nutre e hidrata mientras aporta un aroma floral natural; ayuda a mejorar la firmeza y luminosidad de la piel.",
+        image: ING("aceite-rosa-damascena.webp"),
+      },
+      {
+        name: "Aceite de Sándalo",
+        inci: "Santalum album oil",
+        description:
+          "Calmante y suavizante, tradicionalmente usado para aportar bienestar a la piel y equilibrar su apariencia.",
+        image: ING("aceite-sandalo.webp"),
+      },
+      {
+        name: "Aceite de Semilla de Uva",
+        inci: "Vitis vinifera seed oil",
+        description:
+          "Ligero y rico en antioxidantes; se absorbe con rapidez y ayuda a fortalecer la barrera natural de la piel.",
+        image: ING("aceite-semilla-uva.webp"),
+      },
+      {
+        name: "Aceite de Semillas de Cannabis",
+        inci: "Cannabis sativa seed oil",
+        description:
+          "Ayuda a reducir la apariencia de inflamación y afinar los poros, aportando equilibrio a pieles mixtas y grasas.",
+        image: ING("aceite-semillas-cannabis.webp"),
+      },
+      {
+        name: "Aceite de Caléndula",
+        inci: "Calendula officinalis oil",
+        description:
+          "Favorece la regeneración de la piel y ayuda a calmar la irritación gracias a sus propiedades reconocidas.",
+        image: ING("aceite-calendula.webp"),
+      },
+      {
+        name: "Aceite de Germen de Trigo",
+        inci: "Triticum vulgare germ oil",
+        description:
+          "Alto contenido de vitamina E; nutre en profundidad y ayuda a mantener la elasticidad natural de la piel.",
+        image: ING("aceite-germen-trigo.webp"),
+      },
+      {
+        name: "Aceite de Jojoba",
+        inci: "Simmondsia chinensis seed oil",
+        description:
+          "Su estructura es similar al sebo natural de la piel, por lo que hidrata y equilibra sin obstruir los poros; apto para pieles grasas y sensibles.",
+        image: ING("aceite-jojoba.webp"),
+      },
+      {
+        name: "Aceite de Oliva",
+        inci: "Olea europaea fruit oil",
+        description:
+          "Rico en antioxidantes y ácidos grasos; nutre profundamente y ayuda a mantener la piel suave y flexible.",
+        image: ING("aceite-oliva.webp"),
+      },
+      {
+        name: "Aceite de Rosa Mosqueta",
+        inci: "Rosa moschata seed oil",
+        description:
+          "Reconocido por favorecer la regeneración de la piel; ayuda a mejorar la apariencia de cicatrices y marcas.",
+        image: ING("aceite-rosa-mosqueta.webp"),
+      },
     ],
   },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Droplet, Leaf, FlaskConical } from "lucide-react";
 import { INGREDIENT_CATEGORIES } from "@/lib/data";
 import Reveal from "@/components/ui/Reveal";
@@ -50,15 +51,29 @@ export default function IngredientesPage() {
                       {cat.category}
                     </h2>
                   </div>
-                  <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {cat.items.map((item) => (
                       <div
                         key={item.name}
-                        className="rounded-2xl bg-white p-4 shadow-soft ring-1 ring-forest/5"
+                        className="overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-forest/5"
                       >
-                        <div className="font-medium text-forest">{item.name}</div>
-                        <div className="mt-0.5 text-xs italic text-ink-soft">
-                          {item.inci}
+                        <div className="relative aspect-[4/3] w-full bg-sand">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <div className="font-medium text-forest">{item.name}</div>
+                          <div className="mt-0.5 text-xs italic text-ink-soft">
+                            {item.inci}
+                          </div>
+                          <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                            {item.description}
+                          </p>
                         </div>
                       </div>
                     ))}

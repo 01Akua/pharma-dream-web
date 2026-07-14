@@ -30,7 +30,24 @@ function read(): StoredProduct[] {
   if (cache) return cache;
   try {
     const raw = localStorage.getItem(KEY);
-    cache = raw ? (JSON.parse(raw) as StoredProduct[]) : SEED;
+    if (!raw) {
+      cache = SEED;
+      return cache;
+    }
+    const stored = JSON.parse(raw) as StoredProduct[];
+    const seedById = new Map(SEED.map((p) => [p.id, p]));
+    const storedIds = new Set(stored.map((p) => p.id));
+    // Completa con datos del catálogo actual los campos que un navegador con
+    // una versión vieja en localStorage todavía no conoce (ej. la foto real,
+    // agregada después de que alguien probó el sitio) y descarta productos
+    // que ya no existen en el catálogo.
+    const merged = stored
+      .filter((p) => seedById.has(p.id))
+      .map((p) => ({ ...seedById.get(p.id)!, ...p }));
+    for (const seedProduct of SEED) {
+      if (!storedIds.has(seedProduct.id)) merged.push(seedProduct);
+    }
+    cache = merged;
   } catch {
     cache = SEED;
   }
