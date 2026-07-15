@@ -39,7 +39,8 @@ export type Product = {
   includes?: string[]; // solo kits: productos que incluye
   /* Campos gestionables desde el panel admin */
   published?: boolean; // visible en la tienda
-  image?: string; // imagen subida (dataURL o URL); si no hay, se usa el "studio card"
+  image?: string; // imagen principal (dataURL o URL); si no hay, se usa el "studio card"
+  images?: string[]; // galería de fotos adicionales (dataURL o URL), opcional
   stock?: number;
   video?: string; // clip corto de "modo de uso" (sin audio), opcional
   videos?: string[]; // varios clips (ej. kits con más de un producto), opcional
@@ -99,6 +100,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Hidratacion_profunda_para_una_piel_radiante_Nuestra_Crema_Hidratante_Facial_con_extractos_n.jpg?v=1757598636",
+    images: [
+      withBasePath("/images/productos/crema-hidratante-facial-2.webp"),
+      withBasePath("/images/productos/crema-hidratante-facial-3.webp"),
+      withBasePath("/images/productos/crema-hidratante-facial-4.webp"),
+    ],
     video: withBasePath("/videos/productos/crema-hidratante-facial.mp4"),
   },
   {
@@ -140,6 +146,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Revitaliza_tu_mirada_con_el_poder_del_HEMP_y_el_Sakura_Despidete_de_las_ojeras_bolsas_y_line.jpg?v=1757599088",
+    images: [
+      withBasePath("/images/productos/contorno-de-ojos-2.webp"),
+      withBasePath("/images/productos/contorno-de-ojos-3.webp"),
+      withBasePath("/images/productos/contorno-de-ojos-4.webp"),
+    ],
     video: withBasePath("/videos/productos/contorno-de-ojos.mp4"),
   },
   {
@@ -183,6 +194,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "BOTOX_VEGETAL_EFECTO_TENSOR_Transforma_tu_piel_con_nuestra_innovadora_crema_nutritiva_con_e.jpg?v=1757352902",
+    images: [
+      withBasePath("/images/productos/botox-vegetal-efecto-tensor-2.webp"),
+      withBasePath("/images/productos/botox-vegetal-efecto-tensor-3.webp"),
+      withBasePath("/images/productos/botox-vegetal-efecto-tensor-4.webp"),
+    ],
     video: withBasePath("/videos/productos/botox-vegetal-efecto-tensor.mp4"),
   },
   {
@@ -224,6 +240,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "protector_solar.jpg?v=1757600445",
+    images: [
+      withBasePath("/images/productos/protector-solar-natural-spf-50-2.webp"),
+      withBasePath("/images/productos/protector-solar-natural-spf-50-3.webp"),
+      withBasePath("/images/productos/protector-solar-natural-spf-50-4.webp"),
+    ],
     video: withBasePath("/videos/productos/protector-solar-natural-spf-50.mp4"),
   },
   {
@@ -264,6 +285,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Agua_Micelar_con_Extractos_Naturales_es_tu_nueva_aliada_diaria._Con_aceite_de_HEMP_agua_de_2.jpg?v=1759978684",
+    images: [
+      withBasePath("/images/productos/agua-micelar-con-extractos-naturales-2.webp"),
+      withBasePath("/images/productos/agua-micelar-con-extractos-naturales-3.webp"),
+      withBasePath("/images/productos/agua-micelar-con-extractos-naturales-4.webp"),
+    ],
     video: withBasePath("/videos/productos/agua-micelar-con-extractos-naturales.mp4"),
   },
   {
@@ -305,6 +331,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Vitalidad_y_juventud_para_tu_piel_El_Serum_Revitalizante_Facial_de_Pharma_Dream_es_la_clave_p.jpg?v=1757600598",
+    images: [
+      withBasePath("/images/productos/serum-revitalizante-facial-2.webp"),
+      withBasePath("/images/productos/serum-revitalizante-facial-3.webp"),
+      withBasePath("/images/productos/serum-revitalizante-facial-4.webp"),
+    ],
     video: withBasePath("/videos/productos/serum-revitalizante-facial.mp4"),
   },
   {
@@ -346,6 +377,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Renueva_y_equilibra_tu_piel_El_Serum_Renovador_Facial_de_Pharma_Dream_esta_disenado_para_pi.jpg?v=1757600845",
+    images: [
+      withBasePath("/images/productos/serum-renovador-facial-2.webp"),
+      withBasePath("/images/productos/serum-renovador-facial-3.webp"),
+      withBasePath("/images/productos/serum-renovador-facial-4.webp"),
+    ],
     video: withBasePath("/videos/productos/serum-renovador-facial.mp4"),
   },
   {
@@ -387,6 +423,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "iluminadorf.jpg?v=1757601278",
+    images: [
+      withBasePath("/images/productos/serum-iluminador-facial-2.webp"),
+      withBasePath("/images/productos/serum-iluminador-facial-3.webp"),
+      withBasePath("/images/productos/serum-iluminador-facial-4.webp"),
+    ],
     video: withBasePath("/videos/productos/serum-iluminador-facial.mp4"),
   },
   {
@@ -427,6 +468,11 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "Hidratacionprofundaparatupiel_NuestroSerumHidratanteestadisenadopararevitalizary.jpg?v=1757601418",
+    images: [
+      withBasePath("/images/productos/serum-hidratante-2.webp"),
+      withBasePath("/images/productos/serum-hidratante-3.webp"),
+      withBasePath("/images/productos/serum-hidratante-4.webp"),
+    ],
     video: withBasePath("/videos/productos/serum-hidratante.mp4"),
   },
 ];

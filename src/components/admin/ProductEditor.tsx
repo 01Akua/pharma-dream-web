@@ -185,6 +185,67 @@ export default function ProductEditor({ product, onClose, notify }: Props) {
               Opcional. Si no subes imagen, se usa la tarjeta de marca. Se
               optimiza automáticamente.
             </p>
+
+            {/* Galería de fotos adicionales */}
+            <label className="mt-5 block text-xs font-semibold uppercase tracking-wider text-ink-soft">
+              Más fotos del producto
+            </label>
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {(form.images ?? []).map((src, i) => (
+                <div
+                  key={i}
+                  className="group relative aspect-square overflow-hidden rounded-lg ring-1 ring-forest/10"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt={`Foto ${i + 2}`}
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    onClick={() =>
+                      set(
+                        "images",
+                        (form.images ?? []).filter((_, idx) => idx !== i),
+                      )
+                    }
+                    className="absolute inset-0 flex items-center justify-center bg-forest/60 text-cream opacity-0 transition-opacity group-hover:opacity-100"
+                    aria-label="Quitar foto"
+                  >
+                    <ImageOff className="h-5 w-5" />
+                  </button>
+                </div>
+              ))}
+              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-sand text-ink-soft transition hover:border-gold hover:text-forest">
+                <Upload className="h-4 w-4" />
+                <span className="text-[0.65rem] font-medium">Agregar</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={async (e) => {
+                    const files = Array.from(e.target.files ?? []);
+                    if (files.length === 0) return;
+                    try {
+                      setUploading(true);
+                      const dataUrls = await Promise.all(
+                        files.map((f) => fileToDataURL(f)),
+                      );
+                      set("images", [...(form.images ?? []), ...dataUrls]);
+                    } catch {
+                      notify("No se pudieron procesar las fotos", "error");
+                    } finally {
+                      setUploading(false);
+                    }
+                  }}
+                />
+              </label>
+            </div>
+            <p className="mt-2 text-[0.7rem] leading-snug text-ink-soft">
+              Fotos extra que se ven en la galería de la ficha del producto
+              (otros ángulos, con modelo, empaque, etc).
+            </p>
           </div>
 
           {/* Columna campos */}

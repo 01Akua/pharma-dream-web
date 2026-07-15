@@ -103,8 +103,13 @@ export default function ProductDetail({ product: initial }: { product: Product }
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [angle, setAngle] = useState(150);
+  const [photoIdx, setPhotoIdx] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [checkout, setCheckout] = useState(false);
+
+  const gallery = product.image
+    ? [product.image, ...(product.images ?? [])]
+    : [];
 
   const discount = product.compareAt
     ? Math.round((1 - product.price / product.compareAt) * 100)
@@ -142,27 +147,69 @@ export default function ProductDetail({ product: initial }: { product: Product }
     <div className="grid gap-12 lg:grid-cols-2">
       {/* Galería */}
       <div className="lg:sticky lg:top-28 lg:self-start">
-        <motion.div
-          key={angle}
-          initial={{ opacity: 0.4 }}
-          animate={{ opacity: 1 }}
-          className="aspect-square w-full shadow-card"
-        >
-          <StudioCard product={product} angle={angle} />
-        </motion.div>
-        <div className="mt-4 grid grid-cols-4 gap-3">
-          {[150, 110, 200, 60].map((a) => (
-            <button
-              key={a}
-              onClick={() => setAngle(a)}
-              className={`aspect-square overflow-hidden rounded-xl ring-2 transition ${
-                angle === a ? "ring-gold" : "ring-transparent hover:ring-sand"
-              }`}
+        {gallery.length > 0 ? (
+          <>
+            <motion.div
+              key={gallery[photoIdx]}
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              className="aspect-square w-full overflow-hidden rounded-2xl shadow-card"
             >
-              <StudioCard product={product} angle={a} small />
-            </button>
-          ))}
-        </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={gallery[photoIdx]}
+                alt={product.name}
+                className="h-full w-full object-cover"
+              />
+            </motion.div>
+            {gallery.length > 1 && (
+              <div className="mt-4 grid grid-cols-4 gap-3">
+                {gallery.map((src, i) => (
+                  <button
+                    key={src}
+                    onClick={() => setPhotoIdx(i)}
+                    className={`aspect-square overflow-hidden rounded-xl ring-2 transition ${
+                      photoIdx === i
+                        ? "ring-gold"
+                        : "ring-transparent hover:ring-sand"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={`${product.name} ${i + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <motion.div
+              key={angle}
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              className="aspect-square w-full shadow-card"
+            >
+              <StudioCard product={product} angle={angle} />
+            </motion.div>
+            <div className="mt-4 grid grid-cols-4 gap-3">
+              {[150, 110, 200, 60].map((a) => (
+                <button
+                  key={a}
+                  onClick={() => setAngle(a)}
+                  className={`aspect-square overflow-hidden rounded-xl ring-2 transition ${
+                    angle === a ? "ring-gold" : "ring-transparent hover:ring-sand"
+                  }`}
+                >
+                  <StudioCard product={product} angle={a} small />
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Video de modo de uso (clip corto sin audio) */}
         {(product.videos ?? (product.video ? [product.video] : [])).length > 0 && (
