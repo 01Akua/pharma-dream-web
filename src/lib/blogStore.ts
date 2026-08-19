@@ -40,7 +40,10 @@ function read(): StoredBlogPost[] {
     // ya no existen.
     const merged = stored
       .filter((p) => seedBySlug.has(p.slug))
-      .map((p) => ({ ...seedBySlug.get(p.slug)!, ...p }));
+      .map((p) => {
+        const seedPost = seedBySlug.get(p.slug)!;
+        return { ...seedPost, ...p, image: p.image || seedPost.image };
+      });
     for (const seedPost of SEED) {
       if (!storedSlugs.has(seedPost.slug)) merged.push(seedPost);
     }

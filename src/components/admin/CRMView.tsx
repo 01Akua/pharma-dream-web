@@ -266,6 +266,9 @@ export default function CRMView({ notify }: { notify: Notify }) {
               <div className="text-ink-soft">
                 {detail.customer.city} · {detail.customer.phone}
               </div>
+              {detail.customer.email && (
+                <div className="text-ink-soft">{detail.customer.email}</div>
+              )}
               <div className="mt-1 text-xs text-ink-soft">
                 {new Date(detail.createdAt).toLocaleString("es-CO")}
               </div>

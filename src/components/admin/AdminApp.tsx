@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard,
@@ -22,10 +22,7 @@ import CRMView from "./CRMView";
 import ContentView from "./ContentView";
 import BlogView from "./BlogView";
 import SettingsView from "./SettingsView";
-
-const SESSION_KEY = "pd_admin_session";
-export const DEMO_USER = "admin";
-export const DEMO_PASS = "pharma2026";
+import { adminLogout, useAdminAuth } from "@/lib/auth";
 
 export type View =
   | "dashboard"
@@ -46,38 +43,26 @@ const nav: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
 ];
 
 export default function AdminApp() {
-  const [ready, setReady] = useState(false);
-  const [authed, setAuthed] = useState(false);
+  const { user, ready } = useAdminAuth();
   const [view, setView] = useState<View>("dashboard");
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
 
-  useEffect(() => {
-    setAuthed(sessionStorage.getItem(SESSION_KEY) === "1");
-    setReady(true);
-  }, []);
-
   const notify: Notify = (message, type = "success") => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3200);
   };
 
-  const login = () => {
-    sessionStorage.setItem(SESSION_KEY, "1");
-    setAuthed(true);
-    notify("Bienvenido de nuevo 👋");
-  };
-
   const logout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    setAuthed(false);
+    adminLogout();
   };
 
   if (!ready) return <div className="min-h-screen bg-cream" />;
 
-  if (!authed) return <Login onLogin={login} />;
+  if (!user)
+    return <Login onLogin={() => notify("Bienvenido de nuevo 👋")} />;
 
   return (
     <div className="min-h-screen bg-cream-deep text-ink">

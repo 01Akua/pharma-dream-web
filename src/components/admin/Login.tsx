@@ -2,21 +2,27 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, User, Info } from "lucide-react";
+import { Lock, Mail, Info } from "lucide-react";
 import Logo from "@/components/ui/Logo";
-import { DEMO_USER, DEMO_PASS } from "./AdminApp";
+import { adminLogin } from "@/lib/auth";
 
 export default function Login({ onLogin }: { onLogin: () => void }) {
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user.trim() === DEMO_USER && pass === DEMO_PASS) {
+    setLoading(true);
+    setError(false);
+    try {
+      await adminLogin(email.trim(), pass);
       onLogin();
-    } else {
+    } catch {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,14 +49,15 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
 
         <form onSubmit={submit} className="mt-7 flex flex-col gap-3">
           <div className="flex items-center gap-3 rounded-xl border border-sand bg-white px-4 focus-within:ring-2 focus-within:ring-gold">
-            <User className="h-4 w-4 text-ink-soft" />
+            <Mail className="h-4 w-4 text-ink-soft" />
             <input
-              value={user}
+              type="email"
+              value={email}
               onChange={(e) => {
-                setUser(e.target.value);
+                setEmail(e.target.value);
                 setError(false);
               }}
-              placeholder="Usuario"
+              placeholder="Correo electrónico"
               className="w-full bg-transparent py-3 text-sm text-forest outline-none"
             />
           </div>
@@ -70,23 +77,24 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
 
           {error && (
             <p className="text-sm text-red-600">
-              Usuario o contraseña incorrectos.
+              Correo o contraseña incorrectos.
             </p>
           )}
 
           <button
             type="submit"
-            className="mt-1 rounded-xl bg-forest py-3 text-sm font-semibold text-cream transition hover:bg-gold hover:text-forest"
+            disabled={loading}
+            className="mt-1 rounded-xl bg-forest py-3 text-sm font-semibold text-cream transition hover:bg-gold hover:text-forest disabled:opacity-60"
           >
-            Entrar
+            {loading ? "Ingresando…" : "Entrar"}
           </button>
         </form>
 
         <div className="mt-6 flex items-start gap-2 rounded-xl bg-cream-deep p-3 text-xs text-ink-soft">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" />
           <span>
-            Demo — usuario <strong className="text-forest">{DEMO_USER}</strong> ·
-            contraseña <strong className="text-forest">{DEMO_PASS}</strong>
+            Acceso restringido — este login está conectado a la base de datos
+            real del negocio.
           </span>
         </div>
       </motion.div>

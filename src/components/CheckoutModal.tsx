@@ -24,25 +24,38 @@ export default function CheckoutModal({
 }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("contraentrega");
   const [done, setDone] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
   const total = items.reduce((s, it) => s + it.price * it.qty, 0);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !city.trim() || items.length === 0) return;
-    // NOTE: aquí es donde se conecta una pasarela real (Wompi, PayU, Mercado
-    // Pago, ePayco...): antes de createOrder(), crear el intento de pago con
-    // la pasarela elegida y esperar su confirmación/redirección.
-    const orderCreated = createOrder({
-      customer: { name: name.trim(), phone: phone.trim(), city: city.trim() },
-      items,
-      paymentMethod,
-    });
-    setDone(orderCreated.id);
-    onSuccess?.();
+    if (!name.trim() || !phone.trim() || !email.trim() || !city.trim() || items.length === 0)
+      return;
+    setSending(true);
+    try {
+      // NOTE: aquí es donde se conecta una pasarela real (Wompi, PayU, Mercado
+      // Pago, ePayco...): antes de createOrder(), crear el intento de pago con
+      // la pasarela elegida y esperar su confirmación/redirección.
+      const orderCreated = await createOrder({
+        customer: {
+          name: name.trim(),
+          phone: phone.trim(),
+          city: city.trim(),
+          email: email.trim() || undefined,
+        },
+        items,
+        paymentMethod,
+      });
+      setDone(orderCreated.id);
+      onSuccess?.();
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -125,6 +138,14 @@ export default function CheckoutModal({
                 className="input"
               />
               <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Correo electrónico"
+                required
+                className="input"
+              />
+              <input
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Ciudad"
@@ -162,14 +183,15 @@ export default function CheckoutModal({
 
               <button
                 type="submit"
-                className="mt-1 rounded-full bg-gold py-3 text-sm font-semibold text-forest transition hover:bg-gold-soft"
+                disabled={sending}
+                className="mt-1 rounded-full bg-gold py-3 text-sm font-semibold text-forest transition hover:bg-gold-soft disabled:opacity-60"
               >
-                Confirmar pedido · {formatCOP(total)}
+                {sending ? "Guardando pedido…" : `Confirmar pedido · ${formatCOP(total)}`}
               </button>
             </form>
             <p className="mt-3 text-center text-[0.7rem] text-ink-soft">
-              Demo de registro de ventas. La integración con la pasarela de
-              pago real se conecta en este paso.
+              El pedido queda registrado en la base de datos. La integración
+              con la pasarela de pago real se conecta en este paso.
             </p>
           </>
         )}

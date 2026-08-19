@@ -44,9 +44,9 @@ export const DEFAULT_CONTENT: SiteContent = {
   hero: [
     {
       eyebrow: "Dermocosmética avanzada",
-      title: "Nutrición para la piel",
+      title: "Tu belleza brilla de adentro hacia afuera ✨",
       subtitle:
-        "El poder nutracéutico que conecta ciencia y naturaleza para cuidar tu piel.",
+        "Fórmulas naturales que nutren tu piel en profundidad, combinando ciencia y naturaleza en cada producto.",
       cta: "Ver catálogo",
       image: withBasePath("/images/hero/rutina-3-modelos.webp"),
     },

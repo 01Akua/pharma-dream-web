@@ -1,24 +1,27 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import type { Product } from "@/lib/data";
 import { useVisibleProducts } from "@/lib/store";
 import ProductCard from "./ui/ProductCard";
 import Reveal from "./ui/Reveal";
 
-const filters = ["Todos", "Cremas", "Sérums", "Kits"] as const;
-type Filter = (typeof filters)[number];
+// Una crema, un sérum y un kit representativos: cada categoría ya tiene su
+// propia tarjeta arriba (CategoriesSection), así que aquí no repetimos
+// filtros por categoría, solo la selección destacada del catálogo.
+const FEATURED_IDS = [
+  "botox-vegetal-efecto-tensor",
+  "serum-hidratante",
+  "kit-colageno-y-elastina-reafirma-nutre-y-revitaliza",
+  "kit-glow-mananero-cuidado-facial-diario",
+];
 
 export default function FeaturedProducts() {
-  const [filter, setFilter] = useState<Filter>("Todos");
   const all = useVisibleProducts();
-
-  const visible: Product[] = (
-    filter === "Todos" ? all : all.filter((p) => p.category === filter)
-  ).slice(0, 4);
+  const visible = FEATURED_IDS.map((id) => all.find((p) => p.id === id)).filter(
+    (p): p is NonNullable<typeof p> => Boolean(p),
+  );
 
   return (
     <section id="productos" className="relative bg-cream-deep py-24">
@@ -33,23 +36,6 @@ export default function FeaturedProducts() {
             respaldada por la ciencia.
           </p>
         </Reveal>
-
-        {/* Filtros */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-          {filters.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-all duration-300 ${
-                filter === f
-                  ? "bg-forest text-cream shadow-soft"
-                  : "bg-white text-forest hover:bg-sand"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
 
         {/* Grid */}
         <motion.div

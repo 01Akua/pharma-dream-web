@@ -1,11 +1,26 @@
 "use client";
 
 /* ============================================================
-   CRM / control de ventas (demo con persistencia local).
-   Diseñado para migrar a backend real sin tocar la interfaz.
+   CRM / control de ventas — persistencia real en Firestore.
+   Los pedidos quedan guardados en la nube (no en el navegador
+   de cada visitante) y se sincronizan en tiempo real entre
+   cualquier dispositivo que abra el panel admin.
    ============================================================ */
 
 import { useEffect, useState } from "react";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  runTransaction,
+  setDoc,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
+import { db } from "./firebase";
 import { ALL_PRODUCTS } from "./data";
 
 export type OrderStatus =
@@ -50,7 +65,7 @@ export const PAYMENT_METHODS: { id: PaymentMethod; label: string }[] = [
 
 export type Order = {
   id: string;
-  customer: { name: string; phone: string; city: string };
+  customer: { name: string; phone: string; city: string; email?: string };
   items: OrderItem[];
   total: number;
   status: OrderStatus;
@@ -58,9 +73,11 @@ export type Order = {
   createdAt: string; // ISO
 };
 
-const KEY = "pd_orders_v2";
+const ORDERS_COLLECTION = "orders";
+const COUNTER_DOC = "meta/orderCounter";
+const SEED_START = 1052;
 
-/* ---------- Datos demo ---------- */
+/* ---------- Datos demo (para sembrar la colección la primera vez) ---------- */
 
 function daysAgo(n: number): string {
   const d = new Date();
@@ -108,41 +125,48 @@ function seed(): Order[] {
   ];
 }
 
-/* ---------- Persistencia reactiva ---------- */
+/* ---------- Lectura reactiva (tiempo real desde Firestore) ---------- */
 
-let cache: Order[] | null = null;
-const listeners = new Set<() => void>();
+let cache: Order[] = [];
+const listeners = new Set<(orders: Order[]) => void>();
+let seeded = false;
 
-function read(): Order[] {
-  if (typeof window === "undefined") return seed();
-  if (cache) return cache;
-  try {
-    const raw = localStorage.getItem(KEY);
-    cache = raw ? (JSON.parse(raw) as Order[]) : seed();
-  } catch {
-    cache = seed();
-  }
-  return cache;
+function ensureSeeded() {
+  if (seeded || typeof window === "undefined") return;
+  seeded = true;
+  seedIfEmpty();
 }
 
-function write(next: Order[]) {
-  cache = next;
-  try {
-    localStorage.setItem(KEY, JSON.stringify(next));
-  } catch (e) {
-    console.warn("No se pudo guardar pedidos:", e);
+async function seedIfEmpty() {
+  const snap = await import("firebase/firestore").then(({ getDocs }) =>
+    getDocs(collection(db, ORDERS_COLLECTION)),
+  );
+  if (!snap.empty) return;
+  const batch = writeBatch(db);
+  for (const o of seed()) {
+    batch.set(doc(db, ORDERS_COLLECTION, o.id), o);
   }
-  listeners.forEach((l) => l());
+  await batch.commit();
+}
+
+function subscribe() {
+  ensureSeeded();
+  const q = query(collection(db, ORDERS_COLLECTION), orderBy("createdAt", "desc"));
+  return onSnapshot(q, (snap) => {
+    cache = snap.docs.map((d) => d.data() as Order);
+    listeners.forEach((l) => l(cache));
+  });
 }
 
 export function useOrders(): Order[] {
-  const [state, setState] = useState<Order[]>(seed());
+  const [state, setState] = useState<Order[]>(cache);
   useEffect(() => {
-    setState(read());
-    const l = () => setState([...read()]);
-    listeners.add(l);
+    const listener = (orders: Order[]) => setState(orders);
+    listeners.add(listener);
+    const unsub = subscribe();
     return () => {
-      listeners.delete(l);
+      listeners.delete(listener);
+      unsub();
     };
   }, []);
   return state;
@@ -150,35 +174,52 @@ export function useOrders(): Order[] {
 
 /* ---------- Acciones ---------- */
 
-export function createOrder(input: {
+export async function createOrder(input: {
   customer: Order["customer"];
   items: OrderItem[];
   paymentMethod?: PaymentMethod;
-}): Order {
-  const list = read();
+}): Promise<Order> {
+  const total = input.items.reduce((s, it) => s + it.price * it.qty, 0);
+
+  const id = await runTransaction(db, async (tx) => {
+    const counterRef = doc(db, COUNTER_DOC);
+    const counterSnap = await tx.get(counterRef);
+    const next = counterSnap.exists() ? counterSnap.data().next : SEED_START;
+    tx.set(counterRef, { next: next + 1 });
+    return `PD-${next}`;
+  });
+
   const next: Order = {
-    id: `PD-${1052 + list.length}`,
+    id,
     customer: input.customer,
     items: input.items,
-    total: input.items.reduce((s, it) => s + it.price * it.qty, 0),
+    total,
     status: "nuevo",
     paymentMethod: input.paymentMethod,
     createdAt: new Date().toISOString(),
   };
-  write([next, ...list]);
+  await setDoc(doc(db, ORDERS_COLLECTION, id), next);
   return next;
 }
 
-export function updateOrderStatus(id: string, status: OrderStatus) {
-  write(read().map((o) => (o.id === id ? { ...o, status } : o)));
+export async function updateOrderStatus(id: string, status: OrderStatus) {
+  await updateDoc(doc(db, ORDERS_COLLECTION, id), { status });
 }
 
-export function deleteOrder(id: string) {
-  write(read().filter((o) => o.id !== id));
+export async function deleteOrder(id: string) {
+  await deleteDoc(doc(db, ORDERS_COLLECTION, id));
 }
 
-export function resetOrders() {
-  write(seed());
+export async function resetOrders() {
+  const { getDocs } = await import("firebase/firestore");
+  const snap = await getDocs(collection(db, ORDERS_COLLECTION));
+  const batch = writeBatch(db);
+  snap.docs.forEach((d) => batch.delete(d.ref));
+  for (const o of seed()) {
+    batch.set(doc(db, ORDERS_COLLECTION, o.id), o);
+  }
+  batch.set(doc(db, COUNTER_DOC), { next: SEED_START });
+  await batch.commit();
 }
 
 /* ---------- Analítica ---------- */

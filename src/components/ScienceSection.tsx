@@ -81,14 +81,36 @@ export default function ScienceSection() {
         {/* Sellos de confianza */}
         <Reveal>
           <div className="mt-20 grid grid-cols-2 gap-4 border-t border-cream/15 pt-10 md:grid-cols-4">
-            {badges.map((b) => (
-              <div key={b.label} className="flex flex-col items-center gap-3 text-center">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-cream/10 ring-1 ring-gold/30">
-                  <b.icon className="h-5 w-5 text-gold-soft" />
-                </span>
-                <span className="text-sm text-cream/80">{b.label}</span>
-              </div>
-            ))}
+            {badges.map((b) => {
+              const highlight = b.label === "Libre de crueldad animal";
+              return (
+                <div
+                  key={b.label}
+                  className={`flex flex-col items-center gap-3 rounded-2xl text-center ${
+                    highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
+                  }`}
+                >
+                  <span
+                    className={`flex items-center justify-center rounded-full ring-1 ring-gold/30 ${
+                      highlight ? "h-16 w-16 bg-gold/20" : "h-12 w-12 bg-cream/10"
+                    }`}
+                  >
+                    <b.icon
+                      className={highlight ? "h-7 w-7 text-gold" : "h-5 w-5 text-gold-soft"}
+                    />
+                  </span>
+                  <span
+                    className={
+                      highlight
+                        ? "text-base font-semibold text-gold-soft"
+                        : "text-sm text-cream/80"
+                    }
+                  >
+                    {b.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </Reveal>
       </div>
