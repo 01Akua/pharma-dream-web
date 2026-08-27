@@ -39,7 +39,7 @@ const valores = [
 ];
 
 const contacto = {
-  phone: "+57 321 745 0695",
+  phone: "+57 300 997 9933",
   email: "info@pharma-dream.com",
 };
 
@@ -66,24 +66,71 @@ export default function NosotrosPage() {
       </section>
 
       {/* Propuesta de valor */}
-      <section className="bg-cream py-20">
+      <section className="bg-cream py-28">
         <div className="mx-auto max-w-3xl px-5 text-center lg:px-8">
           <Reveal>
-            <p className="text-lg leading-relaxed text-ink sm:text-xl">
-              En Pharma Dream creemos que la verdadera belleza nace cuando la
-              ciencia y la naturaleza trabajan juntas. Somos una marca
-              especializada en la fabricación, comercialización y exportación
-              de cosméticos faciales y corporales de origen natural,
-              elaborados con{" "}
-              <strong className="text-forest">HEMP certificado</strong> y
-              extractos fitomoleculares de alta pureza.
+            <span className="eyebrow text-gold-deep">Quiénes somos</span>
+            <p className="mt-6 text-xl leading-relaxed text-ink sm:text-2xl">
+              Somos una marca enfocada en la elaboración, comercialización y
+              exportación de productos cosméticos faciales de base natural.
+              Utilizamos materias primas provenientes de la naturaleza en
+              forma de aceites y extractos vegetales y moleculares, sometidos
+              a procesos de mínima transformación química con el fin de
+              conservar sus propiedades originales.
             </p>
-            <p className="mt-5 leading-relaxed text-ink-soft">
-              Nuestra propuesta es clara: productos seguros, efectivos y
-              confiables, desarrollados con procesos que conservan al máximo
-              las propiedades de los ingredientes, para que tu piel disfrute
-              lo mejor de la naturaleza con el respaldo de la ciencia.
+          </Reveal>
+        </div>
+
+        <div className="mx-auto mt-16 grid max-w-6xl gap-14 px-5 lg:grid-cols-2 lg:items-center lg:px-8">
+          <Reveal>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-card">
+              <Image
+                src={withBasePath("/images/nosotros/modelo-1.webp")}
+                alt="Modelo Pharma Dream con Contorno de Ojos y Sérum Revitalizante Facial"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="leading-relaxed text-ink-soft sm:text-lg">
+              En PHARMA DREAM hemos desarrollado nuestras fórmulas alrededor
+              de dos activos clave: la{" "}
+              <strong className="text-forest">Placenta Vegetal</strong> y el{" "}
+              <strong className="text-forest">Aceite de HEMP</strong>.
+              Trabajamos con materias primas de alta calidad y trazabilidad
+              certificada, que garantizan la seguridad del producto y
+              potencian sus beneficios. Nuestros productos están diseñados
+              para ser seguros, confiables y aptos para el uso diario.
             </p>
+          </Reveal>
+
+          <Reveal className="lg:order-4" delay={0.1}>
+            <p className="leading-relaxed text-ink-soft sm:text-lg">
+              Es importante comprender el valor de estos activos. La Placenta
+              Vegetal se obtiene de la extracción de proteínas y células madre
+              de plantas seleccionadas por su alto contenido en aminoácidos,
+              vitaminas y factores de crecimiento naturales, aportando un
+              efecto regenerador y nutritivo profundo. El Aceite de HEMP,
+              extraído de la semilla del cáñamo, es reconocido por su riqueza
+              en Omega 3 y 6, y por su capacidad para calmar, equilibrar y
+              fortalecer la barrera cutánea. Juntos, forman una combinación
+              botánica utilizada a lo largo de la historia de la cosmetología
+              por sus propiedades únicas y su versatilidad como aliados
+              naturales de la piel.
+            </p>
+          </Reveal>
+          <Reveal className="lg:order-3">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-card">
+              <Image
+                src={withBasePath("/images/nosotros/modelo-2.webp")}
+                alt="Modelo Pharma Dream aplicando Contorno de Ojos con HEMP"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -173,7 +220,7 @@ export default function NosotrosPage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <a
-                href="https://wa.me/573113000325"
+                href="https://wa.me/573009979933"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-sm font-semibold text-cream transition-all hover:bg-olive"

@@ -86,14 +86,14 @@ export default function IngredientesPage() {
       </section>
 
       <section className="bg-forest px-5 py-20 text-cream lg:px-8">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <span className="eyebrow text-gold-soft">Nuestra ciencia</span>
             <h2 className="mt-4 font-display text-3xl font-medium sm:text-4xl">
               Así trabajamos cada fórmula
             </h2>
           </div>
-          <div className="mt-10 grid gap-8 sm:grid-cols-2">
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {SCIENCE_VIDEOS.map((sv, i) => (
               <Reveal key={sv.title} delay={i * 0.1}>
                 <div className="overflow-hidden rounded-2xl bg-cream/5 ring-1 ring-cream/10">
@@ -105,13 +105,15 @@ export default function IngredientesPage() {
                       playsInline
                       preload="metadata"
                     >
-                      <track
-                        kind="subtitles"
-                        src={sv.subtitles}
-                        srcLang="es"
-                        label="Español"
-                        default
-                      />
+                      {sv.subtitles && (
+                        <track
+                          kind="subtitles"
+                          src={sv.subtitles}
+                          srcLang="es"
+                          label="Español"
+                          default
+                        />
+                      )}
                     </video>
                   </div>
                   <div className="p-5">

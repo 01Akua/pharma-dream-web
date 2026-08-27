@@ -81,7 +81,8 @@ export const DEFAULT_CONTENT: SiteContent = {
     {
       name: "Kits",
       description: "Rutinas completas con descuento por tiempo limitado.",
-      image: withBasePath("/images/categorias/kits.webp"),
+      image:
+        "https://cdn.shopify.com/s/files/1/0691/9399/0198/files/KITS2.png?v=1760026790",
     },
   ],
   science: {
@@ -102,7 +103,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     blurb:
       "Dermocosmética inteligente que conecta la ciencia con la naturaleza. Fórmulas seguras y eficaces para piel sensible y reactiva.",
     city: "Bogotá, Colombia",
-    phone: "+57 321 745 0695",
+    phone: "+57 300 997 9933",
     email: "info@pharma-dream.com",
   },
 };

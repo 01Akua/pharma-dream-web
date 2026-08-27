@@ -12,9 +12,9 @@ import Reveal from "./ui/Reveal";
 // filtros por categoría, solo la selección destacada del catálogo.
 const FEATURED_IDS = [
   "botox-vegetal-efecto-tensor",
-  "serum-hidratante",
   "kit-colageno-y-elastina-reafirma-nutre-y-revitaliza",
-  "kit-glow-mananero-cuidado-facial-diario",
+  "serum-hidratante",
+  "protector-solar-natural-spf-50",
 ];
 
 export default function FeaturedProducts() {

@@ -36,7 +36,7 @@ export const BLOG_POSTS: BlogPost[] = [
     excerpt:
       "El cuidado de la piel no es solo una cuestión de belleza, sino de salud. Aplicar correctamente una crema cosmética de lujo potencia sus beneficios.",
     tag: "Rutina",
-    image: withBasePath("/images/blog/guia-cremas.webp"),
+    image: withBasePath("/images/hero/rutina-3-modelos.webp"),
     date: "2025-09-22",
     author: "Jhon Sanabria",
     body: [

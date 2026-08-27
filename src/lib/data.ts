@@ -703,7 +703,7 @@ export const CATEGORIES: Category[] = [
     name: "Kits",
     description: "Rutinas completas con descuento por tiempo limitado.",
     tone: "forest",
-    image: withBasePath("/images/categorias/kits.webp"),
+    image: CDN + "KITS2.png?v=1760026790",
     count: 5,
   },
 ];
@@ -923,10 +923,16 @@ export type ScienceVideo = {
   title: string;
   description: string;
   video: string;
-  subtitles: string;
+  subtitles?: string;
 };
 
 export const SCIENCE_VIDEOS: ScienceVideo[] = [
+  {
+    title: "Placenta Vegetal y Aceite de HEMP",
+    description:
+      "Placenta Vegetal: extractos de células vegetales muy ricos en aminoácidos, vitaminas y factores de crecimiento naturales, que estimulan la renovación celular y aportan hidratación profunda. Aceite de HEMP: extraído de la semilla del cáñamo, regula la producción de sebo, calma la piel y refuerza su barrera cutánea.",
+    video: withBasePath("/videos/ciencia/cultivo.mp4"),
+  },
   {
     title: "Extracción Fitomolecular",
     description:
