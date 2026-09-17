@@ -5,7 +5,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClubPopup from "@/components/ClubPopup";
-import WhatsappFloat from "@/components/WhatsappFloat";
+import ChatBot from "@/components/ChatBot";
 import ChromeGate from "@/components/ChromeGate";
 import CartDrawer from "@/components/CartDrawer";
 
@@ -48,7 +48,7 @@ export default function RootLayout({
         <ChromeGate>
           <Footer />
           <ClubPopup />
-          <WhatsappFloat />
+          <ChatBot />
           <CartDrawer />
         </ChromeGate>
       </body>

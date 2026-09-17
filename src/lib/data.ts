@@ -703,7 +703,7 @@ export const CATEGORIES: Category[] = [
     name: "Kits",
     description: "Rutinas completas con descuento por tiempo limitado.",
     tone: "forest",
-    image: CDN + "KITS2.png?v=1760026790",
+    image: withBasePath("/images/categorias/kits.webp"),
     count: 5,
   },
 ];

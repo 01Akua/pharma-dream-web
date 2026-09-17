@@ -386,7 +386,7 @@ export const BLOG_POSTS: BlogPost[] = [
     excerpt:
       "Descubre cómo Pharma Dream aprovecha la riqueza natural de Colombia y técnicas de vanguardia para crear cosméticos que respetan tu piel y el planeta.",
     tag: "Ciencia",
-    image: withBasePath("/images/blog/biodiversidad.webp"),
+    image: withBasePath("/images/blog/biodiversidad-nueva.webp"),
     date: "2025-09-22",
     author: "Jhon Sanabria",
     body: [

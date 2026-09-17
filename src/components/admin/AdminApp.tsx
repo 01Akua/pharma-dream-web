@@ -13,6 +13,7 @@ import {
   ExternalLink,
   Check,
   CircleAlert,
+  Users,
 } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import Login from "./Login";
@@ -22,12 +23,14 @@ import CRMView from "./CRMView";
 import ContentView from "./ContentView";
 import BlogView from "./BlogView";
 import SettingsView from "./SettingsView";
+import ClubView from "./ClubView";
 import { adminLogout, useAdminAuth } from "@/lib/auth";
 
 export type View =
   | "dashboard"
   | "productos"
   | "ventas"
+  | "club"
   | "contenido"
   | "blog"
   | "ajustes";
@@ -37,6 +40,7 @@ const nav: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "dashboard", label: "Resumen", icon: LayoutDashboard },
   { id: "productos", label: "Productos", icon: Package },
   { id: "ventas", label: "Ventas", icon: ShoppingBag },
+  { id: "club", label: "Club", icon: Users },
   { id: "contenido", label: "Contenido", icon: LayoutTemplate },
   { id: "blog", label: "Blog", icon: Newspaper },
   { id: "ajustes", label: "Ajustes", icon: Settings },
@@ -145,6 +149,7 @@ export default function AdminApp() {
           )}
           {view === "productos" && <ProductsView notify={notify} />}
           {view === "ventas" && <CRMView notify={notify} />}
+          {view === "club" && <ClubView />}
           {view === "contenido" && <ContentView notify={notify} />}
           {view === "blog" && <BlogView notify={notify} />}
           {view === "ajustes" && <SettingsView notify={notify} />}

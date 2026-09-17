@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Gift, X } from "lucide-react";
 import { withBasePath } from "@/lib/paths";
+import { addClubMember } from "@/lib/club";
 
 const STORAGE_KEY = "pd_club_popup_dismissed_until";
 const DISMISS_DAYS = 30;
@@ -11,6 +12,7 @@ const DISMISS_DAYS = 30;
 export default function ClubPopup() {
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -126,11 +128,17 @@ export default function ClubPopup() {
               </ul>
 
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  if (email.includes("@")) {
+                  if (!email.includes("@")) return;
+                  setError(false);
+                  try {
+                    await addClubMember(email);
                     setSent(true);
                     setTimeout(dismiss, 1400);
+                  } catch (err) {
+                    console.error("No se pudo guardar el correo del Club:", err);
+                    setError(true);
                   }
                 }}
                 className="mt-6 flex flex-col gap-3"
@@ -159,6 +167,11 @@ export default function ClubPopup() {
                     "Suscribirme"
                   )}
                 </button>
+                {error && (
+                  <p className="text-xs text-red-600">
+                    No pudimos guardar tu correo. Intenta de nuevo en unos minutos.
+                  </p>
+                )}
               </form>
 
               <button

@@ -14,6 +14,8 @@ export type HeroSlide = {
   title: string;
   subtitle: string;
   cta: string;
+  /** A dónde lleva el botón del CTA. Por defecto "#productos" (catálogo destacado). */
+  ctaHref?: string;
   image: string;
   /** "contain" evita recortar la foto (útil para fotos panorámicas anchas y bajas). Por defecto "cover". */
   fit?: "cover" | "contain";
@@ -56,6 +58,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       subtitle:
         "Descubre la suavidad y firmeza de tu piel gracias a extractos naturales que rejuvenecen y tensan al instante.",
       cta: "Comprar",
+      ctaHref: "/producto/botox-vegetal-efecto-tensor",
       image: withBasePath("/images/hero/tensor.webp"),
     },
     {
@@ -64,6 +67,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       subtitle:
         "Nutre, calma y devuelve luminosidad a las pieles secas y sensibles con aceite de HEMP.",
       cta: "Comprar",
+      ctaHref: "/producto/serum-hidratante",
       image: withBasePath("/images/hero/hidratante.webp"),
     },
   ],
@@ -81,8 +85,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     {
       name: "Kits",
       description: "Rutinas completas con descuento por tiempo limitado.",
-      image:
-        "https://cdn.shopify.com/s/files/1/0691/9399/0198/files/KITS2.png?v=1760026790",
+      image: withBasePath("/images/categorias/kits.webp"),
     },
   ],
   science: {
@@ -104,7 +107,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       "Dermocosmética inteligente que conecta la ciencia con la naturaleza. Fórmulas seguras y eficaces para piel sensible y reactiva.",
     city: "Bogotá, Colombia",
     phone: "+57 300 997 9933",
-    email: "info@pharma-dream.com",
+    email: "info@pharmadream.com.co",
   },
 };
 

@@ -116,7 +116,7 @@ export default function Hero() {
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-4">
                 <a
-                  href="#productos"
+                  href={slide.ctaHref ?? "#productos"}
                   className="group inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-forest shadow-soft transition-all hover:bg-gold-soft hover:shadow-card"
                 >
                   {slide.cta}

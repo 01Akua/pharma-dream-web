@@ -1,20 +1,28 @@
 "use client";
 
 /* ============================================================
-   Store de productos con persistencia local (demo).
-   - Fuente de verdad: localStorage (por navegador).
-   - Reactivo: cualquier cambio en el admin refresca la tienda
-     y las demás vistas abiertas.
-   - Diseñado para migrar a un backend real (Supabase/API) sin
-     tocar los componentes: solo se cambian read/write.
+   Store de productos — persistencia real en Firestore.
+   Migrado desde localStorage (igual que Pedidos en crm.ts) para
+   que el inventario/catálogo se sincronice entre dispositivos y
+   entre todas las sesiones del panel admin en tiempo real.
    ============================================================ */
 
 import { useEffect, useState } from "react";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
+import { db } from "./firebase";
 import { ALL_PRODUCTS, type Product } from "./data";
 
 export type StoredProduct = Product & { published: boolean };
 
-const KEY = "pd_products_v2";
+const PRODUCTS_COLLECTION = "products";
 
 /* Semilla inmutable a partir del catálogo por defecto */
 const SEED: StoredProduct[] = ALL_PRODUCTS.map((p) => ({
@@ -22,61 +30,45 @@ const SEED: StoredProduct[] = ALL_PRODUCTS.map((p) => ({
   published: p.published ?? true,
 }));
 
-let cache: StoredProduct[] | null = null;
-const listeners = new Set<() => void>();
+let cache: StoredProduct[] = SEED;
+const listeners = new Set<(products: StoredProduct[]) => void>();
+let seeded = false;
+let subscribed = false;
 
-function read(): StoredProduct[] {
-  if (typeof window === "undefined") return SEED;
-  if (cache) return cache;
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) {
-      cache = SEED;
-      return cache;
-    }
-    const stored = JSON.parse(raw) as StoredProduct[];
-    const seedById = new Map(SEED.map((p) => [p.id, p]));
-    const storedIds = new Set(stored.map((p) => p.id));
-    // Completa con datos del catálogo actual los campos que un navegador con
-    // una versión vieja en localStorage todavía no conoce (ej. la foto real,
-    // agregada después de que alguien probó el sitio) y descarta productos
-    // que ya no existen en el catálogo.
-    const merged = stored
-      .filter((p) => seedById.has(p.id))
-      .map((p) => ({ ...seedById.get(p.id)!, ...p }));
-    for (const seedProduct of SEED) {
-      if (!storedIds.has(seedProduct.id)) merged.push(seedProduct);
-    }
-    cache = merged;
-  } catch {
-    cache = SEED;
+async function seedIfEmpty() {
+  const snap = await getDocs(collection(db, PRODUCTS_COLLECTION));
+  if (!snap.empty) return;
+  const batch = writeBatch(db);
+  for (const p of SEED) {
+    batch.set(doc(db, PRODUCTS_COLLECTION, p.id), p);
   }
-  return cache;
+  await batch.commit();
 }
 
-function write(next: StoredProduct[]) {
-  cache = next;
-  try {
-    localStorage.setItem(KEY, JSON.stringify(next));
-  } catch (e) {
-    // Cuota de localStorage excedida (imágenes muy pesadas)
-    console.warn("No se pudo guardar en localStorage:", e);
-    throw new Error(
-      "El almacenamiento local está lleno. Usa imágenes más livianas o restablece la demo.",
-    );
+function ensureSubscribed() {
+  if (subscribed || typeof window === "undefined") return;
+  subscribed = true;
+  if (!seeded) {
+    seeded = true;
+    seedIfEmpty();
   }
-  listeners.forEach((l) => l());
+  onSnapshot(collection(db, PRODUCTS_COLLECTION), (snap) => {
+    if (snap.empty) return; // evita parpadeo vacío mientras se siembra
+    cache = snap.docs.map((d) => d.data() as StoredProduct);
+    listeners.forEach((l) => l(cache));
+  });
 }
 
 /* ---------- Hooks reactivos ---------- */
 
 /** Todos los productos (incluye ocultos). Para el panel admin. */
 export function useAllProducts(): StoredProduct[] {
-  const [state, setState] = useState<StoredProduct[]>(SEED);
+  const [state, setState] = useState<StoredProduct[]>(cache);
   useEffect(() => {
-    setState(read());
-    const listener = () => setState([...read()]);
+    ensureSubscribed();
+    const listener = (products: StoredProduct[]) => setState(products);
     listeners.add(listener);
+    setState(cache);
     return () => {
       listeners.delete(listener);
     };
@@ -97,30 +89,32 @@ export function useStoredProduct(id: string, fallback?: Product) {
 
 /* ---------- Acciones ---------- */
 
-export function upsertProduct(product: StoredProduct) {
-  const list = read();
-  const idx = list.findIndex((p) => p.id === product.id);
-  if (idx >= 0) {
-    const next = [...list];
-    next[idx] = product;
-    write(next);
-  } else {
-    write([product, ...list]);
-  }
+export async function upsertProduct(product: StoredProduct) {
+  await setDoc(doc(db, PRODUCTS_COLLECTION, product.id), product);
 }
 
-export function deleteProduct(id: string) {
-  write(read().filter((p) => p.id !== id));
+export async function deleteProduct(id: string) {
+  await deleteDoc(doc(db, PRODUCTS_COLLECTION, id));
 }
 
-export function togglePublished(id: string) {
-  write(
-    read().map((p) => (p.id === id ? { ...p, published: !p.published } : p)),
+export async function togglePublished(id: string) {
+  const current = cache.find((p) => p.id === id);
+  if (!current) return;
+  await setDoc(
+    doc(db, PRODUCTS_COLLECTION, id),
+    { published: !current.published },
+    { merge: true },
   );
 }
 
-export function resetStore() {
-  write(SEED.map((p) => ({ ...p })));
+export async function resetStore() {
+  const snap = await getDocs(collection(db, PRODUCTS_COLLECTION));
+  const batch = writeBatch(db);
+  snap.docs.forEach((d) => batch.delete(d.ref));
+  for (const p of SEED) {
+    batch.set(doc(db, PRODUCTS_COLLECTION, p.id), p);
+  }
+  await batch.commit();
 }
 
 /* ---------- Utilidades ---------- */
@@ -152,7 +146,7 @@ export function emptyProduct(): StoredProduct {
   };
 }
 
-/** Reduce y comprime una imagen a dataURL para no llenar localStorage. */
+/** Reduce y comprime una imagen a dataURL para no llenar el documento de Firestore. */
 export function fileToDataURL(file: File, maxSize = 900): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

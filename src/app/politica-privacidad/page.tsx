@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const contact = {
-  email: "info@pharma-dream.com",
+  email: "info@pharmadream.com.co",
   whatsapp: "+57 300 997 9933",
   hours: "lunes a viernes, 9:00 a.m. – 6:00 p.m. (GMT-5)",
 };

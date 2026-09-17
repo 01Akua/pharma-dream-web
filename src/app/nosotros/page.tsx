@@ -40,7 +40,7 @@ const valores = [
 
 const contacto = {
   phone: "+57 300 997 9933",
-  email: "info@pharma-dream.com",
+  email: "info@pharmadream.com.co",
 };
 
 export default function NosotrosPage() {
