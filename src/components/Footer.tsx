@@ -44,11 +44,11 @@ const groups = [
   {
     title: "Tienda",
     links: [
-      { label: "Cremas", href: "/tienda" },
-      { label: "Sérums", href: "/tienda" },
-      { label: "Kits", href: "/tienda" },
+      { label: "Cremas", href: "/tienda?cat=Cremas" },
+      { label: "Sérums", href: "/tienda?cat=Sérums" },
+      { label: "Kits", href: "/tienda?cat=Kits" },
       { label: "Ingredientes", href: "/ingredientes" },
-      { label: "Más vendidos", href: "/tienda" },
+      { label: "Más vendidos", href: "/#productos" },
     ],
   },
   {
