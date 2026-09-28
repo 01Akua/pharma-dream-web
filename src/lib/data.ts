@@ -517,6 +517,12 @@ export const KITS: Product[] = [
     rating: 5,
     reviews: 0,
     image: CDN + "KITS2.png?v=1760026790",
+    images: [
+      withBasePath("/images/productos/kit-colageno-elastina-1.webp"),
+      withBasePath("/images/productos/kit-colageno-elastina-2.webp"),
+      withBasePath("/images/productos/kit-colageno-elastina-3.webp"),
+      withBasePath("/images/productos/kit-colageno-elastina-4.webp"),
+    ],
     videos: [
       withBasePath("/videos/productos/kit-colageno.mp4"),
       withBasePath("/videos/productos/kit-elastina.mp4"),

@@ -14,6 +14,7 @@ import {
   Check,
   CircleAlert,
   Users,
+  MessageSquareQuote,
 } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import Login from "./Login";
@@ -24,6 +25,7 @@ import ContentView from "./ContentView";
 import BlogView from "./BlogView";
 import SettingsView from "./SettingsView";
 import ClubView from "./ClubView";
+import TestimonialsView from "./TestimonialsView";
 import { adminLogout, useAdminAuth } from "@/lib/auth";
 
 export type View =
@@ -31,6 +33,7 @@ export type View =
   | "productos"
   | "ventas"
   | "club"
+  | "testimonios"
   | "contenido"
   | "blog"
   | "ajustes";
@@ -41,6 +44,7 @@ const nav: { id: View; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "productos", label: "Productos", icon: Package },
   { id: "ventas", label: "Ventas", icon: ShoppingBag },
   { id: "club", label: "Club", icon: Users },
+  { id: "testimonios", label: "Testimonios", icon: MessageSquareQuote },
   { id: "contenido", label: "Contenido", icon: LayoutTemplate },
   { id: "blog", label: "Blog", icon: Newspaper },
   { id: "ajustes", label: "Ajustes", icon: Settings },
@@ -150,6 +154,7 @@ export default function AdminApp() {
           {view === "productos" && <ProductsView notify={notify} />}
           {view === "ventas" && <CRMView notify={notify} />}
           {view === "club" && <ClubView />}
+          {view === "testimonios" && <TestimonialsView notify={notify} />}
           {view === "contenido" && <ContentView notify={notify} />}
           {view === "blog" && <BlogView notify={notify} />}
           {view === "ajustes" && <SettingsView notify={notify} />}

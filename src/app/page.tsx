@@ -3,6 +3,7 @@ import IngredientsBanner from "@/components/IngredientsBanner";
 import CategoriesSection from "@/components/CategoriesSection";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import ScienceSection from "@/components/ScienceSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import BlogSection from "@/components/BlogSection";
 import Newsletter from "@/components/Newsletter";
 
@@ -14,6 +15,7 @@ export default function Home() {
       <CategoriesSection />
       <FeaturedProducts />
       <ScienceSection />
+      <TestimonialsSection />
       <BlogSection />
       <Newsletter />
     </main>
