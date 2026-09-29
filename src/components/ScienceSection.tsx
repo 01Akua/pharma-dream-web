@@ -107,19 +107,14 @@ export default function ScienceSection() {
                     highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
                   }`}
                 >
-                  <span className="group relative flex h-28 w-28 shrink-0 items-center justify-center">
-                    <span className="absolute inset-0 overflow-hidden rounded-full ring-1 ring-gold/30">
-                      <Image
-                        src={b.image}
-                        alt={b.label}
-                        fill
-                        sizes="112px"
-                        className="object-cover"
-                      />
-                    </span>
-                    <span className="absolute -bottom-1 -right-1 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cream ring-2 ring-forest/40 transition-colors duration-300 group-hover:bg-gold">
-                      <b.icon className="h-4 w-4 text-forest" />
-                    </span>
+                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30 transition-all duration-300 hover:ring-2 hover:ring-gold">
+                    <Image
+                      src={b.image}
+                      alt={b.label}
+                      fill
+                      sizes="112px"
+                      className="object-cover"
+                    />
                   </span>
                   <span
                     className={
