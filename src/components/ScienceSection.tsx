@@ -103,22 +103,22 @@ export default function ScienceSection() {
               return (
                 <div
                   key={b.label}
-                  className={`flex flex-col items-center gap-3 rounded-2xl text-center ${
+                  className={`group flex flex-col items-center gap-3 rounded-2xl text-center ${
                     highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
                   }`}
                 >
-                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30">
-                    <Image
-                      src={b.image}
-                      alt={b.label}
-                      fill
-                      sizes="112px"
-                      className="object-cover"
-                    />
-                    <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-forest ring-1 ring-gold/40">
-                      <b.icon
-                        className={highlight ? "h-5 w-5 text-gold" : "h-4 w-4 text-gold-soft"}
+                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center">
+                    <span className="absolute inset-0 overflow-hidden rounded-full ring-1 ring-gold/30">
+                      <Image
+                        src={b.image}
+                        alt={b.label}
+                        fill
+                        sizes="112px"
+                        className="object-cover"
                       />
+                    </span>
+                    <span className="absolute -bottom-1 -right-1 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-cream ring-2 ring-forest/40 transition-colors duration-300 group-hover:bg-gold">
+                      <b.icon className="h-4 w-4 text-forest" />
                     </span>
                   </span>
                   <span
