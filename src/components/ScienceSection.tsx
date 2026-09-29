@@ -103,11 +103,11 @@ export default function ScienceSection() {
               return (
                 <div
                   key={b.label}
-                  className={`group flex flex-col items-center gap-3 rounded-2xl text-center ${
+                  className={`flex flex-col items-center gap-3 rounded-2xl text-center ${
                     highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
                   }`}
                 >
-                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center">
+                  <span className="group relative flex h-28 w-28 shrink-0 items-center justify-center">
                     <span className="absolute inset-0 overflow-hidden rounded-full ring-1 ring-gold/30">
                       <Image
                         src={b.image}
