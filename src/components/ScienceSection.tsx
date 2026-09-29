@@ -4,13 +4,30 @@ import Image from "next/image";
 import { FlaskConical, Leaf, ShieldCheck, Sparkles } from "lucide-react";
 import { INGREDIENTS } from "@/lib/data";
 import { useContent } from "@/lib/content";
+import { withBasePath } from "@/lib/paths";
 import Reveal from "./ui/Reveal";
 
 const badges = [
-  { icon: Leaf, label: "Activos vegetales bioactivos" },
-  { icon: ShieldCheck, label: "Notificación sanitaria INVIMA" },
-  { icon: FlaskConical, label: "Tecnología Fitomolecular" },
-  { icon: Sparkles, label: "Libre de crueldad animal" },
+  {
+    icon: Leaf,
+    label: "Activos vegetales bioactivos",
+    image: withBasePath("/images/sellos/activos-vegetales.webp"),
+  },
+  {
+    icon: ShieldCheck,
+    label: "Notificación sanitaria INVIMA",
+    image: withBasePath("/images/sellos/invima.webp"),
+  },
+  {
+    icon: FlaskConical,
+    label: "Tecnología Fitomolecular",
+    image: withBasePath("/images/sellos/fitomolecular.webp"),
+  },
+  {
+    icon: Sparkles,
+    label: "Libre de crueldad animal",
+    image: withBasePath("/images/sellos/libre-crueldad.webp"),
+  },
 ];
 
 export default function ScienceSection() {
@@ -91,13 +108,26 @@ export default function ScienceSection() {
                   }`}
                 >
                   <span
-                    className={`flex items-center justify-center rounded-full ring-1 ring-gold/30 ${
-                      highlight ? "h-16 w-16 bg-gold/20" : "h-12 w-12 bg-cream/10"
+                    className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30 ${
+                      highlight ? "h-16 w-16" : "h-12 w-12"
                     }`}
                   >
-                    <b.icon
-                      className={highlight ? "h-7 w-7 text-gold" : "h-5 w-5 text-gold-soft"}
+                    <Image
+                      src={b.image}
+                      alt={b.label}
+                      fill
+                      sizes="64px"
+                      className="object-cover"
                     />
+                    <span
+                      className={`absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-full bg-forest ring-1 ring-gold/40 ${
+                        highlight ? "h-6 w-6" : "h-5 w-5"
+                      }`}
+                    >
+                      <b.icon
+                        className={highlight ? "h-3.5 w-3.5 text-gold" : "h-3 w-3 text-gold-soft"}
+                      />
+                    </span>
                   </span>
                   <span
                     className={
