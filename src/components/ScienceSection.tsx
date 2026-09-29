@@ -109,23 +109,23 @@ export default function ScienceSection() {
                 >
                   <span
                     className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30 ${
-                      highlight ? "h-16 w-16" : "h-12 w-12"
+                      highlight ? "h-24 w-24" : "h-20 w-20"
                     }`}
                   >
                     <Image
                       src={b.image}
                       alt={b.label}
                       fill
-                      sizes="64px"
+                      sizes="96px"
                       className="object-cover"
                     />
                     <span
-                      className={`absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-full bg-forest ring-1 ring-gold/40 ${
-                        highlight ? "h-6 w-6" : "h-5 w-5"
+                      className={`absolute -bottom-1 -right-1 flex items-center justify-center rounded-full bg-forest ring-1 ring-gold/40 ${
+                        highlight ? "h-8 w-8" : "h-7 w-7"
                       }`}
                     >
                       <b.icon
-                        className={highlight ? "h-3.5 w-3.5 text-gold" : "h-3 w-3 text-gold-soft"}
+                        className={highlight ? "h-5 w-5 text-gold" : "h-4 w-4 text-gold-soft"}
                       />
                     </span>
                   </span>
