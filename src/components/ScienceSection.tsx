@@ -107,23 +107,15 @@ export default function ScienceSection() {
                     highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
                   }`}
                 >
-                  <span
-                    className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30 ${
-                      highlight ? "h-24 w-24" : "h-20 w-20"
-                    }`}
-                  >
+                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30">
                     <Image
                       src={b.image}
                       alt={b.label}
                       fill
-                      sizes="96px"
+                      sizes="112px"
                       className="object-cover"
                     />
-                    <span
-                      className={`absolute -bottom-1 -right-1 flex items-center justify-center rounded-full bg-forest ring-1 ring-gold/40 ${
-                        highlight ? "h-8 w-8" : "h-7 w-7"
-                      }`}
-                    >
+                    <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-forest ring-1 ring-gold/40">
                       <b.icon
                         className={highlight ? "h-5 w-5 text-gold" : "h-4 w-4 text-gold-soft"}
                       />
