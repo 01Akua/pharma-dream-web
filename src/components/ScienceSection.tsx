@@ -107,7 +107,7 @@ export default function ScienceSection() {
                     highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
                   }`}
                 >
-                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gold/30 transition-all duration-300 hover:ring-2 hover:ring-gold">
+                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full">
                     <Image
                       src={b.image}
                       alt={b.label}
