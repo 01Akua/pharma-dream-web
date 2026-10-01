@@ -103,7 +103,7 @@ export default function ScienceSection() {
                 key={b.label}
                 className="flex flex-col items-center gap-3 rounded-2xl text-center"
               >
-                <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full ring-2 ring-transparent transition-colors duration-300 hover:ring-gold">
                   <Image
                     src={b.image}
                     alt={b.label}
