@@ -9,7 +9,7 @@ export const CHAT_FAQS: ChatFaq[] = [
     id: "envios",
     question: "¿Cuánto tarda el envío?",
     answer:
-      "Enviamos a toda Colombia: 2 a 5 días hábiles a ciudades principales y 5 a 8 días hábiles a municipios intermedios o rurales. El envío es gratis desde $175.000 COP. También hacemos envíos internacionales (10 a 20 días hábiles).",
+      "Enviamos a toda Colombia: 2 a 5 días hábiles a ciudades principales y 5 a 8 días hábiles a municipios intermedios o rurales. El envío es gratis desde $200.000 COP. También hacemos envíos internacionales (10 a 20 días hábiles).",
   },
   {
     id: "pagos",

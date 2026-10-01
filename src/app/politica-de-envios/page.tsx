@@ -41,12 +41,12 @@ const sections: LegalSection[] = [
           [
             "Ciudades principales",
             "2 a 5 días hábiles",
-            "Según destino/peso; gratis desde $175.000 COP",
+            "Según destino/peso; gratis desde $200.000 COP",
           ],
           [
             "Municipios intermedios o rurales",
             "5 a 8 días hábiles",
-            "Según destino/peso; gratis desde $175.000 COP",
+            "Según destino/peso; gratis desde $200.000 COP",
           ],
           [
             "Envíos internacionales",
@@ -70,7 +70,7 @@ const sections: LegalSection[] = [
       },
       {
         type: "p",
-        text: "Pharma Dream ofrece envío gratuito en pedidos superiores a $175.000 COP (válido únicamente para Colombia). En compras inferiores a este monto, el cliente asume el valor del envío según la tarifa vigente del operador logístico.",
+        text: "Pharma Dream ofrece envío gratuito en pedidos superiores a $200.000 COP (válido únicamente para Colombia). En compras inferiores a este monto, el cliente asume el valor del envío según la tarifa vigente del operador logístico.",
       },
     ],
   },

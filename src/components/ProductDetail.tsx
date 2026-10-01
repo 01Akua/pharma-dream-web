@@ -285,6 +285,7 @@ export default function ProductDetail({ product: initial }: { product: Product }
             </span>
           )}
         </div>
+        <p className="mt-1 text-xs text-ink-soft">IVA incluido</p>
 
         <p className="mt-5 leading-relaxed text-ink">{product.tagline}</p>
         {product.description && (

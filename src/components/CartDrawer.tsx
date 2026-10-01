@@ -129,7 +129,7 @@ export default function CartDrawer() {
               {items.length > 0 && (
                 <div className="border-t border-sand px-6 py-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-ink-soft">Total</span>
+                    <span className="text-sm text-ink-soft">Total (IVA incluido)</span>
                     <span className="font-display text-xl font-semibold text-forest">
                       {formatCOP(total)}
                     </span>

@@ -116,7 +116,7 @@ export default function CheckoutModal({
             </div>
 
             <div className="mt-2 flex items-center justify-between px-1 text-sm">
-              <span className="text-ink-soft">Total</span>
+              <span className="text-ink-soft">Total (IVA incluido)</span>
               <span className="font-display text-lg font-semibold text-forest">
                 {formatCOP(total)}
               </span>
