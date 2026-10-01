@@ -98,36 +98,23 @@ export default function ScienceSection() {
         {/* Sellos de confianza */}
         <Reveal>
           <div className="mt-20 grid grid-cols-2 gap-4 border-t border-cream/15 pt-10 md:grid-cols-4">
-            {badges.map((b) => {
-              const highlight = b.label === "Libre de crueldad animal";
-              return (
-                <div
-                  key={b.label}
-                  className={`flex flex-col items-center gap-3 rounded-2xl text-center ${
-                    highlight ? "bg-gold/10 py-4 ring-1 ring-gold/40" : ""
-                  }`}
-                >
-                  <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full">
-                    <Image
-                      src={b.image}
-                      alt={b.label}
-                      fill
-                      sizes="112px"
-                      className="object-cover"
-                    />
-                  </span>
-                  <span
-                    className={
-                      highlight
-                        ? "text-base font-semibold text-gold-soft"
-                        : "text-sm text-cream/80"
-                    }
-                  >
-                    {b.label}
-                  </span>
-                </div>
-              );
-            })}
+            {badges.map((b) => (
+              <div
+                key={b.label}
+                className="flex flex-col items-center gap-3 rounded-2xl text-center"
+              >
+                <span className="relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                  <Image
+                    src={b.image}
+                    alt={b.label}
+                    fill
+                    sizes="112px"
+                    className="object-cover"
+                  />
+                </span>
+                <span className="text-sm text-cream/80">{b.label}</span>
+              </div>
+            ))}
           </div>
         </Reveal>
       </div>
