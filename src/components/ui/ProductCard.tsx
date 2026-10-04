@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Check, Plus, Star } from "lucide-react";
+import { Check, Plus, ShoppingBag, Star } from "lucide-react";
 import { type Product, formatCOP, TONE_STYLES } from "@/lib/data";
 import { addToCart } from "@/lib/cart";
 
@@ -24,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <Link
         href={`/producto/${product.id}`}
         aria-label={`Ver ${product.name}`}
-        className="relative flex aspect-[4/5] items-center justify-center overflow-hidden"
+        className="relative flex aspect-square items-center justify-center overflow-hidden sm:aspect-[4/5]"
         style={{ background: tone.bg }}
       >
         {discount > 0 && (
@@ -125,26 +125,35 @@ export default function ProductCard({ product }: { product: Product }) {
             </span>
           </div>
 
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              addToCart(product, 1);
-              setAdded(true);
-              setTimeout(() => setAdded(false), 1600);
-            }}
-            aria-label={`Añadir ${product.name} al carrito`}
-            className={`flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
-              added
-                ? "bg-olive text-cream"
-                : "bg-forest text-cream hover:bg-gold hover:text-forest"
-            }`}
-          >
-            {added ? (
-              <Check className="h-5 w-5" />
-            ) : (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addToCart(product, 1);
+                setAdded(true);
+                setTimeout(() => setAdded(false), 1600);
+              }}
+              aria-label={`Añadir ${product.name} al carrito`}
+              className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
+                added
+                  ? "bg-olive text-cream"
+                  : "bg-sand text-forest hover:bg-gold hover:text-forest"
+              }`}
+            >
+              {added ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <ShoppingBag className="h-4 w-4" />
+              )}
+            </button>
+            <Link
+              href={`/producto/${product.id}`}
+              aria-label={`Ver ${product.name}`}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-forest text-cream transition-all duration-300 hover:bg-gold hover:text-forest"
+            >
               <Plus className="h-5 w-5" />
-            )}
-          </button>
+            </Link>
+          </div>
         </div>
       </div>
     </motion.article>
