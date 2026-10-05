@@ -1,5 +1,5 @@
 <!-- PHARMA-DREAM.md — Web Pharma Dream (dermocosmética) -->
-<!-- last_updated: 2026-10-01 | status: activo -->
+<!-- last_updated: 2026-10-04 | status: activo -->
 
 # Pharma Dream
 
@@ -73,6 +73,7 @@ Web de e-commerce para Pharma Dream, marca de dermocosmética. Home + tienda + p
     - **Envío gratis corregido a $200.000** (antes $175.000) en Política de Envíos y en el chatbot, para que coincida con el banner superior del sitio.
     - **Enlaces Sérums/Kits re-verificados** (tercera vez que el cliente los reporta rotos): siguen funcionando bien en código y en producción — mismo diagnóstico del hallazgo del dominio (23/09).
     - Generado `docs/informes/Informe tecnico - ronda 01102026.docx` (+ PDF) con el resumen de esta ronda para enviar al cliente — mismo formato que los informes anteriores, no versionado en `main`.
+  - [2026-10-04] **7ª ronda**: en las tarjetas de producto (home y tienda), el botón "+" agregaba directo al carrito sin pasar por la ficha — el cliente pidió separar ambas acciones. Ahora el "+" lleva a la ficha del producto y se agregó un botón nuevo (ícono de bolsa) para agregar al carrito sin salir de la tienda. También se redujo el tamaño de la foto en la versión móvil (cuadrada en vez de 4:5, criterio tipo Sephora que el cliente mandó de referencia). Generado `docs/informes/Informe tecnico - tarjetas de producto 04102026.docx` (+ PDF) con capturas del sitio publicado.
 - En progreso: —
 - Pendiente:
   - **[Urgente] Conectar el dominio `pharmadream.com.co` al sitio real** — hoy sirve la vista previa de otra herramienta (Lovable), ver hallazgo del 23/09. Mientras no se resuelva, ninguna revisión del cliente sobre ese dominio va a reflejar los cambios, sin importar cuántas veces se publiquen. Depende de Luis/cliente (DNS y hosting del dominio).
