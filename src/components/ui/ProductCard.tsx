@@ -85,7 +85,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       {/* Detalle */}
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-3.5 sm:p-5">
         <div className="flex items-center gap-1.5 text-gold">
           {product.reviews > 0 && (
             <>
@@ -101,7 +101,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         </div>
 
-        <h3 className="mt-2 font-display text-lg font-semibold text-forest">
+        <h3 className="mt-2 font-display text-base font-semibold leading-snug text-forest sm:text-lg">
           <Link
             href={`/producto/${product.id}`}
             className="transition-colors hover:text-olive"
@@ -109,18 +109,18 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.name}
           </Link>
         </h3>
-        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink-soft">
+        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-ink-soft sm:text-sm">
           {product.tagline}
         </p>
 
-        <div className="mt-4 flex items-end justify-between">
+        <div className="mt-3 flex flex-col gap-2.5 sm:mt-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col">
             {product.compareAt && (
               <span className="text-xs text-ink-soft line-through">
                 {formatCOP(product.compareAt)}
               </span>
             )}
-            <span className="font-display text-xl font-semibold text-forest">
+            <span className="font-display text-lg font-semibold text-forest sm:text-xl">
               {formatCOP(product.price)}
             </span>
           </div>
@@ -134,7 +134,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 setTimeout(() => setAdded(false), 1600);
               }}
               aria-label={`Añadir ${product.name} al carrito`}
-              className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 sm:h-10 sm:w-10 ${
                 added
                   ? "bg-olive text-cream"
                   : "bg-sand text-forest hover:bg-gold hover:text-forest"
@@ -149,9 +149,9 @@ export default function ProductCard({ product }: { product: Product }) {
             <Link
               href={`/producto/${product.id}`}
               aria-label={`Ver ${product.name}`}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-forest text-cream transition-all duration-300 hover:bg-gold hover:text-forest"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-forest text-cream transition-all duration-300 hover:bg-gold hover:text-forest sm:h-11 sm:w-11"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
             </Link>
           </div>
         </div>
