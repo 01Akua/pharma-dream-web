@@ -31,6 +31,7 @@ jobs:
       - name: Build (static export)
         env:
           NEXT_PUBLIC_BASE_PATH: /pharma-dream-web
+          NEXT_PUBLIC_BOLD_IDENTITY_KEY: ${{ secrets.NEXT_PUBLIC_BOLD_IDENTITY_KEY }}
         run: npm run build
 
       - name: Upload artifact
