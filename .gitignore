@@ -46,3 +46,8 @@ next-env.d.ts
 # Material fuente de marca (fotos/videos en bruto, muy pesado — ya procesado en public/images)
 *.zip
 /brand-assets/
+
+# Cloud Functions (Bold): dependencias y archivos locales de Firebase CLI
+/functions/node_modules
+/.firebase/
+firebase-debug.log*

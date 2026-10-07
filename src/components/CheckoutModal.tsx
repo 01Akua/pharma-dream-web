@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { createOrder, PAYMENT_METHODS, type PaymentMethod } from "@/lib/crm";
 import { formatCOP } from "@/lib/data";
+import { openBoldCheckout } from "@/lib/bold";
+import { withBasePath } from "@/lib/paths";
 
 export type CheckoutItem = {
   productId: string;
@@ -29,6 +31,7 @@ export default function CheckoutModal({
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("contraentrega");
   const [done, setDone] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const total = items.reduce((s, it) => s + it.price * it.qty, 0);
 
@@ -37,10 +40,8 @@ export default function CheckoutModal({
     if (!name.trim() || !phone.trim() || !email.trim() || !city.trim() || items.length === 0)
       return;
     setSending(true);
+    setError(null);
     try {
-      // NOTE: aquí es donde se conecta una pasarela real (Wompi, PayU, Mercado
-      // Pago, ePayco...): antes de createOrder(), crear el intento de pago con
-      // la pasarela elegida y esperar su confirmación/redirección.
       const orderCreated = await createOrder({
         customer: {
           name: name.trim(),
@@ -51,8 +52,24 @@ export default function CheckoutModal({
         items,
         paymentMethod,
       });
+
+      if (paymentMethod === "bold") {
+        // El pedido queda "nuevo" en Firestore; Bold confirma el pago por
+        // webhook y la Cloud Function lo marca como "pagado" sola.
+        await openBoldCheckout({
+          orderId: orderCreated.id,
+          description: `Pedido ${orderCreated.id} — Pharma Dream`,
+          redirectionUrl: `${window.location.origin}${withBasePath("/pedido-confirmado/")}?order=${orderCreated.id}`,
+        });
+        onSuccess?.();
+        onClose();
+        return;
+      }
+
       setDone(orderCreated.id);
       onSuccess?.();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No pudimos procesar el pago.");
     } finally {
       setSending(false);
     }
@@ -186,12 +203,20 @@ export default function CheckoutModal({
                 disabled={sending}
                 className="mt-1 rounded-full bg-gold py-3 text-sm font-semibold text-forest transition hover:bg-gold-soft disabled:opacity-60"
               >
-                {sending ? "Guardando pedido…" : `Confirmar pedido · ${formatCOP(total)}`}
+                {sending
+                  ? paymentMethod === "bold"
+                    ? "Abriendo pasarela de pago…"
+                    : "Guardando pedido…"
+                  : `Confirmar pedido · ${formatCOP(total)}`}
               </button>
+              {error && (
+                <p className="text-center text-xs text-red-600">{error}</p>
+              )}
             </form>
             <p className="mt-3 text-center text-[0.7rem] text-ink-soft">
-              El pedido queda registrado en la base de datos. La integración
-              con la pasarela de pago real se conecta en este paso.
+              {paymentMethod === "bold"
+                ? "Vas a pagar en línea de forma segura a través de Bold."
+                : "El pedido queda registrado y te contactaremos para coordinar el pago."}
             </p>
           </>
         )}

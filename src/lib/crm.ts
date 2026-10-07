@@ -53,9 +53,11 @@ export type PaymentMethod =
   | "transferencia"
   | "tarjeta"
   | "pse"
-  | "nequi";
+  | "nequi"
+  | "bold";
 
 export const PAYMENT_METHODS: { id: PaymentMethod; label: string }[] = [
+  { id: "bold", label: "Pago en línea (tarjeta, PSE, Nequi)" },
   { id: "contraentrega", label: "Pago contra entrega" },
   { id: "transferencia", label: "Transferencia bancaria" },
   { id: "tarjeta", label: "Tarjeta (crédito/débito)" },
@@ -71,6 +73,8 @@ export type Order = {
   status: OrderStatus;
   paymentMethod?: PaymentMethod;
   createdAt: string; // ISO
+  boldPaymentId?: string; // id de la transacción en Bold, si se pagó en línea
+  boldPaymentFailed?: boolean; // Bold notificó un rechazo para este pedido
 };
 
 const ORDERS_COLLECTION = "orders";
