@@ -12,11 +12,11 @@
 const BOLD_SCRIPT_SRC = "https://checkout.bold.co/library/boldPaymentButton.js";
 const BOLD_IDENTITY_KEY = process.env.NEXT_PUBLIC_BOLD_IDENTITY_KEY || "";
 
-// Reemplazar por la URL real una vez desplegadas las Cloud Functions
-// (se imprime al correr `firebase deploy --only functions`).
+// Endpoint PHP en el cPanel del dominio (server/php-api/), alternativa a las
+// Cloud Functions mientras Firebase no esté en plan Blaze.
 const SIGNATURE_ENDPOINT =
   process.env.NEXT_PUBLIC_BOLD_SIGNATURE_URL ||
-  "https://us-central1-pharma-dream-web.cloudfunctions.net/boldSignature";
+  "https://pharmadream.com.co/api/bold-signature.php";
 
 declare global {
   interface Window {
