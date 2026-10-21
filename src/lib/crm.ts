@@ -56,6 +56,8 @@ export type PaymentMethod =
   | "nequi"
   | "bold";
 
+// Solo se ofrecen pago en línea (Bold cubre tarjeta, PSE y Nequi) y contra entrega.
+// Los demás valores de PaymentMethod se conservan por pedidos antiguos.
 // Bold se muestra solo cuando NEXT_PUBLIC_BOLD_ENABLED=true (endpoints de firma/webhook activos).
 const BOLD_ENABLED = process.env.NEXT_PUBLIC_BOLD_ENABLED === "true";
 
@@ -64,10 +66,6 @@ export const PAYMENT_METHODS: { id: PaymentMethod; label: string }[] = [
     ? [{ id: "bold" as const, label: "Pago en línea (tarjeta, PSE, Nequi)" }]
     : []),
   { id: "contraentrega", label: "Pago contra entrega" },
-  { id: "transferencia", label: "Transferencia bancaria" },
-  { id: "tarjeta", label: "Tarjeta (crédito/débito)" },
-  { id: "pse", label: "PSE" },
-  { id: "nequi", label: "Nequi / Daviplata" },
 ];
 
 export type Order = {

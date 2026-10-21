@@ -15,7 +15,7 @@ export const CHAT_FAQS: ChatFaq[] = [
     id: "pagos",
     question: "¿Qué métodos de pago aceptan?",
     answer:
-      "Por ahora puedes pagar contraentrega. Estamos habilitando pago en línea con tarjeta y otros medios digitales próximamente.",
+      "Puedes pagar en línea de forma segura con tarjeta de crédito o débito, PSE o Nequi (a través de Bold), o pagar contra entrega.",
   },
   {
     id: "devoluciones",
