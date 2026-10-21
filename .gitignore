@@ -51,3 +51,8 @@ next-env.d.ts
 /functions/node_modules
 /.firebase/
 firebase-debug.log*
+
+# credenciales de servidor (nunca al repo)
+/serviceAccount*.json
+/*-firebase-adminsdk-*.json
+config.json
