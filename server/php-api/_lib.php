@@ -6,10 +6,14 @@
 function pd_config(): array {
     static $cfg = null;
     if ($cfg !== null) return $cfg;
-    $path = dirname(__DIR__, 2) . '/pharmadream-secrets/config.json';
-    $raw = @file_get_contents($path);
-    $cfg = $raw ? json_decode($raw, true) : null;
-    if (!is_array($cfg) || empty($cfg['bold_secret_key']) || empty($cfg['service_account'])) {
+    $dir = dirname(__DIR__, 2) . '/pharmadream-secrets';
+    $cfg = json_decode((string) @file_get_contents("$dir/config.json"), true);
+    if (!is_array($cfg)) $cfg = [];
+    // La clave de la cuenta de servicio puede ir en config.json o en su propio archivo.
+    if (empty($cfg['service_account'])) {
+        $cfg['service_account'] = json_decode((string) @file_get_contents("$dir/service-account.json"), true);
+    }
+    if (empty($cfg['bold_secret_key']) || empty($cfg['service_account']['private_key'])) {
         pd_fail(500, 'server-not-configured');
     }
     return $cfg;
