@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Pedidos: el checkout público crea; solo el admin lee, edita y borra.
+    match /orders/{orderId} {
+      allow create: if request.resource.data.keys().hasAll(['id', 'customer', 'items', 'total', 'status', 'createdAt']);
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Contador de pedidos (numeración PD-xxxx).
+    match /meta/{docId} {
+      allow get, create, update: if true;
+      allow list, delete: if request.auth != null;
+    }
+
+    // Catálogo: lectura pública, escritura solo del admin.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Club Pharma Dream: cualquiera se suscribe; solo el admin ve los correos.
+    match /club_members/{memberId} {
+      allow create, update: if request.resource.data.keys().hasAll(['email', 'createdAt'])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() < 200;
+      allow read, delete: if request.auth != null;
+    }
+
+    // Testimonios: cualquiera envía una reseña (queda sin aprobar); el público
+    // solo lee las aprobadas; el admin modera.
+    match /testimonials/{testimonialId} {
+      allow create: if request.resource.data.approved == false
+        && request.resource.data.keys().hasAll(['id', 'name', 'rating', 'comment', 'createdAt', 'approved']);
+      allow read: if request.auth != null || resource.data.approved == true;
+      allow update, delete: if request.auth != null;
+    }
+  }
+}
