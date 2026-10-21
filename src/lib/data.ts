@@ -665,17 +665,36 @@ export const KITS: Product[] = [
   },
 ];
 
-export const ALL_PRODUCTS: Product[] = [...PRODUCTS, ...KITS];
+/* TEMPORAL — producto oculto solo para la prueba de pago real con Bold.
+   Acceso directo: /producto/prueba-de-pago/. Eliminar al terminar la prueba
+   (y borrar el doc "prueba-de-pago" de Firestore si el admin ya sembró la colección). */
+const TEST_PRODUCT: Product = {
+  id: "prueba-de-pago",
+  name: "Prueba de pago",
+  tagline: "Producto temporal para verificar los pagos en línea.",
+  price: 5000,
+  category: "Kits",
+  tone: "sand",
+  label: "PRUEBA",
+  sub: "de pago",
+  rating: 5,
+  reviews: 0,
+  description: "Producto temporal de verificación de pagos. No es un producto a la venta.",
+  published: false,
+};
+
+export const ALL_PRODUCTS: Product[] = [...PRODUCTS, ...KITS, TEST_PRODUCT];
 
 export const getProduct = (id: string): Product | undefined =>
   ALL_PRODUCTS.find((p) => p.id === id);
 
-export const getRelated = (product: Product, limit = 4): Product[] =>
-  ALL_PRODUCTS.filter(
-    (p) => p.id !== product.id && p.category === product.category,
-  )
-    .concat(ALL_PRODUCTS.filter((p) => p.category !== product.category))
+export const getRelated = (product: Product, limit = 4): Product[] => {
+  const visible = ALL_PRODUCTS.filter((p) => p.published !== false);
+  return visible
+    .filter((p) => p.id !== product.id && p.category === product.category)
+    .concat(visible.filter((p) => p.category !== product.category))
     .slice(0, limit);
+};
 
 export type Category = {
   name: string;

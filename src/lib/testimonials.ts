@@ -22,6 +22,7 @@ import {
   query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -62,10 +63,25 @@ export function useAllTestimonials(): Testimonial[] {
   return state;
 }
 
-/** Solo reseñas aprobadas — para mostrar en el sitio público. */
+/** Solo reseñas aprobadas — para mostrar en el sitio público.
+ *  Consulta solo las aprobadas (las reglas de Firestore no dejan listar
+ *  las pendientes sin sesión de admin). Se ordena en el cliente para no
+ *  requerir un índice compuesto. */
 export function useApprovedTestimonials(): Testimonial[] {
-  const all = useAllTestimonials();
-  return all.filter((t) => t.approved);
+  const [state, setState] = useState<Testimonial[]>([]);
+  useEffect(() => {
+    const q = query(collection(db, COLLECTION), where("approved", "==", true));
+    return onSnapshot(
+      q,
+      (snap) => {
+        const items = snap.docs.map((d) => d.data() as Testimonial);
+        items.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        setState(items);
+      },
+      () => setState([]),
+    );
+  }, []);
+  return state;
 }
 
 export async function addTestimonial(input: {
