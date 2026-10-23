@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import Logo from "./ui/Logo";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { openCartDrawer, useCartCount } from "@/lib/cart";
 
 const links = [
@@ -70,6 +71,9 @@ export default function Navbar() {
           >
             <Search className="h-5 w-5" />
           </button>
+          <div className="hidden lg:block">
+            <LanguageSwitcher light={!solid} />
+          </div>
           <button
             aria-label="Carrito"
             onClick={openCartDrawer}
@@ -97,7 +101,7 @@ export default function Navbar() {
       {/* Menú móvil */}
       <div
         className={`overflow-hidden bg-cream/95 backdrop-blur-md transition-all duration-400 lg:hidden ${
-          open ? "max-h-80 border-t border-sand" : "max-h-0"
+          open ? "max-h-96 border-t border-sand" : "max-h-0"
         }`}
       >
         <div className="flex flex-col gap-1 px-6 py-4">
@@ -111,6 +115,7 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <LanguageSwitcher inline />
         </div>
       </div>
     </header>

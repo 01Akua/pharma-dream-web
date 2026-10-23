@@ -3,22 +3,27 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Leaf } from "lucide-react";
-import { CHAT_FAQS, CHAT_GREETING, CHAT_FALLBACK } from "@/lib/chatbot";
+import { CHAT_COPY } from "@/lib/chatbot";
+import { useLang } from "@/lib/i18n";
 
 const WHATSAPP_URL = "https://wa.me/573009979933";
 
+/* Los mensajes guardan solo a qué FAQ corresponden; el texto se resuelve con el
+   idioma actual para que, si el visitante cambia de idioma, la charla también cambie. */
 type Message = {
   id: string;
   from: "bot" | "user";
-  text: string;
+  faqId?: string; // sin faqId = saludo
 };
 
 export default function ChatBot() {
+  const { lang } = useLang();
+  const copy = CHAT_COPY[lang];
   const [tip, setTip] = useState(false);
   const [open, setOpen] = useState(false);
   const [answeredIds, setAnsweredIds] = useState<string[]>([]);
   const [messages, setMessages] = useState<Message[]>([
-    { id: "greeting", from: "bot", text: CHAT_GREETING },
+    { id: "greeting", from: "bot" },
   ]);
 
   useEffect(() => {
@@ -27,20 +32,28 @@ export default function ChatBot() {
   }, []);
 
   const askFaq = (id: string) => {
-    const faq = CHAT_FAQS.find((f) => f.id === id);
-    if (!faq) return;
+    if (!copy.faqs.some((f) => f.id === id)) return;
     setAnsweredIds((prev) => [...prev, id]);
     setMessages((prev) => [
       ...prev,
-      { id: `${id}-q`, from: "user", text: faq.question },
-      { id: `${id}-a`, from: "bot", text: faq.answer },
+      { id: `${id}-q`, from: "user", faqId: id },
+      { id: `${id}-a`, from: "bot", faqId: id },
     ]);
   };
 
-  const remainingFaqs = CHAT_FAQS.filter((f) => !answeredIds.includes(f.id));
+  const textOf = (m: Message) => {
+    if (!m.faqId) return copy.greeting;
+    const faq = copy.faqs.find((f) => f.id === m.faqId);
+    return m.from === "user" ? faq?.question : faq?.answer;
+  };
+
+  const remainingFaqs = copy.faqs.filter((f) => !answeredIds.includes(f.id));
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div
+      data-notranslate
+      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+    >
       <AnimatePresence>
         {open && (
           <motion.div
@@ -53,12 +66,12 @@ export default function ChatBot() {
               <div className="flex items-center gap-2">
                 <Leaf className="h-4 w-4 text-gold-soft" />
                 <span className="font-display text-sm font-semibold">
-                  Asistente Pharma Dream
+                  {copy.ui.title}
                 </span>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                aria-label="Cerrar chat"
+                aria-label={copy.ui.close}
                 className="rounded-full p-1 text-cream/80 hover:bg-cream/10 hover:text-cream"
               >
                 <X className="h-4 w-4" />
@@ -75,13 +88,13 @@ export default function ChatBot() {
                       : "ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-forest px-3.5 py-2.5 text-sm text-cream"
                   }
                 >
-                  {m.text}
+                  {textOf(m)}
                 </div>
               ))}
 
               {remainingFaqs.length === 0 && (
                 <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-sand px-3.5 py-2.5 text-sm text-ink">
-                  {CHAT_FALLBACK}
+                  {copy.fallback}
                 </div>
               )}
             </div>
@@ -106,7 +119,7 @@ export default function ChatBot() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
               >
-                <Send className="h-4 w-4" /> Hablar con un asesor por WhatsApp
+                <Send className="h-4 w-4" /> {copy.ui.whatsapp}
               </a>
             </div>
           </motion.div>
@@ -122,7 +135,7 @@ export default function ChatBot() {
               exit={{ opacity: 0, scale: 0.9 }}
               className="relative hidden rounded-2xl bg-white px-4 py-2.5 text-sm text-forest shadow-card sm:block"
             >
-              ¿Necesitas ayuda? Pregúntale a nuestro asistente 💬
+              {copy.ui.tip}
               <button
                 onClick={() => setTip(false)}
                 className="absolute -right-2 -top-2 rounded-full bg-sand p-0.5 text-ink-soft"
@@ -136,7 +149,7 @@ export default function ChatBot() {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Cerrar asistente" : "Abrir asistente"}
+          aria-label={open ? copy.ui.closeAssistant : copy.ui.openAssistant}
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-card transition-transform hover:scale-105"
         >
           {!open && (

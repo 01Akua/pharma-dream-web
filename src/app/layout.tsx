@@ -8,6 +8,7 @@ import ClubPopup from "@/components/ClubPopup";
 import ChatBot from "@/components/ChatBot";
 import ChromeGate from "@/components/ChromeGate";
 import CartDrawer from "@/components/CartDrawer";
+import { LangProvider } from "@/lib/i18n";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -38,6 +39,7 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
+        <LangProvider>
         <ChromeGate>
           <div className="fixed inset-x-0 top-0 z-40">
             <AnnouncementBar />
@@ -51,6 +53,7 @@ export default function RootLayout({
           <ChatBot />
           <CartDrawer />
         </ChromeGate>
+        </LangProvider>
       </body>
     </html>
   );
