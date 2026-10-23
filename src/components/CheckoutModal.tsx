@@ -28,7 +28,7 @@ export default function CheckoutModal({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("contraentrega");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bold");
   const [done, setDone] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);

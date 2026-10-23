@@ -132,3 +132,9 @@ function pd_update_order(string $orderId, array $fields): void {
     curl_exec($ch);
     curl_close($ch);
 }
+
+/* Registro de depuración del webhook (en pharmadream-secrets, fuera de public_html). */
+function pd_log(string $msg): void {
+    $file = dirname(__DIR__, 2) . '/pharmadream-secrets/webhook.log';
+    @file_put_contents($file, date('c') . ' ' . $msg . "\n", FILE_APPEND);
+}

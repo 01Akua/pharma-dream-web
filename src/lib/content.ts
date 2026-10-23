@@ -41,7 +41,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   announcement: [
     "Envíos gratis a partir de COP $200.000",
     "Gana un 10% OFF en tu primera compra uniéndote al Club Pharma Dream",
-    "Pago seguro · Tarjeta, PSE y contra entrega",
+    "Pago seguro · Tarjeta, PSE y Nequi",
   ],
   hero: [
     {

@@ -6,9 +6,12 @@ require __DIR__ . '/_lib.php';
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') { http_response_code(405); exit('method-not-allowed'); }
 
 $raw = file_get_contents('php://input');
-$expected = hash_hmac('sha256', base64_encode($raw), pd_config()['bold_secret_key']);
+$cfg = pd_config();
+$b64 = base64_encode($raw);
 $received = $_SERVER['HTTP_X_BOLD_SIGNATURE'] ?? '';
-if (!hash_equals($expected, $received)) { http_response_code(401); exit('invalid-signature'); }
+$valid = hash_equals(hash_hmac('sha256', $b64, $cfg['bold_secret_key']), $received);
+pd_log('webhook recibido valid=' . ($valid ? 'si' : 'no') . ' body=' . substr($raw, 0, 600));
+if (!$valid) { http_response_code(401); exit('invalid-signature'); }
 
 $event = json_decode($raw, true) ?: [];
 $data = $event['data'] ?? [];

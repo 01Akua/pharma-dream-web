@@ -131,7 +131,6 @@ export default function Footer() {
             <span className="rounded border border-cream/20 px-2.5 py-1">Mastercard</span>
             <span className="rounded border border-cream/20 px-2.5 py-1">PSE</span>
             <span className="rounded border border-cream/20 px-2.5 py-1">Bold</span>
-            <span className="rounded border border-cream/20 px-2.5 py-1">Contra entrega</span>
           </div>
         </div>
 
